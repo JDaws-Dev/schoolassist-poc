@@ -27,7 +27,10 @@ import {
   UsersRound,
   Menu,
   X,
-  ChevronDown
+  ChevronDown,
+  AlertCircle,
+  Clock,
+  XCircle
 } from 'lucide-react';
 
 const generateSessionId = () => 'session-' + Math.random().toString(36).substr(2, 9);
@@ -1570,14 +1573,49 @@ function DashboardView({ role, onSearch, isLoading }) {
           ))}
         </Card>
 
-        <Card color="#805AD5">
+        <Card color="#E53E3E">
           <h3 style={{ fontFamily: 'Merriweather, serif', fontSize: '15px', color: '#2D3748', fontWeight: 'bold', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <UsersRound size={16} color="#805AD5" /> Families with Siblings
+            <AlertCircle size={16} color="#E53E3E" /> Needs Attention
           </h3>
-          {mockData.families.slice(0, 3).map((f, i) => (
-            <div key={i} style={{ padding: '8px 0', borderBottom: i < 2 ? '1px solid #E2E8F0' : 'none' }}>
-              <div style={{ fontSize: '13px', color: '#2D3748', fontWeight: '500' }}>{f.name}</div>
-              <div style={{ fontSize: '11px', color: '#718096' }}>{f.children.join(', ')}</div>
+          {[
+            { icon: XCircle, color: '#E53E3E', label: 'Missing Assignments', count: 12, desc: '5 students with 3+ missing' },
+            { icon: Clock, color: '#F59E0B', label: 'Attendance Concerns', count: 3, desc: 'Below 90% this month' },
+            { icon: AlertTriangle, color: '#805AD5', label: 'Pending Re-enrollments', count: 8, desc: 'Response needed by Dec 20' },
+          ].map((item, i) => (
+            <div key={i} style={{
+              padding: '10px 0',
+              borderBottom: i < 2 ? '1px solid #E2E8F0' : 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              cursor: 'pointer'
+            }}>
+              <div style={{
+                width: '36px',
+                height: '36px',
+                borderRadius: '10px',
+                background: `${item.color}15`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0
+              }}>
+                <item.icon size={18} color={item.color} />
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: '13px', color: '#2D3748', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {item.label}
+                  <span style={{
+                    background: item.color,
+                    color: 'white',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    padding: '2px 8px',
+                    borderRadius: '10px'
+                  }}>{item.count}</span>
+                </div>
+                <div style={{ fontSize: '11px', color: '#718096', marginTop: '2px' }}>{item.desc}</div>
+              </div>
             </div>
           ))}
         </Card>
