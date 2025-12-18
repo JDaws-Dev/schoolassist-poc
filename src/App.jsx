@@ -129,11 +129,14 @@ const mockData = {
     { name: 'Dance', teacher: 'Miss Taylor', grade: 'A+', room: 'Dance Studio', students: 12 }
   ],
   calendarEvents: [
-    { date: 'Dec 19', title: 'Winter Concert', time: '6:30 PM', location: 'Main Auditorium' },
-    { date: 'Dec 20', title: 'Last Day Before Break', time: 'All Day', location: '' },
-    { date: 'Dec 21 - Jan 3', title: 'Christmas Break', time: '', location: '' },
-    { date: 'Jan 6', title: 'Classes Resume', time: '8:30 AM', location: '' },
-    { date: 'Jan 12', title: 'Artios Open House', time: '10:00 AM', location: 'Main Campus' }
+    { date: 'Dec 18', title: 'Christmas Break Begins', time: 'All Day', location: '' },
+    { date: 'Jan 5', title: 'Elem & JH Academics Resume', time: 'All Day', location: '' },
+    { date: 'Jan 6', title: 'HS Academics Resume', time: 'All Day', location: '' },
+    { date: 'Jan 12', title: 'Artios Open House', time: '6:00 PM', location: 'Main Campus' },
+    { date: 'Jan 16', title: 'Pilgrims Progress - Dance Performance', time: '7:00 PM', location: 'Main Auditorium' },
+    { date: 'Jan 19', title: 'MLK Day (Artios Closed)', time: 'All Day', location: '' },
+    { date: 'Jan 20', title: 'Senior Meeting (Parents & Students)', time: '4:00 PM', location: '' },
+    { date: 'Jan 23', title: '9th Grade Preview Day', time: '9:00 AM', location: 'Main Campus' }
   ],
   students: [
     { name: 'Emma Martinez', grade: '7th', gpa: '3.8', programs: ['Academy', 'Choir', 'Dance'] },
@@ -1063,10 +1066,10 @@ function DashboardView({ role, onSearch, isLoading }) {
             <div style={{ flex: 1 }}>
               <h3 style={{ fontFamily: 'Merriweather, serif', fontSize: '18px', color: '#22543D', fontWeight: 'bold', marginBottom: '8px' }}>Good Morning, Sarah!</h3>
               <div style={{ fontSize: '13px', color: '#276749', lineHeight: '1.6' }}>
-                <div style={{ marginBottom: '6px' }}>📝 <strong>Emma</strong> has the Renaissance Art History Paper due tomorrow</div>
-                <div style={{ marginBottom: '6px' }}>⚠️ <strong>Emma</strong> is missing the Lab Report: Chemical Reactions (2 days overdue)</div>
-                <div style={{ marginBottom: '6px' }}>📅 <strong>Winter Concert</strong> is tomorrow at 6:30 PM - Main Auditorium</div>
-                <div>🎄 <strong>Last day before Christmas break</strong> is Friday, Dec 20</div>
+                <div style={{ marginBottom: '6px' }}>🎄 <strong>Christmas Break</strong> starts today! No classes until January 5</div>
+                <div style={{ marginBottom: '6px' }}>📅 <strong>Elem & JH Academics</strong> resume Monday, Jan 5</div>
+                <div style={{ marginBottom: '6px' }}>📅 <strong>HS Academics</strong> resume Tuesday, Jan 6</div>
+                <div>🏠 <strong>Artios Open House</strong> is Jan 12 at 6:00 PM - Great for inviting new families!</div>
               </div>
             </div>
             <button
@@ -1128,12 +1131,12 @@ function DashboardView({ role, onSearch, isLoading }) {
             </Card>
           ))}
 
-          {/* Winter Concert - styled like a ticket/invitation */}
+          {/* Next Event - styled like a ticket/invitation */}
           <div className="event-card" style={{
-            background: 'linear-gradient(135deg, #9ACD32 0%, #6B8E23 100%)',
+            background: 'linear-gradient(135deg, #805AD5 0%, #6B46C1 100%)',
             borderRadius: '20px',
             padding: '20px',
-            boxShadow: '0 8px 30px rgba(154, 205, 50, 0.3)',
+            boxShadow: '0 8px 30px rgba(128, 90, 213, 0.3)',
             position: 'relative',
             overflow: 'hidden'
           }}>
@@ -1141,18 +1144,18 @@ function DashboardView({ role, onSearch, isLoading }) {
             <div style={{ position: 'absolute', right: '-10px', top: '50%', transform: 'translateY(-50%)', width: '20px', height: '20px', background: '#FAF9F6', borderRadius: '50%' }}></div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', letterSpacing: '2px', marginBottom: '6px' }}>🎄 NEXT EVENT</div>
-                <h3 style={{ fontFamily: 'Merriweather, serif', fontSize: '22px', color: 'white', fontWeight: 'bold', marginBottom: '6px', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Winter Concert</h3>
-                <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.9)' }}>🎵 Main Auditorium • 6:30 PM</div>
+                <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.8)', letterSpacing: '2px', marginBottom: '6px' }}>🏠 NEXT EVENT</div>
+                <h3 style={{ fontFamily: 'Merriweather, serif', fontSize: '22px', color: 'white', fontWeight: 'bold', marginBottom: '6px', textShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>Artios Open House</h3>
+                <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.9)' }}>🏫 Main Campus • 6:00 PM</div>
               </div>
               <div style={{ width: '80px', height: '80px', background: 'rgba(255,255,255,0.95)', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(0,0,0,0.15)' }}>
-                <div style={{ fontFamily: 'Merriweather, serif', fontSize: '28px', color: '#6B8E23', fontWeight: 'bold' }}>19</div>
-                <div style={{ fontSize: '12px', color: '#6B8E23', fontWeight: '600' }}>DEC</div>
+                <div style={{ fontFamily: 'Merriweather, serif', fontSize: '28px', color: '#6B46C1', fontWeight: 'bold' }}>12</div>
+                <div style={{ fontSize: '12px', color: '#6B46C1', fontWeight: '600' }}>JAN</div>
               </div>
             </div>
             {/* Ticket stub text */}
             <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px dashed rgba(255,255,255,0.3)', fontSize: '11px', color: 'rgba(255,255,255,0.7)' }}>
-              Both Emma & Lucas performing
+              Invite friends & neighbors to see what Artios is all about!
             </div>
           </div>
 
