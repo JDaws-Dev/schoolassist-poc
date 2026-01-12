@@ -163,10 +163,9 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 
 ## School Contact Information
 
-- **Phone**: (470) 202-4042
 - **John Lane**: jmlane@artiosacademies.com
 - **Jackie Thompson**: jthompson@artiosacademies.com
-- **Address**: 6220 W Price Rd, Sugar Hill, GA 30518
+- **Address**: 415 Brogdon Road, Suwanee, GA 30024
 
 ## Program Overview (from Open House PDF)
 

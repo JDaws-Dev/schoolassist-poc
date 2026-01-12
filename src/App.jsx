@@ -36,8 +36,17 @@ import {
   ArrowRight,
   Facebook,
   Download,
-  ArrowUp
+  ArrowUp,
+  Megaphone,
+  ShoppingBag,
+  Mic,
+  Ticket,
+  CalendarCheck
 } from 'lucide-react';
+
+// Get current date for filtering - the site should be date-aware
+const TODAY = new Date();
+TODAY.setHours(0, 0, 0, 0);
 
 // Auto-detect API URL
 const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : '';
@@ -155,8 +164,7 @@ const initialData = {
   schoolInfo: {
     name: 'Artios Academies of Sugar Hill',
     tagline: 'Art. Heart. Smart.',
-    address: '6220 W Price Rd, Sugar Hill, GA 30518',
-    phone: '(470) 202-4042',
+    address: '415 Brogdon Road, Suwanee, GA 30024',
     email: 'jmlane@artiosacademies.com',
     director: 'John Lane'
   },
@@ -167,8 +175,7 @@ SCHOOL INFO:
 - Name: Artios Academies of Sugar Hill
 - Type: Homeschool Hybrid / University-Model (Christian homeschool program)
 - Tagline: Art. Heart. Smart.
-- Address: 6220 W Price Rd, Sugar Hill, GA 30518
-- Phone: (470) 202-4042
+- Address: 415 Brogdon Road, Suwanee, GA 30024
 - Director: John Lane (jmlane@artiosacademies.com)
 - Assistant Director: Jackie Thompson (jthompson@artiosacademies.com)
 - Mission: Train students to possess the wisdom, virtue, and eloquence necessary to lead the culture through their arts, vocations, and callings
@@ -205,7 +212,9 @@ INSTRUCTIONS:
   parentCredentials: {
     // In production, this would be proper authentication
     password: 'artios2026'
-  }
+  },
+  // Parent notifications - admin can push these to all parents
+  notifications: []
 };
 
 // Icon mapping component
@@ -238,9 +247,15 @@ const formatDate = (dateStr) => {
 
 const isUpcoming = (dateStr) => {
   const eventDate = new Date(dateStr);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return eventDate >= today;
+  eventDate.setHours(0, 0, 0, 0);
+  return eventDate >= TODAY;
+};
+
+// Check if event is today
+const isToday = (dateStr) => {
+  const eventDate = new Date(dateStr);
+  eventDate.setHours(0, 0, 0, 0);
+  return eventDate.getTime() === TODAY.getTime();
 };
 
 // Chat Component
@@ -611,6 +626,9 @@ const AdminPanel = ({ data, setData, onLogout }) => {
       </div>
 
       <div className="admin-tabs">
+        <button className={activeTab === 'notifications' ? 'active' : ''} onClick={() => setActiveTab('notifications')}>
+          <Megaphone size={16} /> Push Notifications
+        </button>
         <button className={activeTab === 'announcements' ? 'active' : ''} onClick={() => setActiveTab('announcements')}>
           <Bell size={16} /> Announcements
         </button>
@@ -631,6 +649,70 @@ const AdminPanel = ({ data, setData, onLogout }) => {
       <div className="admin-content">
         {activeTab === 'aiSettings' ? (
           <AISettingsPanel data={data} setData={setData} />
+        ) : activeTab === 'notifications' ? (
+          <div className="notifications-admin">
+            <div className="admin-section-header">
+              <h2>Push Notifications to Parents</h2>
+              <button onClick={() => {
+                const newNotification = {
+                  id: Date.now(),
+                  title: 'New Notification',
+                  content: '',
+                  date: new Date().toISOString().split('T')[0],
+                  type: 'info'
+                };
+                setData(prev => ({
+                  ...prev,
+                  notifications: [...(prev.notifications || []), newNotification]
+                }));
+                setEditingItem({ type: 'notifications', id: newNotification.id });
+              }} className="btn-add"><Plus size={16} /> Push New Notification</button>
+            </div>
+            <p className="admin-helper-text">
+              Notifications appear at the top of the parent portal. Parents can dismiss them individually.
+            </p>
+            <div className="admin-list">
+              {(data.notifications || []).map(item => (
+                <div key={item.id} className="admin-item">
+                  <div className="admin-item-header">
+                    {editingItem?.type === 'notifications' && editingItem?.id === item.id ? (
+                      <input value={item.title} onChange={(e) => updateItem('notifications', item.id, { title: e.target.value })} className="admin-input" />
+                    ) : (
+                      <span className="admin-item-title">{item.title}</span>
+                    )}
+                    <div className="admin-item-actions">
+                      {editingItem?.type === 'notifications' && editingItem?.id === item.id ? (
+                        <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
+                      ) : (
+                        <button onClick={() => setEditingItem({ type: 'notifications', id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
+                      )}
+                      <button onClick={() => deleteItem('notifications', item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
+                    </div>
+                  </div>
+                  {editingItem?.type === 'notifications' && editingItem?.id === item.id && (
+                    <div className="admin-item-edit">
+                      <textarea
+                        value={item.content}
+                        onChange={(e) => updateItem('notifications', item.id, { content: e.target.value })}
+                        placeholder="Notification message..."
+                        rows={2}
+                      />
+                      <div className="admin-row">
+                        <select value={item.type} onChange={(e) => updateItem('notifications', item.id, { type: e.target.value })}>
+                          <option value="info">Info (Blue)</option>
+                          <option value="warning">Important (Yellow)</option>
+                          <option value="urgent">Urgent (Red)</option>
+                        </select>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {(!data.notifications || data.notifications.length === 0) && (
+                <p className="admin-empty-state">No notifications. Click "Push New Notification" to create one.</p>
+              )}
+            </div>
+          </div>
         ) : (
           <>
             <div className="admin-section-header">
@@ -661,6 +743,51 @@ const suggestedQuestions = [
   "When is the next performance?",
   "What's the weather policy?"
 ];
+
+// Parent Notification Bar Component
+const NotificationBar = ({ notifications, onDismiss }) => {
+  const [dismissedIds, setDismissedIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('dismissedNotifications') || '[]');
+    } catch { return []; }
+  });
+
+  const handleDismiss = (id) => {
+    const newDismissed = [...dismissedIds, id];
+    setDismissedIds(newDismissed);
+    localStorage.setItem('dismissedNotifications', JSON.stringify(newDismissed));
+  };
+
+  const activeNotifications = (notifications || []).filter(n => !dismissedIds.includes(n.id));
+
+  if (activeNotifications.length === 0) {
+    return (
+      <div className="notification-bar empty">
+        <div className="notification-empty">
+          <Bell size={16} />
+          <span>No new notifications</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="notification-bar">
+      {activeNotifications.map(notification => (
+        <div key={notification.id} className={`notification-item ${notification.type || 'info'}`}>
+          <Megaphone size={18} />
+          <div className="notification-content">
+            <strong>{notification.title}</strong>
+            {notification.content && <p>{notification.content}</p>}
+          </div>
+          <button onClick={() => handleDismiss(notification.id)} className="notification-dismiss" aria-label="Dismiss">
+            <X size={16} />
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 // FAQ Accordion Component
 const FAQSection = ({ faqItems }) => {
@@ -1061,7 +1188,8 @@ export default function App() {
       announcements: data.announcements,
       upcomingEvents: data.upcomingEvents,
       documents: data.documents,
-      aiSettings: data.aiSettings
+      aiSettings: data.aiSettings,
+      notifications: data.notifications
     }));
   }, [data]);
 
@@ -1154,9 +1282,8 @@ export default function App() {
           </div>
 
           <nav className="nav-desktop">
-            <a href="#events">Events</a>
+            <a href="#events">What's Happening</a>
             <a href="#full-calendar">Calendar</a>
-            <a href="#links">Links</a>
             <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
             <button onClick={() => setCurrentView('welcome')} className="nav-link-btn">New Families</button>
@@ -1172,9 +1299,8 @@ export default function App() {
 
         {mobileMenuOpen && (
           <nav className="nav-mobile">
-            <a href="#events" onClick={() => setMobileMenuOpen(false)}>Events</a>
+            <a href="#events" onClick={() => setMobileMenuOpen(false)}>What's Happening</a>
             <a href="#full-calendar" onClick={() => setMobileMenuOpen(false)}>Calendar</a>
-            <a href="#links" onClick={() => setMobileMenuOpen(false)}>Links</a>
             <a href="#faq" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
             <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
             <button onClick={() => { setCurrentView('welcome'); setMobileMenuOpen(false); }} className="nav-link-btn">New Families</button>
@@ -1185,11 +1311,57 @@ export default function App() {
         )}
       </header>
 
-      {/* Hero Section - Clean and focused */}
+      {/* Notification Bar - Admin pushed notifications */}
+      <NotificationBar notifications={data.notifications} />
+
+      {/* Hero Section with Quick Actions and Chat Feature */}
       <section className="hero">
         <div className="hero-content">
           <h2>Welcome, Artios Families!</h2>
           <p>Your hub for school events, resources, and information.</p>
+
+          {/* Quick Action Buttons */}
+          <div className="hero-quick-actions">
+            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
+              <Users size={20} />
+              <span>FACTS Portal</span>
+            </a>
+            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
+              <Clock size={20} />
+              <span>Order Lunch</span>
+            </a>
+            <a href="#full-calendar" className="quick-action-btn">
+              <Calendar size={20} />
+              <span>School Calendar</span>
+            </a>
+            <a href="https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
+              <FileText size={20} />
+              <span>Newsletter</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured AI Chat Section */}
+      <section className="featured-chat-section">
+        <div className="featured-chat-content">
+          <div className="chat-feature-icon">
+            <MessageCircle size={32} />
+          </div>
+          <div className="chat-feature-text">
+            <h3>Have a Question?</h3>
+            <p>Get instant answers about schedules, policies, lunch ordering, dress code, and more!</p>
+            <div className="suggested-chips">
+              {suggestedQuestions.slice(0, 4).map((q, i) => (
+                <button key={i} onClick={() => setChatOpen(true)} className="suggested-chip">
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button onClick={() => setChatOpen(true)} className="btn-chat-featured">
+            <MessageCircle size={20} /> Ask Now
+          </button>
         </div>
       </section>
 
@@ -1208,19 +1380,21 @@ export default function App() {
         </section>
       )}
 
-      {/* Upcoming Events - First priority for parents */}
+      {/* What's Happening Section */}
       <section id="events" className="events-section">
-        <h2><Calendar size={24} /> Upcoming Events</h2>
+        <h2><Calendar size={24} /> What's Happening</h2>
         <div className="events-list">
           {upcomingEvents.map(event => {
             const eventDate = new Date(event.date);
             const calendarUrl = `https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&mode=DAY&dates=${event.date.replace(/-/g, '')}`;
+            const isTodayEvent = isToday(event.date);
             return (
-              <div key={event.id} className="event-card-wrapper">
+              <div key={event.id} className={`event-card-wrapper ${isTodayEvent ? 'today' : ''}`}>
                 <a href={calendarUrl} target="_blank" rel="noopener noreferrer" className="event-card clickable">
                   <div className="event-date">
                     <span className="event-day">{eventDate.getDate()}</span>
                     <span className="event-month">{eventDate.toLocaleDateString('en-US', { month: 'short' })}</span>
+                    {isTodayEvent && <span className="today-badge">TODAY</span>}
                   </div>
                   <div className="event-details">
                     <h3>{event.title}</h3>
@@ -1235,10 +1409,10 @@ export default function App() {
                   href={generateICSFile(event)}
                   download={`${event.title.replace(/\s+/g, '-')}.ics`}
                   className="add-to-calendar-btn"
-                  title="Add to Calendar"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <Download size={16} />
+                  <CalendarCheck size={14} />
+                  <span>Add to Cal</span>
                 </a>
               </div>
             );
@@ -1246,34 +1420,96 @@ export default function App() {
         </div>
         <div className="events-ticket-banner">
           <div className="ticket-banner-content">
-            <span>Upcoming Performances: Pilgrim's Progress, Plot Twist & More!</span>
+            <Ticket size={20} />
+            <span>Upcoming Performances & Events</span>
             <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="btn-tickets">
               Get Tickets <ExternalLink size={14} />
             </a>
           </div>
         </div>
+        <a href="#full-calendar" className="view-all-link">
+          View Full Calendar <ChevronRight size={16} />
+        </a>
       </section>
 
-      {/* Quick Links - Organized by Category */}
-      <section id="links" className="quick-links-section">
-        <h2>Quick Links</h2>
-        {(() => {
-          const categories = [...new Set(data.quickLinks.map(l => l.category || 'Other'))];
-          return categories.map(category => (
-            <div key={category} className="quick-links-category">
-              <h3 className="category-title">{category}</h3>
-              <div className="quick-links-grid">
-                {data.quickLinks.filter(l => (l.category || 'Other') === category).map(link => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="quick-link-card">
-                    <IconComponent name={link.icon} size={24} />
-                    <span>{link.title}</span>
-                    <ChevronRight size={16} className="arrow" />
-                  </a>
-                ))}
-              </div>
+      {/* Resources Section - Consolidated */}
+      <section id="resources" className="resources-section">
+        <h2><BookOpen size={24} /> Resources</h2>
+        <div className="resources-grid">
+          {/* Documents Column */}
+          <div className="resource-column">
+            <h3><FileText size={18} /> Documents</h3>
+            <div className="resource-list">
+              <a href="/Updated Open House 25_26.pdf" target="_blank" rel="noopener noreferrer" className="resource-item">
+                Open House Brochure
+              </a>
+              <a href="https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit" target="_blank" rel="noopener noreferrer" className="resource-item">
+                Full Class Schedule
+              </a>
+              <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="resource-item">
+                Student Handbook (via FACTS)
+              </a>
             </div>
-          ));
-        })()}
+          </div>
+
+          {/* Newsletters Column */}
+          <div className="resource-column">
+            <h3><FileText size={18} /> Newsletters</h3>
+            <div className="resource-list">
+              <a href="https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view" target="_blank" rel="noopener noreferrer" className="resource-item">
+                Elementary Connection - December
+              </a>
+              <a href="https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view" target="_blank" rel="noopener noreferrer" className="resource-item">
+                The Choir Wire - November
+              </a>
+            </div>
+          </div>
+
+          {/* Podcast Column */}
+          <div className="resource-column">
+            <h3><Mic size={18} /> Podcast</h3>
+            <p className="resource-desc">Artios At Home - insights and updates from our school family</p>
+            <div className="podcast-buttons">
+              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer" className="podcast-btn apple">
+                Apple Podcasts
+              </a>
+              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer" className="podcast-btn spotify">
+                Spotify
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Get Involved Section */}
+      <section id="involved" className="get-involved-section">
+        <h2><Heart size={24} /> Get Involved</h2>
+        <div className="involved-grid">
+          <div className="involved-card">
+            <Users size={24} />
+            <h3>Volunteer</h3>
+            <p>Help in the classroom! Sign up to be a Parent TA Sub.</p>
+            <a href="https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent#" target="_blank" rel="noopener noreferrer" className="involved-link">
+              Sign Up <ArrowRight size={14} />
+            </a>
+          </div>
+          <div className="involved-card">
+            <Ticket size={24} />
+            <h3>Events & Tickets</h3>
+            <p>Browse upcoming performances, open houses, and special events.</p>
+            <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="involved-link">
+              Browse Events <ArrowRight size={14} />
+            </a>
+          </div>
+          <div className="involved-card">
+            <ShoppingBag size={24} />
+            <h3>School Store</h3>
+            <p>Order Artios winter wear and spirit gear from Due South Designs.</p>
+            <a href="https://duesouthdesigns.net/school-orders" target="_blank" rel="noopener noreferrer" className="involved-link">
+              Shop Now <ArrowRight size={14} />
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Full Calendar View */}
@@ -1294,29 +1530,6 @@ export default function App() {
         </a>
       </section>
 
-      {/* Documents - Organized by Category */}
-      <section id="documents" className="documents-section">
-        <h2>Important Documents</h2>
-        {(() => {
-          const categories = [...new Set(data.documents.map(d => d.category))];
-          return categories.map(category => (
-            <div key={category} className="documents-category">
-              <h3 className="category-title">{category}</h3>
-              <div className="documents-grid">
-                {data.documents.filter(d => d.category === category).map(doc => (
-                  <a key={doc.id} href={doc.url} target="_blank" rel="noopener noreferrer" className="document-card">
-                    <FileText size={20} />
-                    <div>
-                      <span className="doc-title">{doc.title}</span>
-                    </div>
-                    <ExternalLink size={14} className="arrow" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          ));
-        })()}
-      </section>
 
       {/* Schedule Section */}
       <ScheduleSection schedules={data.schedules || initialData.schedules} />
@@ -1324,47 +1537,39 @@ export default function App() {
       {/* FAQ Section */}
       <FAQSection faqItems={data.faq || initialData.faq} />
 
-      {/* Need Help Section - Compact */}
-      <section id="ask" className="need-help-section">
-        <div className="need-help-content">
-          <HelpCircle size={32} />
-          <div className="need-help-text">
-            <h3>Still have questions?</h3>
-            <p>Our AI assistant can help with schedules, policies, lunch ordering, and more.</p>
-          </div>
-          <button onClick={() => setChatOpen(true)} className="btn-help">
-            <MessageCircle size={18} /> Get Answers
-          </button>
-        </div>
-      </section>
-
-      {/* Contact Section */}
+      {/* Contact Section - Simplified */}
       <section id="contact" className="contact-section">
-        <h2><Phone size={24} /> Contact Us</h2>
-        <div className="contact-grid">
-          <div className="contact-card">
-            <h3>Main Office</h3>
-            <div className="contact-details">
-              <p><Phone size={16} /> <a href="tel:+14702024042">{data.schoolInfo.phone}</a></p>
-              <p><Mail size={16} /> <a href={`mailto:${data.schoolInfo.email}`}>{data.schoolInfo.email}</a></p>
-              <p><MapPin size={16} /> {data.schoolInfo.address}</p>
-            </div>
+        <h2><Mail size={24} /> Contact Us</h2>
+
+        {/* Main Office - Prominent */}
+        <div className="contact-main">
+          <div className="contact-main-info">
+            <p><Mail size={16} /> <a href={`mailto:${data.schoolInfo.email}`}>{data.schoolInfo.email}</a></p>
+            <p><MapPin size={16} /> {data.schoolInfo.address}</p>
           </div>
-          <div className="contact-card">
-            <h3>Director</h3>
-            <div className="contact-details">
-              <p className="contact-name">John Lane</p>
-              <p><Mail size={16} /> <a href="mailto:jmlane@artiosacademies.com">jmlane@artiosacademies.com</a></p>
-              <p><Calendar size={16} /> <a href="https://calendar.app.google/1xHHZDQVMThZCspaA" target="_blank" rel="noopener noreferrer">Schedule a Meeting</a></p>
+        </div>
+
+        {/* Staff Cards - Just names and schedule links */}
+        <div className="contact-staff">
+          <div className="staff-contact-card">
+            <Users size={20} />
+            <div>
+              <strong>John Lane</strong>
+              <span>Director</span>
             </div>
+            <a href="https://calendar.app.google/1xHHZDQVMThZCspaA" target="_blank" rel="noopener noreferrer" className="schedule-btn">
+              <Calendar size={14} /> Schedule Meeting
+            </a>
           </div>
-          <div className="contact-card">
-            <h3>Assistant Director</h3>
-            <div className="contact-details">
-              <p className="contact-name">Jackie Thompson</p>
-              <p><Mail size={16} /> <a href="mailto:jthompson@artiosacademies.com">jthompson@artiosacademies.com</a></p>
-              <p><Calendar size={16} /> <a href="https://calendly.com/artiosacademies/parent-partnership-meetings-2025" target="_blank" rel="noopener noreferrer">Schedule a Meeting</a></p>
+          <div className="staff-contact-card">
+            <Users size={20} />
+            <div>
+              <strong>Jackie Thompson</strong>
+              <span>Assistant Director</span>
             </div>
+            <a href="https://calendly.com/artiosacademies/parent-partnership-meetings-2025" target="_blank" rel="noopener noreferrer" className="schedule-btn">
+              <Calendar size={14} /> Schedule Meeting
+            </a>
           </div>
         </div>
       </section>
@@ -1375,29 +1580,32 @@ export default function App() {
           <div className="footer-info">
             <img src="/artios-logo.png" alt="Artios Academies" className="footer-logo" />
             <p>{data.schoolInfo.name}</p>
-            <p>{data.schoolInfo.address}</p>
-            {data.schoolInfo.phone && <p><Phone size={14} /> {data.schoolInfo.phone}</p>}
-            <p><Mail size={14} /> {data.schoolInfo.email}</p>
+            <p className="tagline">{data.schoolInfo.tagline}</p>
           </div>
           <div className="footer-links">
-            <a href={data.quickLinks.find(l => l.title.includes('Portal'))?.url} target="_blank" rel="noopener noreferrer">Parent Portal</a>
+            <h4>Quick Links</h4>
+            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer">FACTS Portal</a>
             <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer">Event Tickets</a>
-            <button onClick={() => setShowAdminLogin(true)} className="admin-link">Admin Login</button>
+            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer">Order Lunch</a>
           </div>
           <div className="footer-social">
-            <p>Artios At Home Podcast</p>
+            <h4>Connect</h4>
             <div className="social-links">
-              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer" title="Apple Podcasts">
-                <ExternalLink size={18} /> Apple
+              <a href="https://www.instagram.com/artios_sugarhill/" target="_blank" rel="noopener noreferrer">
+                Instagram
               </a>
-              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer" title="Spotify">
-                <ExternalLink size={18} /> Spotify
+              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer">
+                Apple Podcasts
+              </a>
+              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer">
+                Spotify
               </a>
             </div>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Artios Academies of Sugar Hill. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Artios Academies of Sugar Hill</p>
+          <button onClick={() => setShowAdminLogin(true)} className="admin-link">Admin</button>
         </div>
       </footer>
 
