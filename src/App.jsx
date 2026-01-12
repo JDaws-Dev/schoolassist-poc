@@ -792,69 +792,35 @@ const CommunitySection = ({ resources }) => {
   );
 };
 
-// Schedule Section Component
+// Schedule Section Component - High-level hours only
 const ScheduleSection = ({ schedules }) => {
-  const [activeTab, setActiveTab] = useState('overview');
-
   if (!schedules) return null;
 
   return (
     <section id="schedule" className="schedule-section">
-      <h2><GraduationCap size={24} /> Class Schedules 2025-2026</h2>
-      <div className="schedule-tabs">
-        <button className={`schedule-tab ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>
-          School Hours
-        </button>
-        <button className={`schedule-tab ${activeTab === 'friday' ? 'active' : ''}`} onClick={() => setActiveTab('friday')}>
-          Friday Arts
-        </button>
-        <button className={`schedule-tab ${activeTab === 'dance' ? 'active' : ''}`} onClick={() => setActiveTab('dance')}>
-          Monday Dance
-        </button>
-      </div>
-
-      {activeTab === 'overview' && (
-        <div className="schedule-grid">
-          {schedules.overview?.map(item => (
-            <div key={item.id} className="schedule-item overview-item">
-              <span className="schedule-level">{item.level}</span>
+      <h2><Clock size={24} /> School Hours</h2>
+      <div className="schedule-grid simple">
+        {schedules.overview?.map(item => (
+          <div key={item.id} className="schedule-card">
+            <h3>{item.level}</h3>
+            <div className="schedule-details">
               <span className="schedule-days">{item.days}</span>
               <span className="schedule-hours">{item.hours}</span>
             </div>
-          ))}
-          {schedules.artClub && (
-            <div className="schedule-item overview-item art-club">
-              <span className="schedule-level">{schedules.artClub.name}</span>
-              <span className="schedule-days">Grades {schedules.artClub.grades}</span>
-              <span className="schedule-hours">{schedules.artClub.time}</span>
-            </div>
-          )}
-        </div>
-      )}
-
-      {activeTab === 'friday' && (
-        <div className="schedule-grid friday-grid">
-          <p className="schedule-note">HS Arts Conservatory - Friday Schedule</p>
-          {schedules.fridayArts?.map(item => (
-            <div key={item.id} className="schedule-item friday-item">
-              <span className="schedule-time">{item.time}</span>
-              <span className="schedule-classes">{item.classes.join(' | ')}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {activeTab === 'dance' && (
-        <div className="schedule-grid">
-          <p className="schedule-note">Tentative Monday Dance Schedule</p>
-          {schedules.mondayDance?.map(item => (
-            <div key={item.id} className="schedule-item">
-              <span className="schedule-time">{item.time}</span>
-              <span className="schedule-class">{item.name}</span>
-            </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
+      <p className="schedule-note-bottom">
+        Students should arrive 10-15 minutes before class starts.
+      </p>
+      <a
+        href="https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit?gid=2013129902#gid=2013129902"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="schedule-full-link"
+      >
+        View Full Class Schedule <ExternalLink size={14} />
+      </a>
     </section>
   );
 };
@@ -1000,10 +966,22 @@ const WelcomePage = ({ onBack, onOpenChat }) => {
 // Main App Component
 export default function App() {
   // Load data from localStorage or use defaults
+  // Note: quickLinks, faq, and schedules always use initialData to ensure latest linktree info
   const [data, setData] = useState(() => {
     try {
       const saved = localStorage.getItem('artiosConnectData');
-      return saved ? { ...initialData, ...JSON.parse(saved) } : initialData;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Always use latest quickLinks, faq, and schedules from initialData
+        return {
+          ...initialData,
+          ...parsed,
+          quickLinks: initialData.quickLinks,
+          faq: initialData.faq,
+          schedules: initialData.schedules,
+        };
+      }
+      return initialData;
     } catch {
       return initialData;
     }
@@ -1126,7 +1104,7 @@ export default function App() {
             <a href="#faq">FAQ</a>
             <button onClick={() => setCurrentView('welcome')} className="nav-link-btn">New Families</button>
             <button onClick={() => setChatOpen(true)} className="nav-chat-btn">
-              <MessageCircle size={18} /> Ask AI
+              <MessageCircle size={18} /> Get Answers
             </button>
           </nav>
 
@@ -1143,7 +1121,7 @@ export default function App() {
             <a href="#faq" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
             <button onClick={() => { setCurrentView('welcome'); setMobileMenuOpen(false); }} className="nav-link-btn">New Families</button>
             <button onClick={() => { setChatOpen(true); setMobileMenuOpen(false); }} className="nav-chat-btn">
-              <MessageCircle size={18} /> Ask AI
+              <MessageCircle size={18} /> Get Answers
             </button>
           </nav>
         )}
@@ -1193,16 +1171,16 @@ export default function App() {
       )}
 
 
-      {/* Ask AI Section - Prominent */}
+      {/* Get Answers Section - Prominent */}
       <section id="ask" className="ask-ai-section">
         <div className="ask-ai-content">
           <div className="ask-ai-icon">
-            <Bot size={48} />
+            <HelpCircle size={48} />
           </div>
           <h2>Have a Question?</h2>
-          <p>Ask our AI assistant about schedules, policies, events, and more!</p>
+          <p>Get quick answers about schedules, policies, events, lunch ordering, and more!</p>
           <button onClick={() => setChatOpen(true)} className="ask-ai-button">
-            <MessageCircle size={20} /> Ask a Question
+            <MessageCircle size={20} /> Get Answers
           </button>
           <div className="suggested-questions">
             <p className="suggested-label">Try asking:</p>
