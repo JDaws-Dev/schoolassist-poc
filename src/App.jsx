@@ -1142,13 +1142,14 @@ export default function App() {
       const saved = localStorage.getItem('artiosConnectData');
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Always use latest quickLinks, faq, and schedules from initialData
+        // Always use latest quickLinks, faq, schedules, and schoolInfo from initialData
         return {
           ...initialData,
           ...parsed,
           quickLinks: initialData.quickLinks,
           faq: initialData.faq,
           schedules: initialData.schedules,
+          schoolInfo: initialData.schoolInfo,
         };
       }
       return initialData;
