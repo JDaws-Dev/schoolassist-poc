@@ -760,28 +760,22 @@ const NotificationBar = ({ notifications, onDismiss }) => {
 
   const activeNotifications = (notifications || []).filter(n => !dismissedIds.includes(n.id));
 
+  // Don't render anything if no notifications
   if (activeNotifications.length === 0) {
-    return (
-      <div className="notification-bar empty">
-        <div className="notification-empty">
-          <Bell size={16} />
-          <span>No new notifications</span>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
     <div className="notification-bar">
       {activeNotifications.map(notification => (
         <div key={notification.id} className={`notification-item ${notification.type || 'info'}`}>
-          <Megaphone size={18} />
+          <Megaphone size={20} />
           <div className="notification-content">
             <strong>{notification.title}</strong>
             {notification.content && <p>{notification.content}</p>}
           </div>
           <button onClick={() => handleDismiss(notification.id)} className="notification-dismiss" aria-label="Dismiss">
-            <X size={16} />
+            <X size={18} />
           </button>
         </div>
       ))}
