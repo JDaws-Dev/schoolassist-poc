@@ -801,8 +801,29 @@ const NotificationBar = ({ notifications, onDismiss }) => {
 };
 
 // FAQ Accordion Component
-const FAQSection = ({ faqItems }) => {
+const FAQSection = ({ faqItems, compact = false }) => {
   const [openItem, setOpenItem] = useState(null);
+
+  // When compact, don't wrap in a section with its own heading
+  if (compact) {
+    return (
+      <div className="faq-list compact">
+        {faqItems.map(item => (
+          <div key={item.id} className={`faq-item ${openItem === item.id ? 'open' : ''}`}>
+            <button className="faq-question" onClick={() => setOpenItem(openItem === item.id ? null : item.id)}>
+              <span>{item.question}</span>
+              <ChevronRight size={18} className={`faq-arrow ${openItem === item.id ? 'rotated' : ''}`} />
+            </button>
+            {openItem === item.id && (
+              <div className="faq-answer">
+                <p>{item.answer}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <section id="faq" className="faq-section">
@@ -1248,6 +1269,185 @@ export default function App() {
     );
   }
 
+  // Calendar page view
+  if (currentView === 'calendar') {
+    return (
+      <div className="page-view">
+        <header className="page-header">
+          <button onClick={() => setCurrentView('home')} className="back-btn">
+            <ChevronRight size={20} className="back-arrow" /> Back
+          </button>
+          <h1>School Calendar</h1>
+        </header>
+        <div className="calendar-page-content">
+          <div className="calendar-embed-wrapper full">
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
+              className="calendar-iframe full"
+              frameBorder="0"
+              scrolling="no"
+              title="Artios School Calendar"
+            />
+          </div>
+          <a href="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com" target="_blank" rel="noopener noreferrer" className="open-external-btn">
+            <ExternalLink size={16} /> Open in Google Calendar
+          </a>
+        </div>
+        <ChatWidget isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+        {!chatOpen && (
+          <button className="chat-toggle" onClick={() => setChatOpen(true)}>
+            <MessageCircle size={24} />
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  // More page view - Resources, Get Involved, FAQ, Schedule
+  if (currentView === 'more') {
+    return (
+      <div className="page-view">
+        <header className="page-header">
+          <button onClick={() => setCurrentView('home')} className="back-btn">
+            <ChevronRight size={20} className="back-arrow" /> Back
+          </button>
+          <h1>Resources & More</h1>
+        </header>
+
+        <div className="more-page-content">
+          {/* Quick Links Grid */}
+          <section className="more-section">
+            <h2>Quick Links</h2>
+            <div className="quick-links-grid">
+              <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="quick-link-card">
+                <Users size={20} />
+                <span>FACTS Portal</span>
+              </a>
+              <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="quick-link-card">
+                <Clock size={20} />
+                <span>Order Lunch</span>
+              </a>
+              <a href="https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit" target="_blank" rel="noopener noreferrer" className="quick-link-card">
+                <FileText size={20} />
+                <span>Full Schedule</span>
+              </a>
+              <a href="/Updated Open House 25_26.pdf" target="_blank" rel="noopener noreferrer" className="quick-link-card">
+                <FileText size={20} />
+                <span>Open House PDF</span>
+              </a>
+            </div>
+          </section>
+
+          {/* Newsletters */}
+          <section className="more-section">
+            <h2>Newsletters</h2>
+            <div className="newsletters-list">
+              <a href="https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view" target="_blank" rel="noopener noreferrer" className="newsletter-item">
+                <FileText size={18} />
+                <div>
+                  <strong>Elementary Connection</strong>
+                  <span>December 2025</span>
+                </div>
+                <ExternalLink size={16} />
+              </a>
+              <a href="https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view" target="_blank" rel="noopener noreferrer" className="newsletter-item">
+                <FileText size={18} />
+                <div>
+                  <strong>The Choir Wire</strong>
+                  <span>November 2025</span>
+                </div>
+                <ExternalLink size={16} />
+              </a>
+            </div>
+          </section>
+
+          {/* Get Involved */}
+          <section className="more-section">
+            <h2>Get Involved</h2>
+            <div className="involved-list">
+              <a href="https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent#" target="_blank" rel="noopener noreferrer" className="involved-item">
+                <Heart size={20} />
+                <div>
+                  <strong>Volunteer as TA Sub</strong>
+                  <span>Help in the classroom</span>
+                </div>
+                <ArrowRight size={16} />
+              </a>
+              <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="involved-item">
+                <Ticket size={20} />
+                <div>
+                  <strong>Event Tickets</strong>
+                  <span>Performances & special events</span>
+                </div>
+                <ArrowRight size={16} />
+              </a>
+              <a href="https://duesouthdesigns.net/school-orders" target="_blank" rel="noopener noreferrer" className="involved-item">
+                <ShoppingBag size={20} />
+                <div>
+                  <strong>School Store</strong>
+                  <span>Spirit wear & gear</span>
+                </div>
+                <ArrowRight size={16} />
+              </a>
+            </div>
+          </section>
+
+          {/* Podcast */}
+          <section className="more-section">
+            <h2>Artios At Home Podcast</h2>
+            <p className="section-desc">Insights and updates from our school family</p>
+            <div className="podcast-links">
+              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer" className="podcast-btn apple">
+                Apple Podcasts
+              </a>
+              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer" className="podcast-btn spotify">
+                Spotify
+              </a>
+            </div>
+          </section>
+
+          {/* School Hours */}
+          <section className="more-section">
+            <h2>School Hours</h2>
+            <p className="section-desc">Doors open at 8:50 AM</p>
+            <div className="hours-grid">
+              <div className="hours-card">
+                <strong>Elementary (K-6)</strong>
+                <span>Mon/Wed • 9 AM - 2:45 PM</span>
+              </div>
+              <div className="hours-card">
+                <strong>Jr High & High School</strong>
+                <span>Tue/Thu • 9 AM - 2:45 PM</span>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ */}
+          <section className="more-section">
+            <h2>Frequently Asked Questions</h2>
+            <FAQSection faqItems={data.faq || initialData.faq} compact />
+          </section>
+
+          {/* New Families Link */}
+          <section className="more-section">
+            <button onClick={() => setCurrentView('welcome')} className="new-families-btn">
+              <GraduationCap size={20} />
+              <span>New to Artios? Welcome Guide</span>
+              <ArrowRight size={16} />
+            </button>
+          </section>
+        </div>
+
+        <ChatWidget isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+        {!chatOpen && (
+          <button className="chat-toggle" onClick={() => setChatOpen(true)}>
+            <MessageCircle size={24} />
+          </button>
+        )}
+      </div>
+    );
+  }
+
   // Parent login screen
   if (!isParentLoggedIn) {
     return (
@@ -1295,13 +1495,10 @@ export default function App() {
           </div>
 
           <nav className="nav-desktop">
-            <a href="#events">What's Happening</a>
-            <a href="#full-calendar">Calendar</a>
-            <a href="#faq">FAQ</a>
-            <a href="#contact">Contact</a>
-            <button onClick={() => setCurrentView('welcome')} className="nav-link-btn">New Families</button>
+            <button onClick={() => setCurrentView('calendar')} className="nav-link-btn">Calendar</button>
+            <button onClick={() => setCurrentView('more')} className="nav-link-btn">More</button>
             <button onClick={() => setChatOpen(true)} className="nav-chat-btn">
-              <MessageCircle size={18} /> Get Answers
+              <MessageCircle size={18} /> Ask
             </button>
           </nav>
 
@@ -1312,13 +1509,11 @@ export default function App() {
 
         {mobileMenuOpen && (
           <nav className="nav-mobile">
-            <a href="#events" onClick={() => setMobileMenuOpen(false)}>What's Happening</a>
-            <a href="#full-calendar" onClick={() => setMobileMenuOpen(false)}>Calendar</a>
-            <a href="#faq" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
-            <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+            <button onClick={() => { setCurrentView('calendar'); setMobileMenuOpen(false); }} className="nav-link-btn">Calendar</button>
+            <button onClick={() => { setCurrentView('more'); setMobileMenuOpen(false); }} className="nav-link-btn">Resources & More</button>
             <button onClick={() => { setCurrentView('welcome'); setMobileMenuOpen(false); }} className="nav-link-btn">New Families</button>
             <button onClick={() => { setChatOpen(true); setMobileMenuOpen(false); }} className="nav-chat-btn">
-              <MessageCircle size={18} /> Get Answers
+              <MessageCircle size={18} /> Ask a Question
             </button>
           </nav>
         )}
@@ -1327,309 +1522,164 @@ export default function App() {
       {/* Notification Bar - Admin pushed notifications */}
       <NotificationBar notifications={data.notifications} />
 
-      {/* Hero Section with Quick Actions and Chat Feature */}
-      <section className="hero">
-        <div className="hero-content">
-          <h2>Welcome, Artios Families!</h2>
-          <p>Your hub for school events, resources, and information.</p>
+      {/* Streamlined Hero - Big 3 Actions Only */}
+      <section className="hero-clean">
+        <div className="hero-clean-content">
+          <div className="hero-greeting">
+            <h1>Artios Connect</h1>
+            <p>Quick access for busy families</p>
+          </div>
 
-          {/* Quick Action Buttons */}
-          <div className="hero-quick-actions">
-            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="quick-action-btn primary-action">
-              <Users size={22} />
-              <span>FACTS Portal</span>
-              <small>Grades & Info</small>
+          {/* The Big 3 - What parents use daily */}
+          <div className="hero-big-actions">
+            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="big-action-btn facts">
+              <Users size={28} />
+              <span>FACTS</span>
+              <small>Grades & Attendance</small>
             </a>
-            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
-              <Clock size={22} />
-              <span>Order Lunch</span>
-              <small>By 10 AM</small>
+            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="big-action-btn lunch">
+              <Clock size={28} />
+              <span>Lunch</span>
+              <small>Order by 10 AM</small>
             </a>
-            <a href="#full-calendar" className="quick-action-btn">
-              <Calendar size={22} />
+            <a href="#this-week" className="big-action-btn calendar">
+              <Calendar size={28} />
               <span>Calendar</span>
-              <small>All Events</small>
-            </a>
-            <a href="#contact" className="quick-action-btn">
-              <Mail size={22} />
-              <span>Contact</span>
-              <small>Get Help</small>
+              <small>View Events</small>
             </a>
           </div>
         </div>
       </section>
 
-      {/* Featured AI Chat Section */}
-      <section className="featured-chat-section">
-        <div className="featured-chat-content">
-          <div className="chat-feature-icon">
-            <MessageCircle size={32} />
+      {/* School Notices - Always visible section */}
+      <section className="notices-section">
+        <div className="notices-header">
+          <Bell size={18} />
+          <h3>School Notices</h3>
+        </div>
+        {activeAnnouncements.length > 0 ? (
+          <div className="notices-list">
+            {activeAnnouncements.map(announcement => (
+              <div key={announcement.id} className={`notice-item ${announcement.priority}`}>
+                <div className="notice-content">
+                  <strong>{announcement.title}</strong>
+                  <p>{announcement.content}</p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="chat-feature-text">
-            <h3>Have a Question?</h3>
-            <p>Get instant answers about schedules, policies, lunch ordering, dress code, and more!</p>
-            <div className="suggested-chips">
-              {suggestedQuestions.slice(0, 4).map((q, i) => (
-                <button key={i} onClick={() => setChatOpen(true)} className="suggested-chip">
-                  {q}
-                </button>
-              ))}
-            </div>
+        ) : (
+          <div className="notices-empty">
+            <CheckCircle size={18} />
+            <span>No announcements - you're all caught up!</span>
           </div>
-          <button onClick={() => setChatOpen(true)} className="btn-chat-featured">
-            <MessageCircle size={20} /> Ask Now
+        )}
+      </section>
+
+      {/* This Week - Clean event list (max 5) */}
+      <section id="this-week" className="this-week-section">
+        <div className="this-week-header">
+          <h2>This Week</h2>
+          <button onClick={() => setCurrentView('calendar')} className="see-all-btn">
+            Full Calendar <ChevronRight size={16} />
           </button>
         </div>
-      </section>
 
-      {/* Announcements Banner */}
-      {activeAnnouncements.length > 0 && (
-        <section className="announcements">
-          {activeAnnouncements.map(announcement => (
-            <div key={announcement.id} className={`announcement ${announcement.priority}`}>
-              <Bell size={18} />
-              <div>
-                <strong>{announcement.title}</strong>
-                <p>{announcement.content}</p>
-              </div>
-            </div>
-          ))}
-        </section>
-      )}
+        {upcomingEvents.slice(0, 5).length > 0 ? (
+          <div className="this-week-list">
+            {upcomingEvents.slice(0, 5).map(event => {
+              const eventDate = new Date(event.date);
+              const isTodayEvent = isToday(event.date);
+              const isTomorrowEvent = isTomorrow(event.date);
+              const daysUntil = getDaysUntil(event.date);
 
-      {/* What's Happening Section */}
-      <section id="events" className="events-section">
-        <h2><Calendar size={24} /> What's Happening</h2>
-        <div className="events-list">
-          {upcomingEvents.map(event => {
-            const eventDate = new Date(event.date);
-            const calendarUrl = `https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&mode=DAY&dates=${event.date.replace(/-/g, '')}`;
-            const isTodayEvent = isToday(event.date);
-            const isTomorrowEvent = isTomorrow(event.date);
-            const daysUntil = getDaysUntil(event.date);
-            return (
-              <div key={event.id} className={`event-card-wrapper ${isTodayEvent ? 'today' : ''} ${isTomorrowEvent ? 'tomorrow' : ''}`}>
-                <a href={calendarUrl} target="_blank" rel="noopener noreferrer" className="event-card clickable">
-                  <div className="event-date">
-                    <span className="event-day">{eventDate.getDate()}</span>
-                    <span className="event-month">{eventDate.toLocaleDateString('en-US', { month: 'short' })}</span>
-                    {isTodayEvent && <span className="today-badge">TODAY</span>}
-                    {isTomorrowEvent && <span className="tomorrow-badge">TOMORROW</span>}
+              let dayLabel = eventDate.toLocaleDateString('en-US', { weekday: 'short' });
+              if (isTodayEvent) dayLabel = 'Today';
+              else if (isTomorrowEvent) dayLabel = 'Tomorrow';
+
+              return (
+                <div key={event.id} className={`week-event ${isTodayEvent ? 'today' : ''} ${isTomorrowEvent ? 'tomorrow' : ''}`}>
+                  <div className="week-event-day">
+                    <span className="day-name">{dayLabel}</span>
+                    <span className="day-date">{eventDate.getDate()}</span>
                   </div>
-                  <div className="event-details">
+                  <div className="week-event-info">
                     <h3>{event.title}</h3>
-                    <div className="event-meta">
-                      {event.time && <span><Clock size={14} /> {event.time}</span>}
-                      {event.location && <span><MapPin size={14} /> {event.location}</span>}
-                      {!isTodayEvent && !isTomorrowEvent && daysUntil <= 7 && (
-                        <span className="days-until">in {daysUntil} days</span>
-                      )}
-                    </div>
+                    {event.time && <span className="event-time">{event.time}</span>}
                   </div>
-                  <ChevronRight size={16} className="event-arrow" />
-                </a>
-                <a
-                  href={generateICSFile(event)}
-                  download={`${event.title.replace(/\s+/g, '-')}.ics`}
-                  className="add-to-calendar-btn"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <CalendarCheck size={14} />
-                  <span>Add to Cal</span>
-                </a>
-              </div>
-            );
-          })}
-        </div>
-        <div className="events-ticket-banner">
-          <div className="ticket-banner-content">
-            <Ticket size={20} />
-            <span>Upcoming Performances & Events</span>
-            <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="btn-tickets">
-              Get Tickets <ExternalLink size={14} />
-            </a>
+                  <a
+                    href={generateICSFile(event)}
+                    download={`${event.title.replace(/\s+/g, '-')}.ics`}
+                    className="add-cal-mini"
+                    onClick={(e) => e.stopPropagation()}
+                    title="Add to calendar"
+                  >
+                    <CalendarCheck size={18} />
+                  </a>
+                </div>
+              );
+            })}
           </div>
-        </div>
-        <a href="#full-calendar" className="view-all-link">
-          View Full Calendar <ChevronRight size={16} />
+        ) : (
+          <p className="no-events">No upcoming events this week</p>
+        )}
+      </section>
+
+      {/* Quick Help Bar - AI + Contact in one line */}
+      <section className="quick-help-bar">
+        <button onClick={() => setChatOpen(true)} className="help-option">
+          <MessageCircle size={20} />
+          <span>Ask a Question</span>
+        </button>
+        <a href={`mailto:${data.schoolInfo.email}`} className="help-option">
+          <Mail size={20} />
+          <span>Email Office</span>
         </a>
+        <button onClick={() => setCurrentView('more')} className="help-option">
+          <BookOpen size={20} />
+          <span>Resources & More</span>
+        </button>
       </section>
 
-      {/* Resources Section - Consolidated */}
-      <section id="resources" className="resources-section">
-        <h2><BookOpen size={24} /> Resources</h2>
-        <div className="resources-grid">
-          {/* Documents Column */}
-          <div className="resource-column">
-            <h3><FileText size={18} /> Documents</h3>
-            <div className="resource-list">
-              <a href="/Updated Open House 25_26.pdf" target="_blank" rel="noopener noreferrer" className="resource-item">
-                Open House Brochure
-              </a>
-              <a href="https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit" target="_blank" rel="noopener noreferrer" className="resource-item">
-                Full Class Schedule
-              </a>
-              <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="resource-item">
-                Student Handbook (via FACTS)
-              </a>
-            </div>
-          </div>
-
-          {/* Newsletters Column */}
-          <div className="resource-column">
-            <h3><FileText size={18} /> Newsletters</h3>
-            <div className="resource-list">
-              <a href="https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view" target="_blank" rel="noopener noreferrer" className="resource-item">
-                Elementary Connection - December
-              </a>
-              <a href="https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view" target="_blank" rel="noopener noreferrer" className="resource-item">
-                The Choir Wire - November
-              </a>
-            </div>
-          </div>
-
-          {/* Podcast Column */}
-          <div className="resource-column">
-            <h3><Mic size={18} /> Podcast</h3>
-            <p className="resource-desc">Artios At Home - insights and updates from our school family</p>
-            <div className="podcast-buttons">
-              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer" className="podcast-btn apple">
-                Apple Podcasts
-              </a>
-              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer" className="podcast-btn spotify">
-                Spotify
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Get Involved Section */}
-      <section id="involved" className="get-involved-section">
-        <h2><Heart size={24} /> Get Involved</h2>
-        <div className="involved-grid">
-          <div className="involved-card">
-            <Users size={24} />
-            <h3>Volunteer</h3>
-            <p>Help in the classroom! Sign up to be a Parent TA Sub.</p>
-            <a href="https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent#" target="_blank" rel="noopener noreferrer" className="involved-link">
-              Sign Up <ArrowRight size={14} />
+      {/* Compact Contact Strip */}
+      <section id="contact" className="contact-strip">
+        <div className="contact-strip-content">
+          <div className="contact-info-compact">
+            <a href={`mailto:${data.schoolInfo.email}`} className="contact-link">
+              <Mail size={16} /> {data.schoolInfo.email}
             </a>
+            <span className="contact-divider">|</span>
+            <span className="contact-address">
+              <MapPin size={16} /> {data.schoolInfo.address}
+            </span>
           </div>
-          <div className="involved-card">
-            <Ticket size={24} />
-            <h3>Events & Tickets</h3>
-            <p>Browse upcoming performances, open houses, and special events.</p>
-            <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="involved-link">
-              Browse Events <ArrowRight size={14} />
+          <div className="director-links">
+            <a href="https://calendar.app.google/1xHHZDQVMThZCspaA" target="_blank" rel="noopener noreferrer" className="director-btn">
+              Meet with John
             </a>
-          </div>
-          <div className="involved-card">
-            <ShoppingBag size={24} />
-            <h3>School Store</h3>
-            <p>Order Artios winter wear and spirit gear from Due South Designs.</p>
-            <a href="https://duesouthdesigns.net/school-orders" target="_blank" rel="noopener noreferrer" className="involved-link">
-              Shop Now <ArrowRight size={14} />
+            <a href="https://calendly.com/artiosacademies/parent-partnership-meetings-2025" target="_blank" rel="noopener noreferrer" className="director-btn">
+              Meet with Jackie
             </a>
           </div>
         </div>
       </section>
 
-      {/* Full Calendar View */}
-      <section id="full-calendar" className="full-calendar-section">
-        <h2><Calendar size={24} /> 2025-2026 School Calendar</h2>
-        <p className="calendar-intro">View all school events, holidays, and important dates for the entire year.</p>
-        <div className="calendar-embed-wrapper">
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
-            className="calendar-iframe"
-            frameBorder="0"
-            scrolling="no"
-            title="Artios School Calendar"
-          />
-        </div>
-        <a href={data.quickLinks.find(l => l.title.includes('Calendar'))?.url} target="_blank" rel="noopener noreferrer" className="view-all-link">
-          Open in Google Calendar <ExternalLink size={16} />
-        </a>
-      </section>
-
-
-      {/* Schedule Section */}
-      <ScheduleSection schedules={data.schedules || initialData.schedules} />
-
-      {/* FAQ Section */}
-      <FAQSection faqItems={data.faq || initialData.faq} />
-
-      {/* Contact Section - Simplified */}
-      <section id="contact" className="contact-section">
-        <h2><Mail size={24} /> Contact Us</h2>
-
-        {/* Main Office - Prominent */}
-        <div className="contact-main">
-          <div className="contact-main-info">
-            <p><Mail size={16} /> <a href={`mailto:${data.schoolInfo.email}`}>{data.schoolInfo.email}</a></p>
-            <p><MapPin size={16} /> {data.schoolInfo.address}</p>
+      {/* Minimal Footer */}
+      <footer className="footer-minimal">
+        <div className="footer-minimal-content">
+          <div className="footer-brand">
+            <img src="/artios-logo.png" alt="Artios Academies" className="footer-logo-small" />
+            <span>Artios Connect</span>
           </div>
-        </div>
-
-        {/* Staff Cards - Just names and schedule links */}
-        <div className="contact-staff">
-          <div className="staff-contact-card">
-            <Users size={20} />
-            <div>
-              <strong>John Lane</strong>
-              <span>Director</span>
-            </div>
-            <a href="https://calendar.app.google/1xHHZDQVMThZCspaA" target="_blank" rel="noopener noreferrer" className="schedule-btn">
-              <Calendar size={14} /> Schedule Meeting
+          <div className="footer-actions">
+            <a href="https://www.instagram.com/artios_sugarhill/" target="_blank" rel="noopener noreferrer" className="social-icon">
+              Instagram
             </a>
-          </div>
-          <div className="staff-contact-card">
-            <Users size={20} />
-            <div>
-              <strong>Jackie Thompson</strong>
-              <span>Assistant Director</span>
-            </div>
-            <a href="https://calendly.com/artiosacademies/parent-partnership-meetings-2025" target="_blank" rel="noopener noreferrer" className="schedule-btn">
-              <Calendar size={14} /> Schedule Meeting
-            </a>
+            <button onClick={() => setCurrentView('welcome')} className="footer-link">New Families</button>
+            <button onClick={() => setShowAdminLogin(true)} className="footer-link admin">Admin</button>
           </div>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-info">
-            <img src="/artios-logo.png" alt="Artios Academies" className="footer-logo" />
-            <p>{data.schoolInfo.name}</p>
-            <p className="tagline">{data.schoolInfo.tagline}</p>
-          </div>
-          <div className="footer-links">
-            <h4>Quick Links</h4>
-            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer">FACTS Portal</a>
-            <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer">Event Tickets</a>
-            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer">Order Lunch</a>
-          </div>
-          <div className="footer-social">
-            <h4>Connect</h4>
-            <div className="social-links">
-              <a href="https://www.instagram.com/artios_sugarhill/" target="_blank" rel="noopener noreferrer">
-                Instagram
-              </a>
-              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer">
-                Apple Podcasts
-              </a>
-              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer">
-                Spotify
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} Artios Academies of Sugar Hill</p>
-          <button onClick={() => setShowAdminLogin(true)} className="admin-link">Admin</button>
-        </div>
+        <p className="copyright">&copy; {new Date().getFullYear()} Artios Academies of Sugar Hill</p>
       </footer>
 
       {/* Chat Widget */}
