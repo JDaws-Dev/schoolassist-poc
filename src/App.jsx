@@ -1185,31 +1185,11 @@ export default function App() {
         )}
       </header>
 
-      {/* Hero Section */}
+      {/* Hero Section - Clean and focused */}
       <section className="hero">
         <div className="hero-content">
-          <h2>Welcome to {data.schoolInfo.name}</h2>
-          <p>Your central hub for school information, events, and resources.</p>
-          <div className="hero-actions">
-            <a href="#events" className="btn-primary">View Upcoming Events</a>
-            <button onClick={() => setChatOpen(true)} className="btn-secondary">
-              <MessageCircle size={18} /> Ask a Question
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* New Families Welcome Banner */}
-      <section className="new-families-banner">
-        <div className="new-families-content">
-          <Sparkles size={24} />
-          <div>
-            <h3>New to Artios?</h3>
-            <p>Learn everything you need to know to get started!</p>
-          </div>
-          <a href="#welcome" className="btn-welcome">
-            Welcome Guide <ArrowRight size={16} />
-          </a>
+          <h2>Welcome, Artios Families!</h2>
+          <p>Your hub for school events, resources, and information.</p>
         </div>
       </section>
 
@@ -1228,56 +1208,9 @@ export default function App() {
         </section>
       )}
 
-
-      {/* Get Answers Section - Prominent */}
-      <section id="ask" className="ask-ai-section">
-        <div className="ask-ai-content">
-          <div className="ask-ai-icon">
-            <HelpCircle size={48} />
-          </div>
-          <h2>Have a Question?</h2>
-          <p>Get quick answers about schedules, policies, events, lunch ordering, and more!</p>
-          <button onClick={() => setChatOpen(true)} className="ask-ai-button">
-            <MessageCircle size={20} /> Get Answers
-          </button>
-          <div className="suggested-questions">
-            <p className="suggested-label">Try asking:</p>
-            <div className="suggested-chips">
-              {suggestedQuestions.map((q, i) => (
-                <button key={i} onClick={() => { setChatOpen(true); }} className="suggested-chip">
-                  {q}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick Links - Organized by Category */}
-      <section id="links" className="quick-links-section">
-        <h2>Quick Links</h2>
-        {(() => {
-          const categories = [...new Set(data.quickLinks.map(l => l.category || 'Other'))];
-          return categories.map(category => (
-            <div key={category} className="quick-links-category">
-              <h3 className="category-title">{category}</h3>
-              <div className="quick-links-grid">
-                {data.quickLinks.filter(l => (l.category || 'Other') === category).map(link => (
-                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="quick-link-card">
-                    <IconComponent name={link.icon} size={24} />
-                    <span>{link.title}</span>
-                    <ChevronRight size={16} className="arrow" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          ));
-        })()}
-      </section>
-
-      {/* Upcoming Events */}
+      {/* Upcoming Events - First priority for parents */}
       <section id="events" className="events-section">
-        <h2>Upcoming Events</h2>
+        <h2><Calendar size={24} /> Upcoming Events</h2>
         <div className="events-list">
           {upcomingEvents.map(event => {
             const eventDate = new Date(event.date);
@@ -1319,6 +1252,28 @@ export default function App() {
             </a>
           </div>
         </div>
+      </section>
+
+      {/* Quick Links - Organized by Category */}
+      <section id="links" className="quick-links-section">
+        <h2>Quick Links</h2>
+        {(() => {
+          const categories = [...new Set(data.quickLinks.map(l => l.category || 'Other'))];
+          return categories.map(category => (
+            <div key={category} className="quick-links-category">
+              <h3 className="category-title">{category}</h3>
+              <div className="quick-links-grid">
+                {data.quickLinks.filter(l => (l.category || 'Other') === category).map(link => (
+                  <a key={link.id} href={link.url} target="_blank" rel="noopener noreferrer" className="quick-link-card">
+                    <IconComponent name={link.icon} size={24} />
+                    <span>{link.title}</span>
+                    <ChevronRight size={16} className="arrow" />
+                  </a>
+                ))}
+              </div>
+            </div>
+          ));
+        })()}
       </section>
 
       {/* Full Calendar View */}
@@ -1368,6 +1323,20 @@ export default function App() {
 
       {/* FAQ Section */}
       <FAQSection faqItems={data.faq || initialData.faq} />
+
+      {/* Need Help Section - Compact */}
+      <section id="ask" className="need-help-section">
+        <div className="need-help-content">
+          <HelpCircle size={32} />
+          <div className="need-help-text">
+            <h3>Still have questions?</h3>
+            <p>Our AI assistant can help with schedules, policies, lunch ordering, and more.</p>
+          </div>
+          <button onClick={() => setChatOpen(true)} className="btn-help">
+            <MessageCircle size={18} /> Get Answers
+          </button>
+        </div>
+      </section>
 
       {/* Contact Section */}
       <section id="contact" className="contact-section">
