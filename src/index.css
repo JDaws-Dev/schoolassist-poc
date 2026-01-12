@@ -307,6 +307,20 @@ body {
   background: #f8fafc;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.event-card.clickable:hover {
+  border-color: #9ACD32;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.event-arrow {
+  color: #94a3b8;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .event-date {

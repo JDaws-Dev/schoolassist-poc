@@ -754,21 +754,26 @@ export default function App() {
       <section id="events" className="events-section">
         <h2>Upcoming Events</h2>
         <div className="events-list">
-          {upcomingEvents.map(event => (
-            <div key={event.id} className="event-card">
-              <div className="event-date">
-                <span className="event-day">{new Date(event.date).getDate()}</span>
-                <span className="event-month">{new Date(event.date).toLocaleDateString('en-US', { month: 'short' })}</span>
-              </div>
-              <div className="event-details">
-                <h3>{event.title}</h3>
-                <div className="event-meta">
-                  {event.time && <span><Clock size={14} /> {event.time}</span>}
-                  {event.location && <span><MapPin size={14} /> {event.location}</span>}
+          {upcomingEvents.map(event => {
+            const eventDate = new Date(event.date);
+            const calendarUrl = `https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&mode=DAY&dates=${event.date.replace(/-/g, '')}`;
+            return (
+              <a key={event.id} href={calendarUrl} target="_blank" rel="noopener noreferrer" className="event-card clickable">
+                <div className="event-date">
+                  <span className="event-day">{eventDate.getDate()}</span>
+                  <span className="event-month">{eventDate.toLocaleDateString('en-US', { month: 'short' })}</span>
                 </div>
-              </div>
-            </div>
-          ))}
+                <div className="event-details">
+                  <h3>{event.title}</h3>
+                  <div className="event-meta">
+                    {event.time && <span><Clock size={14} /> {event.time}</span>}
+                    {event.location && <span><MapPin size={14} /> {event.location}</span>}
+                  </div>
+                </div>
+                <ChevronRight size={16} className="event-arrow" />
+              </a>
+            );
+          })}
         </div>
         <a href={data.quickLinks.find(l => l.title.includes('Calendar'))?.url} target="_blank" rel="noopener noreferrer" className="view-all-link">
           View Full Calendar <ChevronRight size={16} />
