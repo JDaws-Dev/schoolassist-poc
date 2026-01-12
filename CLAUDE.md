@@ -14,20 +14,42 @@ npm run dev
 
 Then open http://localhost:5173 in your browser.
 
-## Features
+## Current Status
 
-### Parent-Facing
-- **Landing Page**: Welcome hero, quick links, upcoming events
-- **Events Calendar**: Upcoming school events pulled from Google Calendar
-- **Quick Links**: Parent Portal, lunch ordering, handbook, etc.
-- **Documents Section**: Important school documents
-- **AI Chat Assistant**: Ask questions about schedules, policies, events
+### ✅ Completed Features
 
-### Admin Backend
+#### Parent-Facing
+- **Landing Page**: Hero section, announcements, upcoming events
+- **Events Calendar**: Upcoming school events pulled from Google Calendar (clickable to add to calendar)
+- **Quick Links**: Full Artios Linktree integration (13 links including Parent Portal, lunch ordering, handbook, etc.)
+- **Documents Section**: Important school documents (handbook, dress code, etc.)
+- **Get Answers**: AI chat assistant for questions about schedules, policies, events (renamed from "Ask AI" to be parent-friendly)
+- **FAQ Section**: 8 common questions with answers
+- **School Hours**: Simplified schedule showing hours by grade level with link to full spreadsheet
+- **Welcome Page**: Separate page for new families with program overview and enrollment info
+
+#### Admin Backend
 - Login via footer link (password: `artios2026`)
 - Manage announcements
 - Manage upcoming events
 - Manage quick links
+- Manage AI settings (system prompt, temperature)
+- Manage documents
+- Manage FAQ
+
+#### Technical Improvements
+- localStorage always uses latest quickLinks, faq, and schedules from initialData
+- View-based routing using `currentView` state ('home' or 'welcome')
+- Mobile-responsive design
+- Events are clickable with "Add to Calendar" functionality
+
+### 🚧 In Progress
+- Adding Open House PDF (`Updated Open House 25_26.pdf`) to documents section
+- Updating school contact info: Phone (470) 202-4042, John Lane (jmlane@artiosacademies.com), Jackie Thompson (jthompson@artiosacademies.com)
+
+### 📋 Next Up
+- **Full Calendar View**: Add a calendar section on the site showing all events for the entire school year (not just upcoming 5)
+- Update AI system prompt with Open House PDF information
 
 ## Tech Stack
 
@@ -88,13 +110,53 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 - FACTS/RenWeb API integration
 - Mock student/grades/assignment data
 - Complex dashboard layouts
+- Staff directory section
+- Community/parent resources section
+- New to Artios onboarding checklist (replaced with separate Welcome page)
 
-## What's Included
+## Recent Changes
 
-- Parent-focused landing page
-- Simple admin content management
-- Live Google Calendar integration
-- AI chat with school knowledge
-- Quick links (linktree-style)
-- Announcements system
-- Mobile-responsive design
+### Design & UX Improvements
+- **Welcome Page**: Moved from onboarding steps on landing page to separate dedicated page
+- **Renamed "Ask AI" → "Get Answers"**: More parent-friendly, less intimidating
+- **Simplified Schedule**: Changed from detailed class listings to high-level hours by grade
+- **Added Link to Full Schedule**: Parents can view complete spreadsheet if needed
+- **Announcements on Landing**: Now prominently displayed on home page
+- **Removed Scary Elements**: No staff directory or confusing community sections
+
+### Technical Updates
+- localStorage merge logic ensures latest quickLinks, faq, and schedules always load from code
+- View routing system for multi-page navigation
+- Clickable events with Google Calendar integration
+- Full Artios Linktree data integrated (13 quick links)
+
+## Key Data Sources
+
+- **Google Calendar**: `https://calendar.google.com/calendar/ical/artiossugarhill%40gmail.com/public/basic.ics`
+- **Linktree**: `https://linktr.ee/ARTIOSSH` (all links manually integrated)
+- **Full Schedule**: `https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit?gid=2013129902#gid=2013129902`
+- **Open House PDF**: `public/Updated Open House 25_26.pdf` (contains all program details, pricing, enrollment info)
+
+## School Contact Information
+
+- **Phone**: (470) 202-4042
+- **John Lane**: jmlane@artiosacademies.com
+- **Jackie Thompson**: jthompson@artiosacademies.com
+- **Address**: 6220 W Price Rd, Sugar Hill, GA 30518
+
+## Program Overview (from Open House PDF)
+
+### Elementary (K-6th)
+- **Schedule**: Monday/Wednesday, 9:00 AM - 2:45 PM
+- **Pricing**: $2,390 (K-2nd), $2,590 (3rd-4th), $2,690 (5th-6th)
+
+### Jr. High (7th-8th)
+- **Schedule**: Tuesday/Thursday, 9:00 AM - 2:45 PM
+- **Pricing**: $3,030 (7th), $3,230 (8th)
+
+### High School (9th-12th)
+- **Schedule**: Tuesday/Thursday, 9:00 AM - 2:45 PM
+- **Dance Classes**: Fridays (various levels)
+
+### Mission
+A Christian homeschool hybrid program providing academic excellence with a biblical worldview.

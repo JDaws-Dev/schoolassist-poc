@@ -146,20 +146,21 @@ const initialData = {
     { id: 7, title: '9th Grade Preview Day', date: '2026-01-23', time: '9:00 AM', location: 'Main Campus' },
   ],
   documents: [
-    { id: 1, title: 'Student Handbook 2025-2026', url: '#', category: 'Policies' },
-    { id: 2, title: 'Dress Code Guidelines', url: '#', category: 'Policies' },
-    { id: 3, title: 'Academic Calendar', url: '#', category: 'Calendar' },
-    { id: 4, title: 'Lunch Menu', url: 'https://artioscafe.com', category: 'Resources' },
-    { id: 5, title: 'Absence/Early Dismissal Form', url: '#', category: 'Forms' },
-    { id: 6, title: 'Field Trip Permission Form', url: '#', category: 'Forms' },
-    { id: 7, title: 'Medical Authorization Form', url: '#', category: 'Forms' },
-    { id: 8, title: 'Carpool Authorization Form', url: '#', category: 'Forms' },
+    { id: 1, title: '2025-2026 Open House Brochure', url: '/Updated Open House 25_26.pdf', category: 'About Artios' },
+    { id: 2, title: 'Student Handbook 2025-2026', url: '#', category: 'Policies' },
+    { id: 3, title: 'Dress Code Guidelines', url: '#', category: 'Policies' },
+    { id: 4, title: 'Academic Calendar', url: '#', category: 'Calendar' },
+    { id: 5, title: 'Lunch Menu', url: 'https://artioscafe.com', category: 'Resources' },
+    { id: 6, title: 'Absence/Early Dismissal Form', url: '#', category: 'Forms' },
+    { id: 7, title: 'Field Trip Permission Form', url: '#', category: 'Forms' },
+    { id: 8, title: 'Medical Authorization Form', url: '#', category: 'Forms' },
+    { id: 9, title: 'Carpool Authorization Form', url: '#', category: 'Forms' },
   ],
   schoolInfo: {
     name: 'Artios Academies of Sugar Hill',
     tagline: 'Art. Heart. Smart.',
-    address: 'Sugar Hill, Georgia',
-    phone: '',
+    address: '6220 W Price Rd, Sugar Hill, GA 30518',
+    phone: '(470) 202-4042',
     email: 'jmlane@artiosacademies.com',
     director: 'John Lane'
   },
@@ -168,14 +169,28 @@ const initialData = {
 
 SCHOOL INFO:
 - Name: Artios Academies of Sugar Hill
-- Type: Homeschool Hybrid / University-Model
+- Type: Homeschool Hybrid / University-Model (Christian homeschool program)
 - Tagline: Art. Heart. Smart.
+- Address: 6220 W Price Rd, Sugar Hill, GA 30518
+- Phone: (470) 202-4042
 - Director: John Lane (jmlane@artiosacademies.com)
+- Assistant Director: Jackie Thompson (jthompson@artiosacademies.com)
+- Mission: Train students to possess the wisdom, virtue, and eloquence necessary to lead the culture through their arts, vocations, and callings
 
-SCHEDULE:
-- Elementary: 8:30 AM - 2:30 PM
-- Secondary: 8:30 AM - 3:00 PM
+PROGRAMS & PRICING (2025-2026):
+- Elementary K-2nd: Mon/Wed 9:00 AM-2:45 PM, $2,390/year
+- Elementary 3rd-4th: Mon/Wed 9:00 AM-2:45 PM, $2,590/year
+- Elementary 5th-6th: Mon/Wed 9:00 AM-2:45 PM, $2,690/year
+- Jr High 7th: Tue/Thu 9:00 AM-2:45 PM, $3,030/year
+- Jr High 8th: Tue/Thu 9:00 AM-2:45 PM, $3,230/year
+- High School 9th-12th: Tue/Thu 9:00 AM-2:45 PM (pricing varies by grade)
+- Dance Classes: Fridays for K-12th (various times/levels)
 - Artios is a university-model program - students attend on campus certain days, complete work at home other days
+
+ENROLLMENT:
+- Must be registered homeschoolers with Declaration of Intent filed
+- FACTS Family Portal enrollment required
+- Class size limits apply (contact school for availability)
 
 COMMON QUESTIONS:
 - Dress code: Modest, neat attire appropriate for a Christian academic environment
@@ -1253,8 +1268,23 @@ export default function App() {
             );
           })}
         </div>
+      </section>
+
+      {/* Full Calendar View */}
+      <section id="full-calendar" className="full-calendar-section">
+        <h2><Calendar size={24} /> 2025-2026 School Calendar</h2>
+        <p className="calendar-intro">View all school events, holidays, and important dates for the entire year.</p>
+        <div className="calendar-embed-wrapper">
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
+            className="calendar-iframe"
+            frameBorder="0"
+            scrolling="no"
+            title="Artios School Calendar"
+          />
+        </div>
         <a href={data.quickLinks.find(l => l.title.includes('Calendar'))?.url} target="_blank" rel="noopener noreferrer" className="view-all-link">
-          View Full Calendar <ChevronRight size={16} />
+          Open in Google Calendar <ExternalLink size={16} />
         </a>
       </section>
 

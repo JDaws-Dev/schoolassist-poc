@@ -382,6 +382,64 @@ body {
   text-decoration: underline;
 }
 
+/* ===== FULL CALENDAR ===== */
+.full-calendar-section {
+  background: #f8fafc;
+  padding: 3rem 1.5rem;
+}
+
+.full-calendar-section h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: #1a365d;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-intro {
+  max-width: 1200px;
+  margin: 0 auto 1.5rem;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.calendar-embed-wrapper {
+  max-width: 1200px;
+  margin: 0 auto 1.5rem;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.calendar-iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+}
+
+.full-calendar-section .view-all-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #1a365d;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.full-calendar-section .view-all-link:hover {
+  text-decoration: underline;
+}
+
 /* ===== DOCUMENTS ===== */
 .documents-section {
   max-width: 1200px;
@@ -2101,5 +2159,14 @@ body {
   .staff-email {
     width: 100%;
     justify-content: center;
+  }
+  .calendar-iframe {
+    height: 500px;
+  }
+  .full-calendar-section h2 {
+    font-size: 1.5rem;
+  }
+  .calendar-intro {
+    font-size: 0.9rem;
   }
 }
