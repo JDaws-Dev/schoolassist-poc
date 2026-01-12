@@ -1,24 +1,15 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
 import OpenAI from 'openai';
-
-dotenv.config();
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-// Google Calendar ICS URL
+// Google Calendar ICS URL (public calendar)
 const CALENDAR_URL = 'https://calendar.google.com/calendar/ical/c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com/public/basic.ics';
 
 // Cache for calendar data
 let calendarCache = { events: [], lastFetch: 0 };
-const CACHE_TTL = 5 * 60 * 1000;
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 function parseICSDate(dateStr) {
   if (!dateStr) return null;
@@ -84,7 +75,7 @@ function formatCalendarForAI(events) {
   return `UPCOMING EVENTS:\n${upcoming.map(format).join('\n')}`;
 }
 
-// School data
+// School information data
 const schoolData = {
   schoolInfo: {
     name: "Artios Academies of Sugar Hill",
@@ -106,12 +97,13 @@ const schoolData = {
     secondary: { arrival: "8:30 AM", dismissal: "3:00 PM" }
   },
   faqs: [
-    { q: "What is the dress code?", a: "Modest, neat attire appropriate for a Christian academic environment. Performance classes may have specific attire requirements." },
+    { q: "What is the dress code?", a: "Modest, neat attire appropriate for a Christian academic environment. Performance classes may have specific attire requirements (concert black for choir, dance attire for dance, etc.)." },
     { q: "Do parents have to teach classes?", a: "No. Artios does not require parents to teach any classes." },
-    { q: "Do parents have to stay on campus?", a: "No. Although we have an open door policy for parents, you are not required to stay on campus." },
+    { q: "Do parents have to stay on campus?", a: "No. Although we have an open door policy for parents, you are not required to stay on campus during your child's classes." },
     { q: "How do I order lunch?", a: "Order through ArtiosCafe.com by 10 AM on class days." },
     { q: "What is the weather policy?", a: "If Gwinnett/Forsyth County schools close, Artios closes." },
-    { q: "What time do classes start?", a: "Elementary: 8:30 AM - 2:30 PM. Secondary: 8:30 AM - 3:00 PM." }
+    { q: "What time do classes start?", a: "Elementary: 8:30 AM - 2:30 PM. Secondary: 8:30 AM - 3:00 PM." },
+    { q: "Is Artios accredited?", a: "Artios operates as a homeschool support program. Parents maintain homeschool status and are responsible for their student's transcript and records." }
   ],
   quickLinks: {
     parentPortal: "https://logins2.renweb.com/logins/ParentsWeb-Login.aspx",
@@ -155,14 +147,38 @@ INSTRUCTIONS:
 2. Use the calendar data to answer questions about upcoming events and dates
 3. Be concise and friendly. No markdown formatting (no **, ##, etc). Plain text only.
 4. If asked about specific student grades, assignments, or confidential information, direct them to the Parent Portal
-5. For sensitive topics, recommend contacting Mr. Lane directly`;
+5. For sensitive topics (behavioral concerns, family situations, faith questions), recommend contacting Mr. Lane directly
+
+SENSITIVE TOPICS:
+For sensitive, personal, or complex topics such as:
+- Gender identity, LGBTQ+ questions, or transgender students
+- Bullying, harassment, or conflict between students
+- Mental health concerns, anxiety, or emotional wellbeing
+- Family situations (divorce, custody, etc.)
+- Religious or faith-related concerns
+- Discipline issues or behavioral concerns
+- Any topic requiring personal judgment or pastoral care
+
+Always recommend contacting Mr. Lane (Administrator) directly for a personal conversation. He is available to discuss these matters confidentially and provide appropriate guidance.`;
 }
 
-// Conversation history
+// In-memory conversation history
 const conversationHistory = new Map();
 
-// Chat endpoint
-app.post('/api/chat', async (req, res) => {
+export default async function handler(req, res) {
+  // Handle CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
   try {
     const { message, sessionId } = req.body;
 
@@ -200,29 +216,4 @@ app.post('/api/chat', async (req, res) => {
     console.error('Error:', error);
     res.status(500).json({ error: error.message });
   }
-});
-
-// Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`
-  ==========================================
-  Artios Connect API Server
-  ==========================================
-
-  Server running at: http://localhost:${PORT}
-
-  Endpoints:
-  - POST /api/chat - Chat with AI assistant
-  - GET  /api/health - Health check
-
-  To run the frontend:
-  npm run dev
-
-  ==========================================
-  `);
-});
+}
