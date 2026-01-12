@@ -305,14 +305,57 @@ const AdminPanel = ({ data, setData, onLogout }) => {
       );
     }
 
+    if (type === 'documents') {
+      return (
+        <div className="admin-item">
+          <div className="admin-item-header">
+            {isEditing ? (
+              <input value={item.title} onChange={(e) => updateItem(type, item.id, { title: e.target.value })} className="admin-input" />
+            ) : (
+              <span className="admin-item-title">{item.title}</span>
+            )}
+            <div className="admin-item-actions">
+              {isEditing ? (
+                <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
+              ) : (
+                <button onClick={() => setEditingItem({ type, id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
+              )}
+              <button onClick={() => deleteItem(type, item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
+            </div>
+          </div>
+          {isEditing && (
+            <div className="admin-item-edit">
+              <input type="url" value={item.url} onChange={(e) => updateItem(type, item.id, { url: e.target.value })} placeholder="Document URL" />
+              <select value={item.category} onChange={(e) => updateItem(type, item.id, { category: e.target.value })}>
+                <option value="Policies">Policies</option>
+                <option value="Calendar">Calendar</option>
+                <option value="Resources">Resources</option>
+                <option value="Forms">Forms</option>
+              </select>
+            </div>
+          )}
+        </div>
+      );
+    }
+
     return null;
+  };
+
+  const resetToDefaults = () => {
+    if (confirm('Reset all content to defaults? This cannot be undone.')) {
+      setData(initialData);
+      localStorage.removeItem('artiosConnectData');
+    }
   };
 
   return (
     <div className="admin-panel">
       <div className="admin-header">
         <h1>Admin Dashboard</h1>
-        <button onClick={onLogout} className="btn-logout"><LogOut size={18} /> Logout</button>
+        <div className="admin-header-actions">
+          <button onClick={resetToDefaults} className="btn-reset">Reset to Defaults</button>
+          <button onClick={onLogout} className="btn-logout"><LogOut size={18} /> Logout</button>
+        </div>
       </div>
 
       <div className="admin-tabs">
@@ -325,11 +368,14 @@ const AdminPanel = ({ data, setData, onLogout }) => {
         <button className={activeTab === 'quickLinks' ? 'active' : ''} onClick={() => setActiveTab('quickLinks')}>
           <ExternalLink size={16} /> Quick Links
         </button>
+        <button className={activeTab === 'documents' ? 'active' : ''} onClick={() => setActiveTab('documents')}>
+          <FileText size={16} /> Documents
+        </button>
       </div>
 
       <div className="admin-content">
         <div className="admin-section-header">
-          <h2>{activeTab === 'announcements' ? 'Announcements' : activeTab === 'upcomingEvents' ? 'Upcoming Events' : 'Quick Links'}</h2>
+          <h2>{activeTab === 'announcements' ? 'Announcements' : activeTab === 'upcomingEvents' ? 'Upcoming Events' : activeTab === 'quickLinks' ? 'Quick Links' : 'Documents'}</h2>
           <button onClick={() => addItem(activeTab)} className="btn-add"><Plus size={16} /> Add New</button>
         </div>
 
@@ -347,12 +393,30 @@ const AdminPanel = ({ data, setData, onLogout }) => {
 
 // Main App Component
 export default function App() {
-  const [data, setData] = useState(initialData);
+  // Load data from localStorage or use defaults
+  const [data, setData] = useState(() => {
+    try {
+      const saved = localStorage.getItem('artiosConnectData');
+      return saved ? { ...initialData, ...JSON.parse(saved) } : initialData;
+    } catch {
+      return initialData;
+    }
+  });
   const [chatOpen, setChatOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Save data to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('artiosConnectData', JSON.stringify({
+      quickLinks: data.quickLinks,
+      announcements: data.announcements,
+      upcomingEvents: data.upcomingEvents,
+      documents: data.documents
+    }));
+  }, [data]);
 
   // Simple admin auth (in production, use proper auth)
   const handleAdminLogin = () => {
