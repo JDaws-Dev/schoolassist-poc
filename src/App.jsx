@@ -258,6 +258,23 @@ const isToday = (dateStr) => {
   return eventDate.getTime() === TODAY.getTime();
 };
 
+// Check if event is tomorrow
+const isTomorrow = (dateStr) => {
+  const eventDate = new Date(dateStr);
+  eventDate.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(TODAY);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return eventDate.getTime() === tomorrow.getTime();
+};
+
+// Get days until event
+const getDaysUntil = (dateStr) => {
+  const eventDate = new Date(dateStr);
+  eventDate.setHours(0, 0, 0, 0);
+  const diffTime = eventDate.getTime() - TODAY.getTime();
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+};
+
 // Chat Component
 const ChatWidget = ({ isOpen, onClose }) => {
   const [messages, setMessages] = useState([
@@ -734,14 +751,14 @@ const AdminPanel = ({ data, setData, onLogout }) => {
   );
 };
 
-// Suggested questions for parents
+// Suggested questions for parents - most common questions first
 const suggestedQuestions = [
-  "When is spring break?",
-  "What's the dress code?",
-  "What time does school start?",
-  "How do I order lunch?",
-  "When is the next performance?",
-  "What's the weather policy?"
+  "School hours?",
+  "Order lunch",
+  "Dress code",
+  "Weather policy",
+  "Spring break dates",
+  "Contact directors"
 ];
 
 // Parent Notification Bar Component
@@ -1318,21 +1335,25 @@ export default function App() {
 
           {/* Quick Action Buttons */}
           <div className="hero-quick-actions">
-            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
-              <Users size={20} />
+            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="quick-action-btn primary-action">
+              <Users size={22} />
               <span>FACTS Portal</span>
+              <small>Grades & Info</small>
             </a>
             <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
-              <Clock size={20} />
+              <Clock size={22} />
               <span>Order Lunch</span>
+              <small>By 10 AM</small>
             </a>
             <a href="#full-calendar" className="quick-action-btn">
-              <Calendar size={20} />
-              <span>School Calendar</span>
+              <Calendar size={22} />
+              <span>Calendar</span>
+              <small>All Events</small>
             </a>
-            <a href="https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view" target="_blank" rel="noopener noreferrer" className="quick-action-btn">
-              <FileText size={20} />
-              <span>Newsletter</span>
+            <a href="#contact" className="quick-action-btn">
+              <Mail size={22} />
+              <span>Contact</span>
+              <small>Get Help</small>
             </a>
           </div>
         </div>
@@ -1384,19 +1405,25 @@ export default function App() {
             const eventDate = new Date(event.date);
             const calendarUrl = `https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&mode=DAY&dates=${event.date.replace(/-/g, '')}`;
             const isTodayEvent = isToday(event.date);
+            const isTomorrowEvent = isTomorrow(event.date);
+            const daysUntil = getDaysUntil(event.date);
             return (
-              <div key={event.id} className={`event-card-wrapper ${isTodayEvent ? 'today' : ''}`}>
+              <div key={event.id} className={`event-card-wrapper ${isTodayEvent ? 'today' : ''} ${isTomorrowEvent ? 'tomorrow' : ''}`}>
                 <a href={calendarUrl} target="_blank" rel="noopener noreferrer" className="event-card clickable">
                   <div className="event-date">
                     <span className="event-day">{eventDate.getDate()}</span>
                     <span className="event-month">{eventDate.toLocaleDateString('en-US', { month: 'short' })}</span>
                     {isTodayEvent && <span className="today-badge">TODAY</span>}
+                    {isTomorrowEvent && <span className="tomorrow-badge">TOMORROW</span>}
                   </div>
                   <div className="event-details">
                     <h3>{event.title}</h3>
                     <div className="event-meta">
                       {event.time && <span><Clock size={14} /> {event.time}</span>}
                       {event.location && <span><MapPin size={14} /> {event.location}</span>}
+                      {!isTodayEvent && !isTomorrowEvent && daysUntil <= 7 && (
+                        <span className="days-until">in {daysUntil} days</span>
+                      )}
                     </div>
                   </div>
                   <ChevronRight size={16} className="event-arrow" />
@@ -1621,6 +1648,28 @@ export default function App() {
           <ArrowUp size={24} />
         </button>
       )}
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="mobile-bottom-nav">
+        <div className="mobile-bottom-nav-items">
+          <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="mobile-nav-item">
+            <Users size={20} />
+            <span>FACTS</span>
+          </a>
+          <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="mobile-nav-item">
+            <Clock size={20} />
+            <span>Lunch</span>
+          </a>
+          <a href="#full-calendar" className="mobile-nav-item">
+            <Calendar size={20} />
+            <span>Calendar</span>
+          </a>
+          <button className="mobile-nav-item accent" onClick={() => setChatOpen(true)}>
+            <MessageCircle size={20} />
+            <span>Ask</span>
+          </button>
+        </div>
+      </nav>
 
       {/* Admin Login Modal */}
       {showAdminLogin && (
