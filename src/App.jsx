@@ -78,7 +78,7 @@ const initialData = {
   ],
   // FAQ for common parent questions
   faq: [
-    { id: 1, question: 'What time does school start?', answer: 'Elementary: 8:30 AM - 2:30 PM. Secondary (JH/HS): 8:30 AM - 3:00 PM. Students should arrive 10-15 minutes early.' },
+    { id: 1, question: 'What time does school start?', answer: 'Elementary (K-6): Mon/Wed, 9:00 AM - 2:45 PM. Junior High & High School: Tue/Thu, 9:00 AM - 2:45 PM. Doors open at 8:50 AM (10 minutes before first class).' },
     { id: 2, question: 'What is a University-Model school?', answer: 'Artios is a homeschool hybrid where students attend on-campus classes certain days and complete assignments at home on other days. Parents partner with teachers but do not need to teach academic content.' },
     { id: 3, question: 'What is the dress code?', answer: 'Modest, neat attire appropriate for a Christian academic environment. No offensive graphics, appropriate length shorts/skirts, closed-toe shoes recommended. See the Student Handbook for full details.' },
     { id: 4, question: 'How do I order lunch?', answer: 'Order through ArtiosCafe.com by 10 AM on class days. Orders cannot be placed same-day after the deadline. Students may also bring lunch from home.' },
@@ -110,10 +110,10 @@ const initialData = {
   // Class Schedules - 2025-2026
   schedules: {
     overview: [
-      { id: 1, level: 'Elementary (K-5)', days: 'Tue/Thu', hours: '8:30 AM - 2:30 PM' },
-      { id: 2, level: 'Junior High (6-8)', days: 'Tue/Thu', hours: '8:30 AM - 3:00 PM' },
-      { id: 3, level: 'High School (9-12)', days: 'Tue/Thu', hours: '8:30 AM - 3:00 PM' },
-      { id: 4, level: 'HS Arts Conservatory', days: 'Friday', hours: '9:00 AM - 3:30 PM' },
+      { id: 1, level: 'Elementary (K-6)', days: 'Mon/Wed', hours: '9:00 AM - 2:45 PM' },
+      { id: 2, level: 'Junior High (7-8)', days: 'Tue/Thu', hours: '9:00 AM - 2:45 PM' },
+      { id: 3, level: 'High School (9-12)', days: 'Tue/Thu', hours: '9:00 AM - 2:45 PM' },
+      { id: 4, level: 'HS Arts Conservatory', days: 'Friday', hours: '9:00 AM - 4:30 PM' },
     ],
     // Friday HS Arts Conservatory classes
     fridayArts: [
@@ -1025,9 +1025,10 @@ const WelcomePage = ({ onBack, onOpenChat }) => {
           <div className="welcome-card">
             <h3>Programs & Schedule</h3>
             <ul>
-              <li><strong>Elementary K-6:</strong> Mon/Wed, 9:00 AM - 2:45 PM</li>
-              <li><strong>Junior High 7-8:</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
-              <li><strong>High School 9-12:</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
+              <li><strong>Elementary (K-6):</strong> Mon/Wed, 9:00 AM - 2:45 PM</li>
+              <li><strong>Junior High (7-8):</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
+              <li><strong>High School (9-12):</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
+              <li><em>Doors open at 8:50 AM (10 minutes before first class)</em></li>
               <li><strong>Dance Classes:</strong> Fridays (various levels K-12)</li>
               <li><strong>HS Arts Conservatory:</strong> Fridays</li>
             </ul>
