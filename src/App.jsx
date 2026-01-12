@@ -147,14 +147,9 @@ const initialData = {
   ],
   documents: [
     { id: 1, title: '2025-2026 Open House Brochure', url: '/Updated Open House 25_26.pdf', category: 'About Artios' },
-    { id: 2, title: 'Student Handbook 2025-2026', url: '#', category: 'Policies' },
-    { id: 3, title: 'Dress Code Guidelines', url: '#', category: 'Policies' },
-    { id: 4, title: 'Academic Calendar', url: '#', category: 'Calendar' },
-    { id: 5, title: 'Lunch Menu', url: 'https://artioscafe.com', category: 'Resources' },
-    { id: 6, title: 'Absence/Early Dismissal Form', url: '#', category: 'Forms' },
-    { id: 7, title: 'Field Trip Permission Form', url: '#', category: 'Forms' },
-    { id: 8, title: 'Medical Authorization Form', url: '#', category: 'Forms' },
-    { id: 9, title: 'Carpool Authorization Form', url: '#', category: 'Forms' },
+    { id: 2, title: '2025-2026 School Calendar', url: 'https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York', category: 'Calendar' },
+    { id: 3, title: 'Order Lunch - Artios Cafe', url: 'https://artioscafe.com', category: 'Resources' },
+    { id: 4, title: 'FACTS Family Portal', url: 'https://accounts.renweb.com/Account/Login', category: 'Resources' },
   ],
   schoolInfo: {
     name: 'Artios Academies of Sugar Hill',
@@ -894,19 +889,36 @@ const WelcomePage = ({ onBack, onOpenChat }) => {
         <div className="welcome-grid">
           <div className="welcome-card highlight">
             <h3>What is Artios?</h3>
-            <p>Artios Academies is a University-Model homeschool hybrid where students attend on-campus classes certain days and complete assignments at home on other days.</p>
+            <p>Artios Academies is a Christian homeschool hybrid / University-Model school where students attend on-campus classes certain days and complete assignments at home on other days.</p>
+            <p><strong>Mission:</strong> Train students to possess the wisdom, virtue, and eloquence necessary to lead the culture through their arts, vocations, and callings.</p>
             <p><strong>Tagline:</strong> Art. Heart. Smart.</p>
-            <p>Parents partner with teachers but do not need to teach academic content. We believe in educating the whole child - mind, body, and spirit.</p>
           </div>
 
           <div className="welcome-card">
-            <h3>School Hours</h3>
+            <h3>Programs & Schedule</h3>
             <ul>
-              <li><strong>Elementary (K-6):</strong> 8:30 AM - 2:30 PM</li>
-              <li><strong>Junior High (7-8):</strong> 8:30 AM - 3:00 PM</li>
-              <li><strong>High School (9-12):</strong> 8:30 AM - 3:00 PM</li>
+              <li><strong>Elementary K-6:</strong> Mon/Wed, 9:00 AM - 2:45 PM</li>
+              <li><strong>Junior High 7-8:</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
+              <li><strong>High School 9-12:</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
+              <li><strong>Dance Classes:</strong> Fridays (various levels K-12)</li>
+              <li><strong>HS Arts Conservatory:</strong> Fridays</li>
             </ul>
             <p>Please arrive 10-15 minutes early for drop-off.</p>
+          </div>
+
+          <div className="welcome-card">
+            <h3>Tuition 2025-2026</h3>
+            <ul>
+              <li><strong>K-2nd Grade:</strong> $2,390/year</li>
+              <li><strong>3rd-4th Grade:</strong> $2,590/year</li>
+              <li><strong>5th-6th Grade:</strong> $2,690/year</li>
+              <li><strong>7th Grade:</strong> $3,030/year</li>
+              <li><strong>8th Grade:</strong> $3,230/year</li>
+            </ul>
+            <p>High school pricing varies by grade level. Contact us for details.</p>
+            <a href="/Updated Open House 25_26.pdf" target="_blank" rel="noopener noreferrer" className="welcome-link">
+              <FileText size={16} /> View Full Open House Brochure
+            </a>
           </div>
 
           <div className="welcome-card">
@@ -964,12 +976,26 @@ const WelcomePage = ({ onBack, onOpenChat }) => {
           </div>
 
           <div className="welcome-card">
+            <h3>Enrollment Requirements</h3>
+            <p>To enroll at Artios, families must:</p>
+            <ul>
+              <li>Be registered homeschoolers with Georgia Declaration of Intent filed</li>
+              <li>Complete all FACTS Family Portal enrollment forms</li>
+              <li>Submit required student health forms</li>
+              <li>Agree to the Statement of Faith and Parent Partnership</li>
+            </ul>
+            <p>Class sizes are limited. Contact us for current availability.</p>
+          </div>
+
+          <div className="welcome-card">
             <h3>Questions?</h3>
-            <p>Contact Director <strong>John Lane</strong> at:</p>
-            <p><a href="mailto:jmlane@artiosacademies.com">jmlane@artiosacademies.com</a></p>
-            <p>Or use our AI assistant to get quick answers about policies, schedules, and more!</p>
+            <p>Contact our team:</p>
+            <p><strong>John Lane</strong> (Director): <a href="mailto:jmlane@artiosacademies.com">jmlane@artiosacademies.com</a></p>
+            <p><strong>Jackie Thompson</strong> (Asst. Director): <a href="mailto:jthompson@artiosacademies.com">jthompson@artiosacademies.com</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+14702024042">(470) 202-4042</a></p>
+            <p>Or use our chat assistant for quick answers!</p>
             <button onClick={onOpenChat} className="btn-welcome-chat">
-              <MessageCircle size={18} /> Ask a Question
+              <MessageCircle size={18} /> Get Answers
             </button>
           </div>
         </div>
