@@ -1114,9 +1114,10 @@ export default function App() {
 
           <nav className="nav-desktop">
             <a href="#events">Events</a>
-            <a href="#links">Quick Links</a>
-            <a href="#schedule">Schedule</a>
+            <a href="#full-calendar">Calendar</a>
+            <a href="#links">Links</a>
             <a href="#faq">FAQ</a>
+            <a href="#contact">Contact</a>
             <button onClick={() => setCurrentView('welcome')} className="nav-link-btn">New Families</button>
             <button onClick={() => setChatOpen(true)} className="nav-chat-btn">
               <MessageCircle size={18} /> Get Answers
@@ -1131,9 +1132,10 @@ export default function App() {
         {mobileMenuOpen && (
           <nav className="nav-mobile">
             <a href="#events" onClick={() => setMobileMenuOpen(false)}>Events</a>
-            <a href="#links" onClick={() => setMobileMenuOpen(false)}>Quick Links</a>
-            <a href="#schedule" onClick={() => setMobileMenuOpen(false)}>Schedule</a>
+            <a href="#full-calendar" onClick={() => setMobileMenuOpen(false)}>Calendar</a>
+            <a href="#links" onClick={() => setMobileMenuOpen(false)}>Links</a>
             <a href="#faq" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
+            <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
             <button onClick={() => { setCurrentView('welcome'); setMobileMenuOpen(false); }} className="nav-link-btn">New Families</button>
             <button onClick={() => { setChatOpen(true); setMobileMenuOpen(false); }} className="nav-chat-btn">
               <MessageCircle size={18} /> Get Answers
@@ -1318,6 +1320,37 @@ export default function App() {
       {/* FAQ Section */}
       <FAQSection faqItems={data.faq || initialData.faq} />
 
+      {/* Contact Section */}
+      <section id="contact" className="contact-section">
+        <h2><Phone size={24} /> Contact Us</h2>
+        <div className="contact-grid">
+          <div className="contact-card">
+            <h3>Main Office</h3>
+            <div className="contact-details">
+              <p><Phone size={16} /> <a href="tel:+14702024042">{data.schoolInfo.phone}</a></p>
+              <p><Mail size={16} /> <a href={`mailto:${data.schoolInfo.email}`}>{data.schoolInfo.email}</a></p>
+              <p><MapPin size={16} /> {data.schoolInfo.address}</p>
+            </div>
+          </div>
+          <div className="contact-card">
+            <h3>Director</h3>
+            <div className="contact-details">
+              <p className="contact-name">John Lane</p>
+              <p><Mail size={16} /> <a href="mailto:jmlane@artiosacademies.com">jmlane@artiosacademies.com</a></p>
+              <p><Calendar size={16} /> <a href="https://calendar.app.google/1xHHZDQVMThZCspaA" target="_blank" rel="noopener noreferrer">Schedule a Meeting</a></p>
+            </div>
+          </div>
+          <div className="contact-card">
+            <h3>Assistant Director</h3>
+            <div className="contact-details">
+              <p className="contact-name">Jackie Thompson</p>
+              <p><Mail size={16} /> <a href="mailto:jthompson@artiosacademies.com">jthompson@artiosacademies.com</a></p>
+              <p><Calendar size={16} /> <a href="https://calendly.com/artiosacademies/parent-partnership-meetings-2025" target="_blank" rel="noopener noreferrer">Schedule a Meeting</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
@@ -1325,7 +1358,8 @@ export default function App() {
             <img src="/artios-logo.png" alt="Artios Academies" className="footer-logo" />
             <p>{data.schoolInfo.name}</p>
             <p>{data.schoolInfo.address}</p>
-            <p>Contact: {data.schoolInfo.email}</p>
+            {data.schoolInfo.phone && <p><Phone size={14} /> {data.schoolInfo.phone}</p>}
+            <p><Mail size={14} /> {data.schoolInfo.email}</p>
           </div>
           <div className="footer-links">
             <a href={data.quickLinks.find(l => l.title.includes('Website'))?.url} target="_blank" rel="noopener noreferrer">School Website</a>
