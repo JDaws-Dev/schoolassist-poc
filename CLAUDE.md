@@ -20,13 +20,21 @@ Then open http://localhost:5173 in your browser.
 
 #### Parent-Facing
 - **Landing Page**: Hero section, announcements, upcoming events
-- **Events Calendar**: Upcoming school events pulled from Google Calendar (clickable to add to calendar)
-- **Quick Links**: Full Artios Linktree integration (13 links including Parent Portal, lunch ordering, handbook, etc.)
-- **Documents Section**: Important school documents (handbook, dress code, etc.)
-- **Get Answers**: AI chat assistant for questions about schedules, policies, events (renamed from "Ask AI" to be parent-friendly)
+- **Events Section**: Upcoming school events with "Add to Calendar" download buttons
+- **Full Calendar View**: Embedded Google Calendar showing entire 2025-2026 school year
+- **Quick Links**: Full Artios Linktree integration (13 links including Parent Portal, lunch ordering, newsletters, etc.)
+- **Documents Section**: Open House brochure, school calendar, FACTS portal link
+- **Get Answers**: AI chat assistant with complete school knowledge (renamed from "Ask AI" to be parent-friendly)
 - **FAQ Section**: 8 common questions with answers
 - **School Hours**: Simplified schedule showing hours by grade level with link to full spreadsheet
-- **Welcome Page**: Separate page for new families with program overview and enrollment info
+- **Welcome Page**: Complete guide for new families including:
+  - Program overview and mission
+  - Detailed schedule for all grade levels
+  - Tuition pricing (K-8th)
+  - Enrollment requirements
+  - Getting started checklist
+  - Contact information for both directors
+- **Contact Section**: School phone, directors' emails, meeting scheduling links
 
 #### Admin Backend
 - Login via footer link (password: `artios2026`)
@@ -42,14 +50,12 @@ Then open http://localhost:5173 in your browser.
 - View-based routing using `currentView` state ('home' or 'welcome')
 - Mobile-responsive design
 - Events are clickable with "Add to Calendar" functionality
+- AI assistant has comprehensive school knowledge including programs, pricing, and enrollment info
 
-### 🚧 In Progress
-- Adding Open House PDF (`Updated Open House 25_26.pdf`) to documents section
-- Updating school contact info: Phone (470) 202-4042, John Lane (jmlane@artiosacademies.com), Jackie Thompson (jthompson@artiosacademies.com)
-
-### 📋 Next Up
-- **Full Calendar View**: Add a calendar section on the site showing all events for the entire school year (not just upcoming 5)
-- Update AI system prompt with Open House PDF information
+### 📋 Future Enhancements
+- Add social media feed integration
+- More document uploads as school provides them
+- Parent feedback/suggestion form
 
 ## Tech Stack
 
@@ -116,7 +122,15 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 
 ## Recent Changes
 
-### Design & UX Improvements
+### Latest Session (January 2026)
+- **Full Calendar View**: Added embedded Google Calendar showing entire school year
+- **Contact Section**: New section with school phone, directors' contact info and meeting links
+- **Open House PDF**: Added to documents and linked from Welcome page
+- **Enhanced Welcome Page**: Added tuition pricing, enrollment requirements, mission statement
+- **Navigation Updates**: Added Calendar and Contact links, streamlined menu
+- **AI Enhancement**: Updated system prompt with comprehensive program and pricing info
+
+### Earlier Changes
 - **Welcome Page**: Moved from onboarding steps on landing page to separate dedicated page
 - **Renamed "Ask AI" → "Get Answers"**: More parent-friendly, less intimidating
 - **Simplified Schedule**: Changed from detailed class listings to high-level hours by grade
