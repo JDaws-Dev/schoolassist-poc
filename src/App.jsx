@@ -20,7 +20,11 @@ import {
   Home,
   BookOpen,
   Users,
-  Info
+  Info,
+  Lock,
+  Bot,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 
 // Auto-detect API URL
@@ -30,12 +34,14 @@ const generateSessionId = () => 'session-' + Math.random().toString(36).substr(2
 // Initial data - this would come from a database in production
 const initialData = {
   quickLinks: [
-    { id: 1, title: 'Parent Portal (FACTS)', url: 'https://logins2.renweb.com/logins/ParentsWeb-Login.aspx', icon: 'users' },
-    { id: 2, title: 'School Calendar', url: 'https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com', icon: 'calendar' },
-    { id: 3, title: 'Order Lunch', url: 'https://artioscafe.com', icon: 'external' },
-    { id: 4, title: 'School Website', url: 'https://artiosacademies.com/sugarhill/', icon: 'home' },
-    { id: 5, title: 'Handbook & Policies', url: 'https://artiosacademies.com/sugarhill/handbook/', icon: 'book' },
-    { id: 6, title: 'Contact Us', url: 'mailto:jmlane@artiosacademies.com', icon: 'info' },
+    { id: 1, title: 'FACTS Family Portal', url: 'https://accounts.renweb.com/Account/Login', icon: 'users' },
+    { id: 2, title: 'Artios 2025-2026 Calendar', url: 'https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com', icon: 'calendar' },
+    { id: 3, title: 'Order Lunch (Artios Cafe)', url: 'https://artioscafe.com', icon: 'external' },
+    { id: 4, title: 'Events & Registration (Eventbrite)', url: 'https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471', icon: 'calendar' },
+    { id: 5, title: 'Elementary Connection Newsletter', url: 'https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view', icon: 'book' },
+    { id: 6, title: 'Choir Wire Newsletter', url: 'https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view', icon: 'book' },
+    { id: 7, title: 'Parent TA Sub Signup', url: 'https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent', icon: 'users' },
+    { id: 8, title: 'Winter Wear (Due South Designs)', url: 'https://duesouthdesigns.net/school-orders', icon: 'external' },
   ],
   announcements: [
     { id: 1, title: 'Welcome Back!', content: 'We hope everyone had a wonderful Christmas break. Classes resume January 5th for Elementary & JH, January 6th for HS.', date: '2026-01-05', priority: 'high' },
@@ -63,6 +69,38 @@ const initialData = {
     phone: '',
     email: 'jmlane@artiosacademies.com',
     director: 'John Lane'
+  },
+  aiSettings: {
+    systemPrompt: `You are ArtiosConnect, the friendly AI assistant for Artios Academies of Sugar Hill, Georgia.
+
+SCHOOL INFO:
+- Name: Artios Academies of Sugar Hill
+- Type: Homeschool Hybrid / University-Model
+- Tagline: Art. Heart. Smart.
+- Director: John Lane (jmlane@artiosacademies.com)
+
+SCHEDULE:
+- Elementary: 8:30 AM - 2:30 PM
+- Secondary: 8:30 AM - 3:00 PM
+- Artios is a university-model program - students attend on campus certain days, complete work at home other days
+
+COMMON QUESTIONS:
+- Dress code: Modest, neat attire appropriate for a Christian academic environment
+- Parents don't have to teach or stay on campus
+- Lunch ordering: ArtiosCafe.com by 10 AM on class days
+- Weather policy: If Gwinnett/Forsyth County schools close, Artios closes
+
+INSTRUCTIONS:
+1. Be concise and friendly
+2. No markdown formatting (no **, ##, etc)
+3. For student-specific info, direct to Parent Portal
+4. For sensitive topics, recommend contacting Mr. Lane directly`,
+    customInstructions: [],
+    sensitiveTopics: 'For sensitive topics (gender identity, bullying, mental health, family situations, faith questions, discipline), always recommend contacting Mr. Lane directly for a personal conversation.'
+  },
+  parentCredentials: {
+    // In production, this would be proper authentication
+    password: 'artios2026'
   }
 };
 
@@ -161,6 +199,109 @@ const ChatWidget = ({ isOpen, onClose }) => {
         <button onClick={sendMessage} disabled={loading || !input.trim()}>
           <Send size={18} />
         </button>
+      </div>
+    </div>
+  );
+};
+
+// AI Settings Panel for Admin
+const AISettingsPanel = ({ data, setData }) => {
+  const [testMessages, setTestMessages] = useState([]);
+  const [testInput, setTestInput] = useState('');
+  const [testLoading, setTestLoading] = useState(false);
+  const [showPrompt, setShowPrompt] = useState(false);
+
+  const sendTestMessage = async () => {
+    if (!testInput.trim() || testLoading) return;
+    const userMessage = testInput.trim();
+    setTestInput('');
+    setTestMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setTestLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: userMessage,
+          sessionId: 'admin-test-' + Date.now(),
+          customPrompt: data.aiSettings?.systemPrompt
+        })
+      });
+      const result = await response.json();
+      setTestMessages(prev => [...prev, { role: 'assistant', content: result.message || 'No response' }]);
+    } catch (error) {
+      setTestMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + error.message }]);
+    }
+    setTestLoading(false);
+  };
+
+  const updateAISettings = (field, value) => {
+    setData(prev => ({
+      ...prev,
+      aiSettings: { ...prev.aiSettings, [field]: value }
+    }));
+  };
+
+  return (
+    <div className="ai-settings-panel">
+      <div className="ai-settings-section">
+        <div className="ai-settings-header">
+          <h3><Bot size={18} /> System Prompt (AI Directives)</h3>
+          <button onClick={() => setShowPrompt(!showPrompt)} className="btn-toggle">
+            {showPrompt ? <EyeOff size={16} /> : <Eye size={16} />}
+            {showPrompt ? 'Hide' : 'Show'}
+          </button>
+        </div>
+        <p className="ai-settings-desc">This is what the AI assistant knows and how it behaves. Edit carefully.</p>
+        {showPrompt && (
+          <textarea
+            value={data.aiSettings?.systemPrompt || ''}
+            onChange={(e) => updateAISettings('systemPrompt', e.target.value)}
+            className="ai-prompt-editor"
+            rows={15}
+          />
+        )}
+      </div>
+
+      <div className="ai-settings-section">
+        <h3><Settings size={18} /> Sensitive Topics Guidance</h3>
+        <textarea
+          value={data.aiSettings?.sensitiveTopics || ''}
+          onChange={(e) => updateAISettings('sensitiveTopics', e.target.value)}
+          className="ai-prompt-editor"
+          rows={4}
+          placeholder="Instructions for handling sensitive topics..."
+        />
+      </div>
+
+      <div className="ai-settings-section">
+        <h3><MessageCircle size={18} /> Test AI Responses</h3>
+        <p className="ai-settings-desc">Test how the AI responds to questions before parents see it.</p>
+        <div className="ai-test-chat">
+          <div className="ai-test-messages">
+            {testMessages.length === 0 && (
+              <p className="ai-test-placeholder">Send a test message to see how the AI responds...</p>
+            )}
+            {testMessages.map((msg, i) => (
+              <div key={i} className={`ai-test-message ${msg.role}`}>
+                <strong>{msg.role === 'user' ? 'You' : 'AI'}:</strong> {msg.content}
+              </div>
+            ))}
+            {testLoading && <div className="ai-test-message assistant">Thinking...</div>}
+          </div>
+          <div className="ai-test-input">
+            <input
+              type="text"
+              value={testInput}
+              onChange={(e) => setTestInput(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && sendTestMessage()}
+              placeholder="Test a question..."
+            />
+            <button onClick={sendTestMessage} disabled={testLoading}><Send size={16} /></button>
+          </div>
+        </div>
+        <button onClick={() => setTestMessages([])} className="btn-clear-chat">Clear Test Chat</button>
       </div>
     </div>
   );
@@ -371,25 +512,44 @@ const AdminPanel = ({ data, setData, onLogout }) => {
         <button className={activeTab === 'documents' ? 'active' : ''} onClick={() => setActiveTab('documents')}>
           <FileText size={16} /> Documents
         </button>
+        <button className={activeTab === 'aiSettings' ? 'active' : ''} onClick={() => setActiveTab('aiSettings')}>
+          <Bot size={16} /> AI Settings
+        </button>
       </div>
 
       <div className="admin-content">
-        <div className="admin-section-header">
-          <h2>{activeTab === 'announcements' ? 'Announcements' : activeTab === 'upcomingEvents' ? 'Upcoming Events' : activeTab === 'quickLinks' ? 'Quick Links' : 'Documents'}</h2>
-          <button onClick={() => addItem(activeTab)} className="btn-add"><Plus size={16} /> Add New</button>
-        </div>
+        {activeTab === 'aiSettings' ? (
+          <AISettingsPanel data={data} setData={setData} />
+        ) : (
+          <>
+            <div className="admin-section-header">
+              <h2>{activeTab === 'announcements' ? 'Announcements' : activeTab === 'upcomingEvents' ? 'Upcoming Events' : activeTab === 'quickLinks' ? 'Quick Links' : 'Documents'}</h2>
+              <button onClick={() => addItem(activeTab)} className="btn-add"><Plus size={16} /> Add New</button>
+            </div>
 
-        <div className="admin-list">
-          {data[activeTab]?.map(item => (
-            <React.Fragment key={item.id}>
-              {renderEditor(activeTab, item)}
-            </React.Fragment>
-          ))}
-        </div>
+            <div className="admin-list">
+              {data[activeTab]?.map(item => (
+                <React.Fragment key={item.id}>
+                  {renderEditor(activeTab, item)}
+                </React.Fragment>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 };
+
+// Suggested questions for parents
+const suggestedQuestions = [
+  "When is spring break?",
+  "What's the dress code?",
+  "What time does school start?",
+  "How do I order lunch?",
+  "When is the next performance?",
+  "What's the weather policy?"
+];
 
 // Main App Component
 export default function App() {
@@ -404,8 +564,13 @@ export default function App() {
   });
   const [chatOpen, setChatOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isParentLoggedIn, setIsParentLoggedIn] = useState(() => {
+    return sessionStorage.getItem('parentLoggedIn') === 'true';
+  });
   const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [showParentLogin, setShowParentLogin] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
+  const [parentPassword, setParentPassword] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Save data to localStorage when it changes
@@ -414,9 +579,22 @@ export default function App() {
       quickLinks: data.quickLinks,
       announcements: data.announcements,
       upcomingEvents: data.upcomingEvents,
-      documents: data.documents
+      documents: data.documents,
+      aiSettings: data.aiSettings
     }));
   }, [data]);
+
+  // Parent login
+  const handleParentLogin = () => {
+    if (parentPassword === 'artios2026') {
+      setIsParentLoggedIn(true);
+      sessionStorage.setItem('parentLoggedIn', 'true');
+      setShowParentLogin(false);
+      setParentPassword('');
+    } else {
+      alert('Incorrect password');
+    }
+  };
 
   // Simple admin auth (in production, use proper auth)
   const handleAdminLogin = () => {
@@ -431,6 +609,36 @@ export default function App() {
 
   if (isAdmin) {
     return <AdminPanel data={data} setData={setData} onLogout={() => setIsAdmin(false)} />;
+  }
+
+  // Parent login screen
+  if (!isParentLoggedIn) {
+    return (
+      <div className="login-screen">
+        <div className="login-card">
+          <img src="/artios-logo.png" alt="Artios Academies" className="login-logo" />
+          <h1>Artios Connect</h1>
+          <p>Parent Information Portal</p>
+          <div className="login-form">
+            <div className="login-input-group">
+              <Lock size={18} />
+              <input
+                type="password"
+                value={parentPassword}
+                onChange={(e) => setParentPassword(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleParentLogin()}
+                placeholder="Enter parent password"
+                autoFocus
+              />
+            </div>
+            <button onClick={handleParentLogin} className="btn-login">
+              Sign In
+            </button>
+          </div>
+          <p className="login-help">Contact the school office if you need the password.</p>
+        </div>
+      </div>
+    );
   }
 
   const upcomingEvents = data.upcomingEvents.filter(e => isUpcoming(e.date)).slice(0, 7);
@@ -450,9 +658,9 @@ export default function App() {
           </div>
 
           <nav className="nav-desktop">
+            <a href="#ask">Ask AI</a>
             <a href="#events">Events</a>
             <a href="#links">Quick Links</a>
-            <a href="#documents">Documents</a>
             <button onClick={() => setChatOpen(true)} className="nav-chat-btn">
               <MessageCircle size={18} /> Ask a Question
             </button>
@@ -465,9 +673,9 @@ export default function App() {
 
         {mobileMenuOpen && (
           <nav className="nav-mobile">
+            <a href="#ask" onClick={() => setMobileMenuOpen(false)}>Ask AI</a>
             <a href="#events" onClick={() => setMobileMenuOpen(false)}>Events</a>
             <a href="#links" onClick={() => setMobileMenuOpen(false)}>Quick Links</a>
-            <a href="#documents" onClick={() => setMobileMenuOpen(false)}>Documents</a>
             <button onClick={() => { setChatOpen(true); setMobileMenuOpen(false); }} className="nav-chat-btn">
               <MessageCircle size={18} /> Ask a Question
             </button>
@@ -503,6 +711,30 @@ export default function App() {
           ))}
         </section>
       )}
+
+      {/* Ask AI Section - Prominent */}
+      <section id="ask" className="ask-ai-section">
+        <div className="ask-ai-content">
+          <div className="ask-ai-icon">
+            <Bot size={48} />
+          </div>
+          <h2>Have a Question?</h2>
+          <p>Ask our AI assistant about schedules, policies, events, and more!</p>
+          <button onClick={() => setChatOpen(true)} className="ask-ai-button">
+            <MessageCircle size={20} /> Ask a Question
+          </button>
+          <div className="suggested-questions">
+            <p className="suggested-label">Try asking:</p>
+            <div className="suggested-chips">
+              {suggestedQuestions.map((q, i) => (
+                <button key={i} onClick={() => { setChatOpen(true); }} className="suggested-chip">
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Quick Links */}
       <section id="links" className="quick-links-section">
