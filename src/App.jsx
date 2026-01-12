@@ -35,7 +35,8 @@ import {
   CheckCircle,
   ArrowRight,
   Facebook,
-  Download
+  Download,
+  ArrowUp
 } from 'lucide-react';
 
 // Auto-detect API URL
@@ -1038,6 +1039,20 @@ export default function App() {
   const [parentPassword, setParentPassword] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentView, setCurrentView] = useState('home'); // 'home' or 'welcome'
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Handle scroll for scroll-to-top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Save data to localStorage when it changes
   useEffect(() => {
@@ -1424,6 +1439,13 @@ export default function App() {
       {!chatOpen && (
         <button className="chat-toggle" onClick={() => setChatOpen(true)}>
           <MessageCircle size={24} />
+        </button>
+      )}
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button className="scroll-top-btn" onClick={scrollToTop} aria-label="Scroll to top">
+          <ArrowUp size={24} />
         </button>
       )}
 
