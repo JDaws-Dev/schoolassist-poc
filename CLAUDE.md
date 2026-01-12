@@ -123,6 +123,16 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 ## Recent Changes
 
 ### Latest Session (January 2026)
+- **Complete UI/UX Redesign**: Modern, cleaner design with better visual hierarchy
+  - CSS variables design system for consistent theming
+  - Refined color palette (softer green accent #7cb342)
+  - Better typography with Inter font and improved spacing
+  - Modern card designs with subtle shadows and hover animations
+  - Smooth scroll and entrance animations
+  - Accessibility support (prefers-reduced-motion)
+- **Section Reorganization**: Events moved to top (most requested), AI chat moved to bottom
+- **Simplified Hero**: Clean greeting style instead of landing page CTA
+- **Compact "Need Help?" Section**: Replaced large AI section with subtle prompt
 - **Full Calendar View**: Added embedded Google Calendar showing entire school year
 - **Contact Section**: New section with school phone, directors' contact info and meeting links
 - **Open House PDF**: Added to documents and linked from Welcome page
