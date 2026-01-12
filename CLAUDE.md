@@ -19,25 +19,28 @@ Then open http://localhost:5173 in your browser.
 ### ✅ Completed Features
 
 #### Parent-Facing
-- **Landing Page**: Hero section, announcements, upcoming events
-- **Events Section**: Upcoming school events with "Add to Calendar" download buttons
+- **Notification Bar**: Dismissable admin announcements at top of page
+- **Hero Section**: Welcome message with 4 quick action buttons (FACTS Portal, Order Lunch, Calendar, Newsletter)
+- **Featured AI Chat**: Prominent "Have a Question?" section with suggested topics
+- **What's Happening**: Date-aware events section (filters past events, shows "TODAY" badge)
 - **Full Calendar View**: Embedded Google Calendar showing entire 2025-2026 school year
-- **Quick Links**: Full Artios Linktree integration (13 links including Parent Portal, lunch ordering, newsletters, etc.)
-- **Documents Section**: Open House brochure, school calendar, FACTS portal link
-- **Get Answers**: AI chat assistant with complete school knowledge (renamed from "Ask AI" to be parent-friendly)
+- **Resources Section**: Documents, Newsletters, Podcast links (consolidated)
+- **Get Involved Section**: Volunteer, Events & Tickets, School Store
 - **FAQ Section**: 8 common questions with answers
-- **School Hours**: Simplified schedule showing hours by grade level with link to full spreadsheet
+- **School Hours**: Correct schedule by grade level with doors-open time
 - **Welcome Page**: Complete guide for new families including:
   - Program overview and mission
-  - Detailed schedule for all grade levels
+  - Detailed schedule for all grade levels (with correct hours)
   - Tuition pricing (K-8th)
   - Enrollment requirements
   - Getting started checklist
   - Contact information for both directors
-- **Contact Section**: School phone, directors' emails, meeting scheduling links
+- **Contact Section**: Directors' emails, meeting scheduling links, correct address
+- **Footer**: Links to Instagram, Facebook, and key resources
 
 #### Admin Backend
 - Login via footer link (password: `artios2026`)
+- Manage notifications (push alerts to all parents)
 - Manage announcements
 - Manage upcoming events
 - Manage quick links
@@ -46,11 +49,13 @@ Then open http://localhost:5173 in your browser.
 - Manage FAQ
 
 #### Technical Improvements
-- localStorage always uses latest quickLinks, faq, and schedules from initialData
+- localStorage refreshes quickLinks, faq, schedules, and schoolInfo from initialData
+- Date-aware filtering with TODAY constant and isUpcoming()/isToday() helpers
 - View-based routing using `currentView` state ('home' or 'welcome')
 - Mobile-responsive design
-- Events are clickable with "Add to Calendar" functionality
+- Events are clickable with labeled "Add to Cal" buttons
 - AI assistant has comprehensive school knowledge including programs, pricing, and enrollment info
+- Notification dismissal persists via localStorage
 
 ### 📋 Future Enhancements
 - Add social media feed integration
@@ -122,7 +127,45 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 
 ## Recent Changes
 
-### Latest Session (January 2026)
+### Latest Session (January 12, 2026) - Major UI/UX Overhaul
+Based on comprehensive parent feedback, implemented a complete redesign:
+
+#### New Features
+- **Notification System**: Admin can push messages to all parents
+  - Dismissable alerts that persist via localStorage
+  - Empty state when no notifications ("No new notifications")
+  - Admin panel tab for managing notifications
+- **Date-Aware Events**: Site filters past events automatically using TODAY constant
+  - "TODAY" badge on current day events
+- **Featured AI Chat**: Prominent chat section on landing page
+  - Suggested question chips for quick access
+  - "Ask Now" call-to-action button
+
+#### Layout Changes
+- **New Hero Section**: 4 quick action buttons (FACTS Portal, Order Lunch, School Calendar, Newsletter)
+- **Consolidated Sections**:
+  - "Resources" section: Documents, Newsletters, Podcast (Apple/Spotify)
+  - "Get Involved" section: Volunteer, Events & Tickets, School Store
+- **Simplified Navigation**: Home, Calendar, FAQ, Contact only
+- **Simplified Contact Section**: Email and address only (no phone number)
+- **Instagram Link**: Added to footer (https://www.instagram.com/artios_sugarhill/)
+
+#### Data Corrections
+- **Fixed Address**: 415 Brogdon Road, Suwanee, GA 30024
+- **Fixed School Hours**:
+  - Elementary (K-6): Mon/Wed, 9:00 AM - 2:45 PM
+  - Junior High (7-8): Tue/Thu, 9:00 AM - 2:45 PM
+  - High School (9-12): Tue/Thu, 9:00 AM - 2:45 PM
+  - Doors open at 8:50 AM (10 minutes before first class)
+- **Labeled Buttons**: Event download icons now show "Add to Cal" text
+
+#### Technical Updates
+- localStorage now refreshes schoolInfo from initialData (ensures address updates)
+- Added Lucide icons: Megaphone, ShoppingBag, Mic, Ticket, CalendarCheck
+- isToday() and isUpcoming() helper functions for date filtering
+- ~600 lines of new CSS for all components
+
+### Previous Session (January 2026)
 - **Complete UI/UX Redesign**: Modern, cleaner design with better visual hierarchy
   - CSS variables design system for consistent theming
   - Refined color palette (softer green accent #7cb342)
@@ -134,7 +177,7 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 - **Simplified Hero**: Clean greeting style instead of landing page CTA
 - **Compact "Need Help?" Section**: Replaced large AI section with subtle prompt
 - **Full Calendar View**: Added embedded Google Calendar showing entire school year
-- **Contact Section**: New section with school phone, directors' contact info and meeting links
+- **Contact Section**: New section with directors' contact info and meeting links
 - **Open House PDF**: Added to documents and linked from Welcome page
 - **Enhanced Welcome Page**: Added tuition pricing, enrollment requirements, mission statement
 - **Navigation Updates**: Added Calendar and Contact links, streamlined menu
@@ -169,17 +212,19 @@ Deployed to Vercel. The `api/chat.js` file is automatically deployed as a server
 
 ## Program Overview (from Open House PDF)
 
-### Elementary (K-6th)
+**Doors open at 8:50 AM** (10 minutes before first class)
+
+### Elementary (K-6)
 - **Schedule**: Monday/Wednesday, 9:00 AM - 2:45 PM
 - **Pricing**: $2,390 (K-2nd), $2,590 (3rd-4th), $2,690 (5th-6th)
 
-### Jr. High (7th-8th)
+### Jr. High (7-8)
 - **Schedule**: Tuesday/Thursday, 9:00 AM - 2:45 PM
 - **Pricing**: $3,030 (7th), $3,230 (8th)
 
-### High School (9th-12th)
+### High School (9-12)
 - **Schedule**: Tuesday/Thursday, 9:00 AM - 2:45 PM
-- **Dance Classes**: Fridays (various levels)
+- **HS Arts Conservatory**: Fridays, 9:00 AM - 4:30 PM
 
 ### Mission
 A Christian homeschool hybrid program providing academic excellence with a biblical worldview.
