@@ -1296,6 +1296,14 @@ export default function App() {
             );
           })}
         </div>
+        <div className="events-ticket-banner">
+          <div className="ticket-banner-content">
+            <span>Upcoming Performances: Pilgrim's Progress, Plot Twist & More!</span>
+            <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="btn-tickets">
+              Get Tickets <ExternalLink size={14} />
+            </a>
+          </div>
+        </div>
       </section>
 
       {/* Full Calendar View */}
@@ -1388,9 +1396,20 @@ export default function App() {
             <p><Mail size={14} /> {data.schoolInfo.email}</p>
           </div>
           <div className="footer-links">
-            <a href={data.quickLinks.find(l => l.title.includes('Website'))?.url} target="_blank" rel="noopener noreferrer">School Website</a>
             <a href={data.quickLinks.find(l => l.title.includes('Portal'))?.url} target="_blank" rel="noopener noreferrer">Parent Portal</a>
+            <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer">Event Tickets</a>
             <button onClick={() => setShowAdminLogin(true)} className="admin-link">Admin Login</button>
+          </div>
+          <div className="footer-social">
+            <p>Artios At Home Podcast</p>
+            <div className="social-links">
+              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer" title="Apple Podcasts">
+                <ExternalLink size={18} /> Apple
+              </a>
+              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer" title="Spotify">
+                <ExternalLink size={18} /> Spotify
+              </a>
+            </div>
           </div>
         </div>
         <div className="footer-bottom">
