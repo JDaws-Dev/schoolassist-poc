@@ -53,6 +53,7 @@ export default function App() {
   const [adminPassword, setAdminPassword] = useState('');
   const [parentPassword, setParentPassword] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Save data to localStorage when it changes
   useEffect(() => {
@@ -209,7 +210,12 @@ export default function App() {
 
   return (
     <div className="app-container tabbed-layout desktop-layout">
-      <SidebarNavigation activeTab={activeTab} onTabChange={handleTabChange} />
+      <SidebarNavigation
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        isOpen={isSidebarOpen}
+        onToggle={setIsSidebarOpen}
+      />
       <main className="tab-content-area">
         {renderActiveTab()}
       </main>
