@@ -230,27 +230,21 @@ const FaqContent = ({ items, openId, setOpenId }) => (
 const ScheduleContent = () => (
   <div>
     <div className="panel-section">
-      <h3>Elementary (K-6)</h3>
+      <h3>Weekly Schedule</h3>
       <div className="panel-link-list">
-        <div className="panel-link-item">Monday - Academics</div>
-        <div className="panel-link-item">Thursday - Arts</div>
-        <div className="panel-link-item">9:00 AM - 2:45 PM</div>
+        <div className="panel-link-item"><strong>Monday:</strong> Elementary & Junior High (Academics)</div>
+        <div className="panel-link-item"><strong>Tuesday:</strong> High School (Academics)</div>
+        <div className="panel-link-item"><strong>Wednesday:</strong> Junior High (Arts)</div>
+        <div className="panel-link-item"><strong>Thursday:</strong> Elementary (Arts)</div>
+        <div className="panel-link-item"><strong>Friday:</strong> High School (Arts)</div>
       </div>
     </div>
     <div className="panel-section">
-      <h3>Junior High (7-8)</h3>
+      <h3>Times</h3>
       <div className="panel-link-list">
-        <div className="panel-link-item">Monday - Academics</div>
-        <div className="panel-link-item">Wednesday - Arts</div>
-        <div className="panel-link-item">9:00 AM - 2:45 PM</div>
-      </div>
-    </div>
-    <div className="panel-section">
-      <h3>High School (9-12)</h3>
-      <div className="panel-link-list">
-        <div className="panel-link-item">Tuesday - Academics</div>
-        <div className="panel-link-item">Friday - Arts Conservatory</div>
-        <div className="panel-link-item">9:00 AM - 4:30 PM (Fri)</div>
+        <div className="panel-link-item"><strong>Start:</strong> 9:00 AM</div>
+        <div className="panel-link-item"><strong>Doors open:</strong> 8:50 AM</div>
+        <div className="panel-link-item"><strong>Dismissal:</strong> Varies — check FACTS</div>
       </div>
     </div>
     <div className="panel-info-box">

@@ -23,10 +23,12 @@ export const initialData = {
     // Artios At Home Podcast
     { id: 12, title: 'Artios At Home - Apple Podcasts', url: 'https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354', icon: 'external', category: 'Artios At Home Podcast' },
     { id: 13, title: 'Artios At Home - Spotify', url: 'https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW', icon: 'external', category: 'Artios At Home Podcast' },
+    // Productions & Media
+    { id: 14, title: 'Artios+ Productions', url: 'https://artiosplus.com', icon: 'video', category: 'Media', description: 'Student shows, plays, music videos & short films' },
   ],
 
   faq: [
-    { id: 1, question: 'What time does school start?', answer: 'Elementary (K-6): Mon (Academics) & Thu (Arts), 9:00 AM - 2:45 PM. Junior High (7-8): Mon (Academics) & Wed (Arts), 9:00 AM - 2:45 PM. High School (9-12): Tue (Academics) & Fri (Arts Conservatory), 9:00 AM - 2:45 PM / 4:30 PM on Fridays. Doors open at 8:50 AM.' },
+    { id: 1, question: 'What time does school start?', answer: 'School starts at 9:00 AM. Doors open at 8:50 AM. Monday: Elementary & Junior High (Academics). Tuesday: High School (Academics). Wednesday: Junior High (Arts). Thursday: Elementary (Arts). Friday: High School (Arts). Dismissal times vary by grade/schedule — check your student\'s schedule in FACTS for exact pickup times.' },
     { id: 2, question: 'What is a University-Model school?', answer: 'Artios is a homeschool hybrid where students attend on-campus classes certain days and complete assignments at home on other days. Parents partner with teachers but do not need to teach academic content.' },
     { id: 3, question: 'What is the dress code?', answer: 'Artios t-shirt required with twill or denim pants/shorts. Shorts must be within 3 inches of the knee. No holes, rips, sweatpants, leggings, or jeggings. Hats not permitted indoors. T-shirts must fit properly (stay tucked when arms raised).' },
     { id: 4, question: 'How do I order lunch?', answer: 'Order through ArtiosCafe.com by 10 AM on class days, or bring lunch from home. Note: No heating or refrigeration available. Please avoid nut products due to student allergies.' },
@@ -58,10 +60,17 @@ export const initialData = {
 
   schedules: {
     overview: [
-      { id: 1, level: 'Elementary (K-6)', days: 'Mon (Academics) / Thu (Arts)', hours: '9:00 AM - 2:45 PM' },
-      { id: 2, level: 'Junior High (7-8)', days: 'Mon (Academics) / Wed (Arts)', hours: '9:00 AM - 2:45 PM' },
-      { id: 3, level: 'High School (9-12)', days: 'Tue (Academics) / Fri (Arts Conservatory)', hours: '9:00 AM - 2:45 PM / 4:30 PM' },
+      { id: 1, day: 'Monday', grades: 'Elementary & Junior High (Academics)' },
+      { id: 2, day: 'Tuesday', grades: 'High School (Academics)' },
+      { id: 3, day: 'Wednesday', grades: 'Junior High (Arts)' },
+      { id: 4, day: 'Thursday', grades: 'Elementary (Arts)' },
+      { id: 5, day: 'Friday', grades: 'High School (Arts)' },
     ],
+    timing: {
+      start: '9:00 AM',
+      doorsOpen: '8:50 AM',
+      dismissal: 'Varies by grade/schedule — check your student\'s schedule in FACTS'
+    },
     fridayArts: [
       { id: 1, time: '9:00-9:30 AM', classes: ['HS Choreo Club I', 'Photography', 'Music Theory I', 'Engineering 1', 'Fundamentals of Visual Arts', 'Directing', 'Acting I', 'Elements of Production'] },
       { id: 2, time: '10:00-10:30 AM', classes: ['DM Ballet', 'Yearbook Club', 'Fundamentals of Film History', 'Fundamentals of Music', 'Worship Arts', 'Drawing/Painting I', 'Studio M I/II', 'Acting II', 'Worldview 10'] },
@@ -137,12 +146,15 @@ SCHOOL INFO:
 - Assistant Director: Jackie Thompson (jthompson@artiosacademies.com)
 - Mission: Partners with parents to raise children who love God, know His Word, and are equipped to serve and reflect Christ
 
-SCHEDULE (2025-2026):
-- Elementary K-6th: Mon (Academics) & Thu (Arts) 9:00 AM-2:45 PM
-- Junior High 7-8th: Mon (Academics) & Wed (Arts) 9:00 AM-2:45 PM
-- High School 9-12th: Tue (Academics) & Fri (Arts Conservatory) 9:00 AM-2:45 PM / 4:30 PM on Fridays
-- Fridays are the HS Arts Conservatory day - extended arts training until 4:30 PM
-- Doors open 10 minutes before first class (8:50 AM)
+SCHEDULE:
+- Monday: Elementary & Junior High (Academics)
+- Tuesday: High School (Academics)
+- Wednesday: Junior High (Arts)
+- Thursday: Elementary (Arts)
+- Friday: High School (Arts)
+- Start time: 9:00 AM
+- Doors open: 8:50 AM (10 minutes before first class)
+- Dismissal: Varies by grade/schedule — check your student's schedule in FACTS for exact pickup times
 - University-model: students attend campus certain days, complete assignments at home other days
 - Parents partner with teachers but do not need to teach academic content
 

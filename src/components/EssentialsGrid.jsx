@@ -141,7 +141,7 @@ const ScheduleContent = () => (
             <span className="day">Thursday</span>
             <span className="focus">Arts</span>
           </div>
-          <div className="schedule-time">9:00 AM - 2:45 PM</div>
+          <div className="schedule-time">Starts 9:00 AM • Dismissal varies</div>
         </div>
       </div>
 
@@ -158,7 +158,7 @@ const ScheduleContent = () => (
             <span className="day">Wednesday</span>
             <span className="focus">Arts</span>
           </div>
-          <div className="schedule-time">9:00 AM - 2:45 PM</div>
+          <div className="schedule-time">Starts 9:00 AM • Dismissal varies</div>
         </div>
       </div>
 

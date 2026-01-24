@@ -116,7 +116,7 @@ const GradeLevelSelector = ({ onChange, showDivisionInfo = true }) => {
               {getSelectedDivisions().map((div, i) => (
                 <div key={i} className="division-item">
                   <strong>{div.label}</strong>
-                  <span>{div.days} • 9 AM - 2:45 PM</span>
+                  <span>{div.days} • Starts 9 AM</span>
                 </div>
               ))}
             </div>

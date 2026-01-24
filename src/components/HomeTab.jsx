@@ -80,7 +80,7 @@ const HomeTab = ({ data, onTabChange }) => {
           onError={(e) => e.target.style.display = 'none'}
         />
         <div className="home-header-text">
-          <h1>Welcome to Artios</h1>
+          <h1>Artios Connect</h1>
           <p>Your parent portal for schedules, events, and resources</p>
         </div>
       </header>

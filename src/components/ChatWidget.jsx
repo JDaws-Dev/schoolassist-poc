@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Send, X, Bot, RefreshCw, Clock, Shirt, Calendar, CloudRain, BookOpen, HelpCircle } from 'lucide-react';
+import { Send, X, Bot, RefreshCw, Clock, Shirt, Calendar, CloudRain, BookOpen, HelpCircle, Copy, Check, ThumbsUp, ThumbsDown } from 'lucide-react';
 
 // Auto-detect API URL based on environment
 const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : '';
 
 // Generate unique session ID
 const generateSessionId = () => 'session-' + Math.random().toString(36).slice(2, 11);
+
+// Format timestamp for display
+const formatTimestamp = (date) => {
+  return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+};
 
 // Quick question suggestions with icons
 const SUGGESTIONS = [
@@ -57,12 +62,15 @@ const ChatWidget = ({
     }
     return [{
       role: 'assistant',
-      content: "Hi! I'm your Artios assistant. Ask me anything about school hours, dress code, events, lunch ordering, and more."
+      content: "Hi! I'm your Artios assistant. Ask me anything about school hours, dress code, events, lunch ordering, and more.",
+      timestamp: new Date().toISOString()
     }];
   });
 
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState(null);
+  const [feedbackState, setFeedbackState] = useState({});
 
   // Persist session ID so conversation continues on server
   const [sessionId, setSessionId] = useState(() => {
@@ -106,7 +114,8 @@ const ChatWidget = ({
       // This ensures quick questions from Home don't append to old conversations
       const welcomeMessage = {
         role: 'assistant',
-        content: "Hi! I'm your Artios assistant. Ask me anything about school hours, dress code, events, lunch ordering, and more."
+        content: "Hi! I'm your Artios assistant. Ask me anything about school hours, dress code, events, lunch ordering, and more.",
+        timestamp: new Date().toISOString()
       };
       setMessages([welcomeMessage]);
       sessionStorage.removeItem(chatStorageKey);
@@ -184,7 +193,7 @@ const ChatWidget = ({
     if (!messageText.trim() || loading) return;
 
     const userMessage = messageText.trim();
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages(prev => [...prev, { role: 'user', content: userMessage, timestamp: new Date().toISOString() }]);
     setLoading(true);
 
     try {
@@ -213,13 +222,15 @@ const ChatWidget = ({
       const data = await response.json();
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: data.message || "Sorry, I couldn't process that request."
+        content: data.message || "Sorry, I couldn't process that request.",
+        timestamp: new Date().toISOString()
       }]);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: "Sorry, I'm having trouble connecting right now. The assistant may be temporarily unavailable. Please try again in a moment."
+        content: "Sorry, I'm having trouble connecting right now. The assistant may be temporarily unavailable. Please try again in a moment.",
+        timestamp: new Date().toISOString()
       }]);
     }
     setLoading(false);
@@ -237,10 +248,32 @@ const ChatWidget = ({
   const clearChat = () => {
     setMessages([{
       role: 'assistant',
-      content: "Hi there! 👋 I'm here to help with any Artios questions - school hours, dress code, lunch ordering, upcoming events, and more. What can I help you with?"
+      content: "Hi there! I'm here to help with any Artios questions - school hours, dress code, lunch ordering, upcoming events, and more. What can I help you with?",
+      timestamp: new Date().toISOString()
     }]);
     sessionStorage.removeItem(chatStorageKey);
     sessionStorage.removeItem('artios-session-id');
+  };
+
+  // Copy message to clipboard
+  const copyToClipboard = async (text, messageIndex) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIndex(messageIndex);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  // Handle feedback
+  const handleFeedback = (messageIndex, feedbackType) => {
+    setFeedbackState(prev => ({
+      ...prev,
+      [messageIndex]: feedbackType
+    }));
+    // In a real app, you'd send this to your analytics/feedback endpoint
+    console.log(`Feedback for message ${messageIndex}: ${feedbackType}`);
   };
 
   // For modal mode, don't render if not open
@@ -281,11 +314,45 @@ const ChatWidget = ({
       <div className="chat-messages" ref={messagesContainerRef}>
         {messages.map((msg, i) => (
           <div key={i} className={`chat-message ${msg.role}`}>
-            {msg.role === 'assistant' ? (
-              <ReactMarkdown>{msg.content}</ReactMarkdown>
-            ) : (
-              msg.content
-            )}
+            <div className="message-content">
+              {msg.role === 'assistant' ? (
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
+              ) : (
+                msg.content
+              )}
+            </div>
+            <div className="message-footer">
+              {msg.timestamp && (
+                <span className="message-timestamp">
+                  {formatTimestamp(new Date(msg.timestamp))}
+                </span>
+              )}
+              {msg.role === 'assistant' && i > 0 && (
+                <div className="message-actions">
+                  <button
+                    className={`message-action-btn ${copiedIndex === i ? 'copied' : ''}`}
+                    onClick={() => copyToClipboard(msg.content, i)}
+                    aria-label={copiedIndex === i ? 'Copied' : 'Copy message'}
+                  >
+                    {copiedIndex === i ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
+                  </button>
+                  <button
+                    className={`message-action-btn ${feedbackState[i] === 'up' ? 'active' : ''}`}
+                    onClick={() => handleFeedback(i, 'up')}
+                    aria-label="Helpful"
+                  >
+                    <ThumbsUp size={14} aria-hidden="true" />
+                  </button>
+                  <button
+                    className={`message-action-btn ${feedbackState[i] === 'down' ? 'active' : ''}`}
+                    onClick={() => handleFeedback(i, 'down')}
+                    aria-label="Not helpful"
+                  >
+                    <ThumbsDown size={14} aria-hidden="true" />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         ))}
 
@@ -311,6 +378,7 @@ const ChatWidget = ({
 
         {loading && (
           <div className="chat-message assistant loading">
+            <span className="loading-text">Thinking...</span>
             <span className="typing-indicator">
               <span className="typing-dot"></span>
               <span className="typing-dot"></span>

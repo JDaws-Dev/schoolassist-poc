@@ -348,9 +348,126 @@
 
 /* ===== QUICK ACTIONS ===== */
 .quick-actions {
-  padding: 1rem;
+  padding: 0;
 }
 
+/* New horizontal row design for Quick Actions */
+.main-actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem;
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  width: 100%;
+  text-align: left;
+}
+
+.action-row:hover {
+  background: var(--background-subtle);
+  border-color: var(--border-medium);
+  transform: translateX(4px);
+}
+
+.action-row:active {
+  transform: translateX(2px);
+}
+
+.action-row.urgent {
+  border-color: #f97316;
+  background: linear-gradient(to right, rgba(255, 237, 213, 0.5), white);
+}
+
+.action-urgent-dot {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 8px;
+  height: 8px;
+  background: #f97316;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.action-row-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.action-row-icon.blue {
+  background: linear-gradient(145deg, #dbeafe, #bfdbfe);
+  color: #1d4ed8;
+}
+
+.action-row-icon.green {
+  background: linear-gradient(145deg, #d1fae5, #a7f3d0);
+  color: #059669;
+}
+
+.action-row-icon.purple {
+  background: linear-gradient(145deg, #f3e8ff, #e9d5ff);
+  color: #7c3aed;
+}
+
+.action-row-icon.orange {
+  background: linear-gradient(145deg, #ffedd5, #fed7aa);
+  color: #ea580c;
+}
+
+.action-row-icon.gray {
+  background: linear-gradient(145deg, #f3f4f6, #e5e7eb);
+  color: #6b7280;
+}
+
+.action-row-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.action-row-content strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.125rem;
+}
+
+.action-row-content span {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.action-row-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+/* Legacy grid design (kept for desktop) */
 .main-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1921,7 +2038,7 @@
   height: 80px;
   object-fit: contain;
   margin-bottom: 1rem;
-  filter: drop-shadow(0 6px 20px rgba(139, 166, 58, 0.18));
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
   animation: logoFloat 6s ease-in-out infinite;
 }
 
@@ -2080,10 +2197,16 @@
 .event-time,
 .event-date {
   flex-shrink: 0;
-  min-width: 70px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--accent-dark);
+  min-width: auto;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .event-item .event-details {
@@ -3500,38 +3623,56 @@ select {
   }
 }
 
-/* === CHAT INTERFACE MOBILE KEYBOARD FIXES === */
+/* === CHAT INTERFACE MOBILE FIXES === */
 @media (max-width: 768px) {
+  /* Chat tab fills available space with solid background */
   .chat-tab {
-    /* Full height minus nav bar */
-    height: calc(100vh - 70px - env(safe-area-inset-bottom, 0px));
-    height: calc(100dvh - 70px - env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    padding-bottom: 70px; /* Space for fixed input */
+    background: white;
   }
 
-  .chat-tab .chat-widget.embedded,
-  .chat-tab .chat-widget-container {
+  .chat-tab .chat-widget.embedded {
     flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 0;
+    background: white;
   }
 
-  .chat-messages {
+  /* Header/New chat button */
+  .chat-tab .chat-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .chat-tab .chat-messages {
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    padding: 1rem;
+    padding-bottom: 80px; /* Extra padding for fixed input */
+    background: white;
   }
 
-  /* Keep input above keyboard */
-  .chat-input-area {
-    flex-shrink: 0;
-    position: sticky;
-    bottom: 0;
+  /* Input fixed at bottom, above nav bar */
+  .chat-tab .chat-input-area {
+    position: fixed;
+    bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+    left: 0;
+    right: 0;
     background: white;
-    z-index: 10;
+    z-index: 999;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border-light);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -3548,6 +3689,37 @@ select {
   .home-logo {
     width: 56px;
     height: 56px;
+  }
+
+  /* Quick Access cards - fit on screen */
+  .main-actions {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .action-card {
+    padding: 0.75rem 0.5rem;
+    min-width: 0;
+  }
+
+  .action-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .action-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .action-text strong {
+    font-size: 0.75rem;
+  }
+
+  .action-text span {
+    font-size: 0.625rem;
   }
 
   .home-header-text h1 {

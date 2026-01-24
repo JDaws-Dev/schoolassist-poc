@@ -75,9 +75,22 @@ const QuickActions = ({ onCalendarClick }) => {
 
   return (
     <div className="quick-actions">
-      <div className="main-actions three-col">
+      <div className="main-actions-list">
         {mainActions.map(action => {
           const Icon = action.icon;
+          const content = (
+            <>
+              <div className={`action-row-icon ${action.color}`}>
+                <Icon size={22} aria-hidden="true" />
+              </div>
+              <div className="action-row-content">
+                <strong>{action.title}</strong>
+                <span>{action.subtitle}</span>
+              </div>
+              {action.url && <ExternalLink size={16} className="action-row-arrow" aria-hidden="true" />}
+              {!action.url && <span className="action-row-arrow">›</span>}
+            </>
+          );
 
           if (action.url) {
             return (
@@ -86,20 +99,11 @@ const QuickActions = ({ onCalendarClick }) => {
                 href={action.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`action-card ${action.color}${action.urgent ? ' urgent' : ''}`}
+                className={`action-row${action.urgent ? ' urgent' : ''}`}
                 aria-label={`${action.title}: ${action.subtitle} (opens in new tab)`}
               >
-                {action.urgent && (
-                  <span className="action-badge">Action Needed</span>
-                )}
-                <div className="action-icon">
-                  <Icon size={28} aria-hidden="true" />
-                </div>
-                <div className="action-text">
-                  <strong>{action.title}</strong>
-                  <span>{action.subtitle}</span>
-                </div>
-                <ExternalLink size={14} className="external-indicator" aria-hidden="true" />
+                {action.urgent && <span className="action-urgent-dot" />}
+                {content}
               </a>
             );
           }
@@ -108,16 +112,10 @@ const QuickActions = ({ onCalendarClick }) => {
             <button
               key={action.id}
               onClick={action.onClick}
-              className={`action-card ${action.color}`}
+              className="action-row"
               aria-label={`${action.title}: ${action.subtitle}`}
             >
-              <div className="action-icon">
-                <Icon size={28} aria-hidden="true" />
-              </div>
-              <div className="action-text">
-                <strong>{action.title}</strong>
-                <span>{action.subtitle}</span>
-              </div>
+              {content}
             </button>
           );
         })}

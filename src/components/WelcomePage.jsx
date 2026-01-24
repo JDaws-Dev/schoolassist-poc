@@ -116,29 +116,36 @@ const WelcomePage = ({ onBack, onOpenChat }) => {
 
         {/* Schedule Overview */}
         <section className="welcome-section">
-          <h2><Clock size={20} /> Class Schedule</h2>
+          <h2><Clock size={20} /> Weekly Schedule</h2>
           <div className="schedule-cards">
             <div className="schedule-card elementary">
-              <strong>Elementary (K-6)</strong>
-              <span className="days">Mon & Thu</span>
-              <span className="focus">Academics • Arts</span>
-              <span className="times">9:00 AM - 2:45 PM</span>
+              <strong>Monday</strong>
+              <span className="focus">Elementary & Junior High</span>
+              <span className="days">Academics</span>
             </div>
             <div className="schedule-card junior">
-              <strong>Junior High (7-8)</strong>
-              <span className="days">Mon & Wed</span>
-              <span className="focus">Academics • Arts</span>
-              <span className="times">9:00 AM - 2:45 PM</span>
+              <strong>Tuesday</strong>
+              <span className="focus">High School</span>
+              <span className="days">Academics</span>
+            </div>
+            <div className="schedule-card elementary">
+              <strong>Wednesday</strong>
+              <span className="focus">Junior High</span>
+              <span className="days">Arts</span>
+            </div>
+            <div className="schedule-card elementary">
+              <strong>Thursday</strong>
+              <span className="focus">Elementary</span>
+              <span className="days">Arts</span>
             </div>
             <div className="schedule-card high">
-              <strong>High School (9-12)</strong>
-              <span className="days">Tue & Fri</span>
-              <span className="focus">Academics • Conservatory</span>
-              <span className="times">9:00 AM - 4:30 PM (Fri)</span>
+              <strong>Friday</strong>
+              <span className="focus">High School</span>
+              <span className="days">Arts</span>
             </div>
           </div>
           <p className="schedule-note">
-            <strong>Doors open at 8:50 AM</strong> — Please arrive 10-15 minutes early for drop-off.
+            <strong>Start: 9:00 AM</strong> • Doors open at 8:50 AM • Dismissal varies by grade — check FACTS
           </p>
         </section>
 

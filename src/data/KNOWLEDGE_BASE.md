@@ -193,20 +193,21 @@ Human life begins at conception, with unborn children possessing personhood and 
 
 ## Schedule & Hours
 
-### Regular Campus Schedule (2025-2026)
+### Weekly Campus Schedule
 
-| Grade Level | Days | Hours |
-|-------------|------|-------|
-| Elementary (K-6) | Monday (Academics) & Thursday (Arts) | 9:00 AM - 2:45 PM |
-| Junior High (7-8) | Monday (Academics) & Wednesday (Arts) | 9:00 AM - 2:45 PM |
-| High School (9-12) | Tuesday (Academics) & Friday (Arts) | 9:00 AM - 2:45 PM / 4:30 PM |
-| HS Arts Conservatory | Friday | 9:00 AM - 4:30 PM |
+| Day | Grades |
+|-----|--------|
+| **Monday** | Elementary & Junior High (Academics) |
+| **Tuesday** | High School (Academics) |
+| **Wednesday** | Junior High (Arts) |
+| **Thursday** | Elementary (Arts) |
+| **Friday** | High School (Arts) |
 
 ### Important Timing Notes
 
+- **Start time**: 9:00 AM
 - **Doors open**: 8:50 AM (10 minutes before first class)
-- **Students should arrive**: Between 8:50 AM and 9:00 AM
-- **Pick-up time**: 2:45 PM (or 4:30 PM for Friday Arts Conservatory)
+- **Dismissal**: Varies by grade/schedule — check your student's schedule in FACTS for exact pickup times
 
 ### University-Model Approach
 
@@ -325,7 +326,7 @@ Doors for Artios will be open for students **10 minutes before the start of thei
 
 ### Dismissal
 
-Students should be picked up promptly after their last class. Academy students (Grades PreK-6th grade) should be picked up in person by a parent or guardian listed on the emergency contact form.
+Dismissal times vary by grade and schedule — check your student's schedule in FACTS for exact pickup times. Students should be picked up promptly after their last class. Academy students (Grades PreK-6th grade) should be picked up in person by a parent or guardian listed on the emergency contact form.
 
 ---
 
@@ -485,10 +486,13 @@ For sensitive topics such as:
 ### Schedule & Hours
 
 **Q: What time does school start?**
-> Elementary (K-6): Mon (Academics) & Thu (Arts), 9:00 AM - 2:45 PM
-> Junior High (7-8): Mon (Academics) & Wed (Arts), 9:00 AM - 2:45 PM
-> High School (9-12): Tue (Academics) & Fri (Arts), 9:00 AM - 2:45 PM / 4:30 PM
-> Doors open at 8:50 AM (10 minutes before first class)
+> School starts at 9:00 AM. Doors open at 8:50 AM.
+> - Monday: Elementary & Junior High (Academics)
+> - Tuesday: High School (Academics)
+> - Wednesday: Junior High (Arts)
+> - Thursday: Elementary (Arts)
+> - Friday: High School (Arts)
+> Dismissal times vary by grade/schedule — check your student's schedule in FACTS for exact pickup times.
 
 **Q: What is a University-Model school?**
 > Artios is a homeschool hybrid where students attend on-campus classes certain days and complete assignments at home on other days. Parents partner with teachers but do not need to teach academic content.
