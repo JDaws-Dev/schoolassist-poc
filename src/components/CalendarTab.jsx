@@ -139,77 +139,86 @@ const CalendarTab = ({ data }) => {
         <p>View the full Artios 2025-2026 school calendar. Tap any event for details.</p>
       </header>
 
-      {/* Upcoming Events Section */}
-      {upcomingEvents.length > 0 && (
-        <section className="upcoming-events-section">
-          <h2>Upcoming Events</h2>
-          <div className="events-list">
-            {upcomingEvents.map((event) => {
-              const dateParts = getDateParts(event.date);
-              const dateClass = getDateClass(event.date);
-              return (
-                <button
-                  key={event.id}
-                  className={`event-card ${dateClass}`}
-                  onClick={() => setSelectedEvent(event)}
-                  aria-label={`View details for ${event.title}`}
-                >
-                  <div className="event-left">
-                    <div className="event-date-block">
-                      <span className="day-label">{dateParts.dayLabel}</span>
-                      <span className="day-number">{dateParts.dayNumber}</span>
-                    </div>
-                  </div>
-                  <div className="event-content">
-                    <h3>{event.title}</h3>
-                    <div className="event-details">
-                      <span><Clock size={14} aria-hidden="true" /> {event.time}</span>
-                      {event.location && (
-                        <span><MapPin size={14} aria-hidden="true" /> {event.location}</span>
-                      )}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+      {/* Desktop: Two-column layout with calendar main + sidebar */}
+      <div className="calendar-desktop-layout">
+        {/* Main calendar area */}
+        <div className="calendar-main">
+          <div className="calendar-embed-wrapper full">
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
+              className="calendar-iframe full"
+              frameBorder="0"
+              scrolling="no"
+              title="Artios School Calendar"
+              loading="lazy"
+            />
+            <div className="calendar-fallback">
+              <Calendar size={48} aria-hidden="true" />
+              <p>Calendar preview not available. Click the button above to view the full calendar on Google.</p>
+            </div>
           </div>
-        </section>
-      )}
-
-      <div className="calendar-actions">
-        <a
-          href={`https://calendar.google.com/calendar/embed?src=${encodeURIComponent(CALENDAR_ID)}&ctz=America%2FNew_York`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="calendar-open-btn"
-          aria-label="View full calendar on Google Calendar (opens in new tab)"
-        >
-          <Calendar size={20} aria-hidden="true" /> View Full Calendar <ExternalLink size={14} aria-hidden="true" />
-        </a>
-        <a
-          href={`https://calendar.google.com/calendar/render?cid=${encodeURIComponent(CALENDAR_ID)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="calendar-subscribe-btn"
-          aria-label="Add school calendar to your Google Calendar (opens in new tab)"
-        >
-          <CalendarPlus size={20} aria-hidden="true" /> Add to My Calendar
-        </a>
-      </div>
-
-      <div className="calendar-embed-wrapper full">
-        <iframe
-          src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
-          className="calendar-iframe full"
-          frameBorder="0"
-          scrolling="no"
-          title="Artios School Calendar"
-          loading="lazy"
-        />
-        <div className="calendar-fallback">
-          <Calendar size={48} aria-hidden="true" />
-          <p>Calendar preview not available. Click the button above to view the full calendar on Google.</p>
         </div>
+
+        {/* Sidebar: Actions + Upcoming Events */}
+        <aside className="calendar-sidebar">
+          <div className="calendar-actions">
+            <a
+              href={`https://calendar.google.com/calendar/embed?src=${encodeURIComponent(CALENDAR_ID)}&ctz=America%2FNew_York`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="calendar-open-btn"
+              aria-label="View full calendar on Google Calendar (opens in new tab)"
+            >
+              <Calendar size={20} aria-hidden="true" /> View Full Calendar <ExternalLink size={14} aria-hidden="true" />
+            </a>
+            <a
+              href={`https://calendar.google.com/calendar/render?cid=${encodeURIComponent(CALENDAR_ID)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="calendar-subscribe-btn"
+              aria-label="Add school calendar to your Google Calendar (opens in new tab)"
+            >
+              <CalendarPlus size={20} aria-hidden="true" /> Add to My Calendar
+            </a>
+          </div>
+
+          {/* Upcoming Events Section */}
+          {upcomingEvents.length > 0 && (
+            <section className="upcoming-events-section">
+              <h2>Upcoming Events</h2>
+              <div className="events-list">
+                {upcomingEvents.map((event) => {
+                  const dateParts = getDateParts(event.date);
+                  const dateClass = getDateClass(event.date);
+                  return (
+                    <button
+                      key={event.id}
+                      className={`event-card ${dateClass}`}
+                      onClick={() => setSelectedEvent(event)}
+                      aria-label={`View details for ${event.title}`}
+                    >
+                      <div className="event-left">
+                        <div className="event-date-block">
+                          <span className="day-label">{dateParts.dayLabel}</span>
+                          <span className="day-number">{dateParts.dayNumber}</span>
+                        </div>
+                      </div>
+                      <div className="event-content">
+                        <h3>{event.title}</h3>
+                        <div className="event-details">
+                          <span><Clock size={14} aria-hidden="true" /> {event.time}</span>
+                          {event.location && (
+                            <span><MapPin size={14} aria-hidden="true" /> {event.location}</span>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+        </aside>
       </div>
 
       {/* Event Detail Modal */}

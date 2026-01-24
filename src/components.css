@@ -3931,6 +3931,131 @@ select {
 }
 
 /* ============================================
+   DESKTOP CALENDAR TAB - TWO-COLUMN LAYOUT
+   ============================================ */
+
+/* Mobile: single column, sidebar content flows naturally */
+.calendar-desktop-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.calendar-main {
+  order: 2; /* On mobile, calendar comes after sidebar content */
+}
+
+.calendar-sidebar {
+  order: 1; /* On mobile, actions/events come first */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* On mobile, actions stack vertically */
+.calendar-sidebar .calendar-actions {
+  flex-direction: column;
+}
+
+/* On mobile, upcoming events section doesn't need top border/margin since it's in natural flow */
+.calendar-sidebar .upcoming-events-section {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Desktop: Two-column layout */
+@media (min-width: 768px) {
+  .calendar-desktop-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .calendar-main {
+    order: 1; /* Calendar first (left) on desktop */
+  }
+
+  .calendar-sidebar {
+    order: 2; /* Sidebar second (right) on desktop */
+    position: sticky;
+    top: 2rem;
+  }
+
+  /* Sidebar actions stack vertically */
+  .calendar-sidebar .calendar-actions {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+
+  .calendar-sidebar .calendar-open-btn,
+  .calendar-sidebar .calendar-subscribe-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Add subtle card styling to sidebar on desktop */
+  .calendar-sidebar .upcoming-events-section {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+  }
+
+  .calendar-sidebar .upcoming-events-section h2 {
+    font-size: 1.125rem;
+    margin-bottom: 0.875rem;
+  }
+
+  /* Compact event cards in sidebar */
+  .calendar-sidebar .event-card {
+    padding: 0.875rem;
+  }
+
+  .calendar-sidebar .event-date-block {
+    min-width: 48px;
+  }
+
+  .calendar-sidebar .event-content h3 {
+    font-size: 0.9375rem;
+  }
+
+  .calendar-sidebar .event-details {
+    font-size: 0.8125rem;
+  }
+
+  /* Calendar embed adjustments for desktop */
+  .calendar-main .calendar-embed-wrapper.full {
+    min-height: 700px;
+    height: 700px;
+  }
+
+  .calendar-main .calendar-iframe.full {
+    min-height: 700px;
+  }
+}
+
+/* Wider desktop: larger calendar area */
+@media (min-width: 1024px) {
+  .calendar-desktop-layout {
+    grid-template-columns: 1fr 360px;
+    gap: 2.5rem;
+  }
+
+  .calendar-main .calendar-embed-wrapper.full {
+    min-height: 800px;
+    height: 800px;
+  }
+
+  .calendar-main .calendar-iframe.full {
+    min-height: 800px;
+  }
+}
+
+/* ============================================
    DESKTOP HOME TAB - DASHBOARD LAYOUT
    ============================================ */
 
