@@ -32,6 +32,7 @@ export default function App() {
           faq: initialData.faq,
           schedules: initialData.schedules,
           schoolInfo: initialData.schoolInfo,
+          upcomingEvents: initialData.upcomingEvents,
         };
       }
       return initialData;

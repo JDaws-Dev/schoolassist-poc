@@ -94,13 +94,18 @@ export const initialData = {
   ],
 
   upcomingEvents: [
-    { id: 1, title: 'Elem & JH Academics Resume', date: '2026-01-05', time: 'All Day', location: 'Main Campus' },
-    { id: 2, title: 'HS Academics Resume', date: '2026-01-06', time: 'All Day', location: 'Main Campus' },
-    { id: 3, title: 'Artios Open House', date: '2026-01-12', time: '6:00 PM', location: 'Main Campus' },
-    { id: 4, title: "Pilgrim's Progress - Dance Performance", date: '2026-01-16', time: '7:00 PM', location: 'Main Auditorium' },
-    { id: 5, title: 'MLK Day - Artios Closed', date: '2026-01-19', time: 'All Day', location: '' },
-    { id: 6, title: 'Senior Meeting (Parents & Students)', date: '2026-01-20', time: '4:00 PM', location: 'Room 101' },
-    { id: 7, title: '9th Grade Preview Day', date: '2026-01-23', time: '9:00 AM', location: 'Main Campus' },
+    { id: 1, title: 'HS One-Acts Production Tech Week', date: '2026-01-26', time: 'All Day', location: 'Main Auditorium' },
+    { id: 2, title: 'Elem & JH Arts Day', date: '2026-01-27', time: '9:00 AM', location: 'Main Campus' },
+    { id: 3, title: 'HS Academics Day', date: '2026-01-27', time: '9:00 AM', location: 'Main Campus' },
+    { id: 4, title: 'JH & HS Arts Day', date: '2026-01-28', time: '9:00 AM', location: 'Main Campus' },
+    { id: 5, title: 'Elem Arts Day', date: '2026-01-29', time: '9:00 AM', location: 'Main Campus' },
+    { id: 6, title: 'HS Arts Conservatory', date: '2026-01-30', time: '9:00 AM - 4:30 PM', location: 'Main Campus' },
+    { id: 7, title: 'HS One-Acts Performance', date: '2026-01-31', time: '7:00 PM', location: 'Main Auditorium' },
+    { id: 8, title: 'Elem Academics Day', date: '2026-02-02', time: '9:00 AM', location: 'Main Campus' },
+    { id: 9, title: 'HS Academics Day', date: '2026-02-03', time: '9:00 AM', location: 'Main Campus' },
+    { id: 10, title: 'JH Academics Day', date: '2026-02-04', time: '9:00 AM', location: 'Main Campus' },
+    { id: 11, title: 'Elem Arts Day', date: '2026-02-05', time: '9:00 AM', location: 'Main Campus' },
+    { id: 12, title: 'HS Arts Conservatory', date: '2026-02-06', time: '9:00 AM - 4:30 PM', location: 'Main Campus' },
   ],
 
   documents: [
