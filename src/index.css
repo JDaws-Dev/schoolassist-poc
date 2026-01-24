@@ -4512,6 +4512,10 @@ a:focus-visible {
     height: 850px;
     min-height: 850px;
   }
+  .calendar-embed-wrapper.full {
+    min-height: 850px;
+    height: 850px;
+  }
   .full-calendar-section h2 {
     font-size: 1.25rem;
   }
