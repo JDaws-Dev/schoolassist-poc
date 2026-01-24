@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Send, X, Bot, RefreshCw, Clock, Shirt, Calendar, CloudRain, BookOpen, HelpCircle } from 'lucide-react';
 
 // Auto-detect API URL based on environment
@@ -280,7 +281,11 @@ const ChatWidget = ({
       <div className="chat-messages" ref={messagesContainerRef}>
         {messages.map((msg, i) => (
           <div key={i} className={`chat-message ${msg.role}`}>
-            {msg.content}
+            {msg.role === 'assistant' ? (
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
+            ) : (
+              msg.content
+            )}
           </div>
         ))}
 

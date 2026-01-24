@@ -2068,6 +2068,115 @@ a:active,
   border-bottom-left-radius: 4px;
 }
 
+/* Markdown styles inside chat messages */
+.chat-message.assistant h1,
+.chat-message.assistant h2,
+.chat-message.assistant h3,
+.chat-message.assistant h4,
+.chat-message.assistant h5,
+.chat-message.assistant h6 {
+  margin: 0.75em 0 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text-primary);
+}
+
+.chat-message.assistant h1:first-child,
+.chat-message.assistant h2:first-child,
+.chat-message.assistant h3:first-child {
+  margin-top: 0;
+}
+
+.chat-message.assistant h1 { font-size: 1.25rem; }
+.chat-message.assistant h2 { font-size: 1.125rem; }
+.chat-message.assistant h3 { font-size: 1rem; }
+.chat-message.assistant h4 { font-size: 0.9375rem; }
+
+.chat-message.assistant p {
+  margin: 0.5em 0;
+}
+
+.chat-message.assistant p:first-child {
+  margin-top: 0;
+}
+
+.chat-message.assistant p:last-child {
+  margin-bottom: 0;
+}
+
+.chat-message.assistant strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.chat-message.assistant em {
+  font-style: italic;
+}
+
+.chat-message.assistant ul,
+.chat-message.assistant ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.chat-message.assistant li {
+  margin: 0.25em 0;
+}
+
+.chat-message.assistant li::marker {
+  color: var(--primary);
+}
+
+.chat-message.assistant code {
+  background: var(--background);
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 0.125em 0.375em;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-size: 0.875em;
+}
+
+.chat-message.assistant pre {
+  margin: 0.75em 0;
+  padding: 0.875rem 1rem;
+  background: #1e293b;
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.chat-message.assistant pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #e2e8f0;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.chat-message.assistant a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.chat-message.assistant a:hover {
+  color: var(--primary-dark);
+}
+
+.chat-message.assistant blockquote {
+  margin: 0.75em 0;
+  padding: 0.5em 1em;
+  border-left: 3px solid var(--primary);
+  background: var(--background);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.chat-message.assistant hr {
+  margin: 1em 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
 /* Typing indicator animation */
 .typing-indicator {
   display: flex;
