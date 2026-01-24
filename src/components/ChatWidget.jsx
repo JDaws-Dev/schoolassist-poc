@@ -64,7 +64,7 @@ const ChatWidget = ({
   const [loading, setLoading] = useState(false);
 
   // Persist session ID so conversation continues on server
-  const [sessionId] = useState(() => {
+  const [sessionId, setSessionId] = useState(() => {
     const stored = sessionStorage.getItem('artios-session-id');
     if (stored) return stored;
     const newId = propSessionId || generateSessionId();
@@ -88,11 +88,31 @@ const ChatWidget = ({
     }
   }, [messages]);
 
-  // Handle initial question (from clickable suggestions)
+  // Handle initial question (from clickable suggestions or quick questions)
+  // When a quick question comes from Home tab, start a fresh conversation
   useEffect(() => {
     if (initialQuestion && initialQuestion !== processedQuestionRef.current && !loading) {
       processedQuestionRef.current = initialQuestion;
-      sendMessageDirect(initialQuestion);
+
+      // Clear existing chat and start fresh session
+      // This ensures quick questions from Home don't append to old conversations
+      const welcomeMessage = {
+        role: 'assistant',
+        content: "Hi! I'm your Artios assistant. Ask me anything about school hours, dress code, events, lunch ordering, and more."
+      };
+      setMessages([welcomeMessage]);
+      sessionStorage.removeItem(chatStorageKey);
+
+      // Generate a new session ID for fresh server-side context
+      const newSessionId = generateSessionId();
+      setSessionId(newSessionId);
+      sessionStorage.setItem('artios-session-id', newSessionId);
+
+      // Send the question after state updates are flushed
+      setTimeout(() => {
+        sendMessageDirect(initialQuestion);
+      }, 0);
+
       if (onQuestionSent) onQuestionSent();
     }
   }, [initialQuestion, loading]);
