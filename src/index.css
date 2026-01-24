@@ -6418,9 +6418,11 @@ a:focus-visible {
 }
 
 /* Pressed/active state for touch feedback */
-.mobile-nav-item:active {
+.mobile-nav-item:active,
+.mobile-nav-item:focus:active {
   transform: scale(0.95);
-  background: rgba(91, 76, 219, 0.12);
+  background: rgba(91, 76, 219, 0.15);
+  transition: transform 0.1s ease, background 0.1s ease;
 }
 
 /* Active/selected state for current tab */

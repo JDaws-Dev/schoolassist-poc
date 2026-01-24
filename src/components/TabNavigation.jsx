@@ -27,7 +27,13 @@ const TabNavigation = ({ activeTab, onTabChange }) => {
           return (
             <button
               key={tab.id}
+              type="button"
               onClick={() => handleTabClick(tab)}
+              onTouchEnd={(e) => {
+                // Ensure touch events work on mobile
+                e.preventDefault();
+                handleTabClick(tab);
+              }}
               className={`mobile-nav-item ${isActive ? 'active' : ''}`}
               aria-label={tab.label}
               aria-current={isActive ? 'page' : undefined}

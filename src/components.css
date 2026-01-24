@@ -2012,13 +2012,16 @@
 }
 
 /* Active/pressed state for touch feedback */
-.mobile-nav-item:active {
+.mobile-nav-item:active,
+.mobile-nav-item:focus:active {
   transform: scale(0.95);
-  background: rgba(99, 102, 241, 0.12);
+  background: rgba(99, 102, 241, 0.15);
+  transition: transform 0.1s ease, background 0.1s ease;
 }
 
 .mobile-nav-item:active svg {
   transform: scale(0.9);
+  color: var(--primary);
 }
 
 /* Bottom nav now shown on all screen sizes */
@@ -4222,14 +4225,68 @@ select {
    DESKTOP SIDEBAR NAVIGATION
    ============================================ */
 
-/* Hide sidebar on mobile by default */
-.desktop-sidebar-nav {
+/* Hide sidebar and toggle on mobile by default */
+.desktop-sidebar-nav,
+.sidebar-toggle-btn,
+.sidebar-backdrop {
   display: none;
 }
 
 /* Desktop layout with sidebar - 768px+ */
 @media (min-width: 768px) {
-  /* Show sidebar, hide bottom nav */
+  /* Sidebar backdrop overlay */
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 999;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Sidebar toggle button (hamburger menu) */
+  .sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(250, 251, 247, 0.92) 100%);
+    backdrop-filter: var(--glass-blur-strong);
+    -webkit-backdrop-filter: var(--glass-blur-strong);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    z-index: 998;
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    transition: all var(--transition);
+  }
+
+  .sidebar-toggle-btn:hover {
+    background: linear-gradient(180deg,
+      rgba(139, 166, 58, 0.1) 0%,
+      rgba(255, 255, 255, 0.95) 100%);
+    color: var(--primary);
+    transform: scale(1.02);
+  }
+
+  .sidebar-toggle-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  /* Sidebar navigation - starts closed, slides in when open */
   .desktop-sidebar-nav {
     display: flex;
     flex-direction: column;
@@ -4248,19 +4305,53 @@ select {
     box-shadow:
       4px 0 32px rgba(139, 166, 58, 0.06),
       1px 0 0 rgba(255, 255, 255, 0.8);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .desktop-sidebar-nav.open {
+    transform: translateX(0);
   }
 
   .app-container.desktop-layout .mobile-bottom-nav {
     display: none;
   }
 
-  /* Offset main content for sidebar */
+  /* Main content - no offset since sidebar is overlay */
   .app-container.desktop-layout .tab-content-area {
-    margin-left: 260px;
+    margin-left: 0;
     padding-bottom: 0;
   }
 
+  /* Close button in sidebar header */
+  .sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-left: auto;
+  }
+
+  .sidebar-close-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+  }
+
+  .sidebar-close-btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
   .sidebar-header {
+    display: flex;
+    align-items: center;
     padding: 1.75rem 1.5rem;
     border-bottom: 1px solid var(--border-light);
     background: linear-gradient(180deg,
