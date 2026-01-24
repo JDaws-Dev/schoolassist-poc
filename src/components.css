@@ -3977,10 +3977,7 @@ select {
 
 /* Better content width constraints on desktop */
 @media (min-width: 768px) {
-  .home-tab {
-    max-width: 1200px;
-    padding: 2rem;
-  }
+  /* Note: .home-tab is styled in DESKTOP HOME TAB section below */
 
   .calendar-tab {
     max-width: 1200px;
@@ -4223,53 +4220,177 @@ select {
   gap: 1rem;
 }
 
+/* Desktop: Two-column dashboard layout */
 @media (min-width: 768px) {
   .home-tab {
-    display: block;
+    max-width: 1100px;
+    padding: 2rem 2.5rem;
   }
 
-  /* Dashboard grid for quick actions and events side by side */
+  /* Header: horizontal layout on desktop */
+  .home-tab .home-header {
+    flex-direction: row;
+    text-align: left;
+    gap: 1.5rem;
+    padding: 1rem 0 2.5rem;
+  }
+
+  .home-tab .home-header::before {
+    left: 60px;
+    transform: translate(-50%, -50%);
+  }
+
+  .home-tab .home-logo {
+    margin-bottom: 0;
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+  }
+
+  .home-tab .home-header-text {
+    text-align: left;
+  }
+
+  .home-tab .home-header-text h1 {
+    font-size: 2rem;
+  }
+
+  .home-tab .home-header-text p {
+    font-size: 1rem;
+  }
+
+  /* Dashboard grid: two columns */
   .home-dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    grid-template-columns: minmax(300px, 1fr) minmax(340px, 1.3fr);
+    gap: 2.5rem;
     margin-bottom: 2rem;
     align-items: start;
   }
 
-  /* Quick actions as grid */
-  .quick-actions {
-    display: grid;
+  /* Quick actions: keep 3-column for the Big 3 cards */
+  .home-tab .quick-actions {
+    padding: 0;
+  }
+
+  .home-tab .main-actions.three-col {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.875rem;
+  }
+
+  /* Make action cards horizontal on desktop sidebar */
+  .home-tab .action-card {
+    flex-direction: row;
+    padding: 1.25rem 1.5rem;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  .home-tab .action-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+
+  .home-tab .action-text {
+    text-align: left;
+    flex: 1;
+  }
+
+  .home-tab .action-text strong {
+    font-size: 1rem;
+  }
+
+  .home-tab .external-indicator {
+    position: static;
+    opacity: 0.4;
+    align-self: center;
+  }
+
+  .home-tab .action-card:hover .external-indicator {
+    opacity: 0.7;
   }
 
   /* Events column styling */
   .home-events-column {
-    gap: 1.5rem;
+    gap: 1.75rem;
   }
 
-  /* Card styling for desktop */
-  .quick-action-btn {
-    padding: 1.25rem;
+  /* Events have card container on desktop */
+  .home-events-column .home-section {
+    background: var(--glass-bg);
+    border-radius: var(--radius-xl);
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
   }
 
-  .event-card {
-    max-width: none;
+  .home-events-column .section-title {
+    margin-bottom: 0.875rem;
+  }
+
+  /* Quick questions section: horizontal on desktop */
+  .home-tab .quick-questions-section {
+    background: var(--glass-bg);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .home-tab .quick-question-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .home-tab .quick-question-chip {
+    flex: 0 0 auto;
+  }
+
+  .home-tab .ask-assistant-btn {
+    max-width: 500px;
   }
 }
 
-/* Wider desktop - stacked quick actions */
+/* Wider desktop: refined proportions */
 @media (min-width: 1024px) {
-  .quick-actions {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1rem;
+  .home-tab {
+    padding: 2.5rem 3rem;
   }
 
-  /* More space for events */
   .home-dashboard-grid {
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: minmax(320px, 380px) 1fr;
     gap: 3rem;
+  }
+
+  .home-tab .home-header-text h1 {
+    font-size: 2.25rem;
+  }
+
+  /* Quick questions as horizontal row */
+  .home-tab .quick-questions-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .home-tab .quick-questions-section .section-title {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .home-tab .quick-question-chips {
+    flex: 1;
+    margin-bottom: 0;
+  }
+
+  .home-tab .ask-assistant-btn {
+    flex-shrink: 0;
+    max-width: none;
+    width: auto;
   }
 }
 
