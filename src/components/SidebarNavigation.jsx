@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, MessageCircle, Calendar, MoreHorizontal } from 'lucide-react';
+import { Home, MessageCircle, Calendar, Info } from 'lucide-react';
 
 /**
  * SidebarNavigation Component
@@ -11,7 +11,7 @@ const SidebarNavigation = ({ activeTab, onTabChange }) => {
     { id: 'home', label: 'Home', icon: Home },
     { id: 'chat', label: 'Ask', icon: MessageCircle },
     { id: 'calendar', label: 'Calendar', icon: Calendar },
-    { id: 'more', label: 'More', icon: MoreHorizontal },
+    { id: 'more', label: 'Info', icon: Info },
   ];
 
   const handleTabClick = (tab) => {

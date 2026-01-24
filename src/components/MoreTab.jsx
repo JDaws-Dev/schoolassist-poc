@@ -30,8 +30,8 @@ const MoreTab = ({ data }) => {
   return (
     <div className="tab-content more-tab">
       <header className="more-header">
-        <h1>More</h1>
-        <p>Resources & Information</p>
+        <h1>Info</h1>
+        <p>Resources & Contact</p>
       </header>
 
       <div className="more-content">

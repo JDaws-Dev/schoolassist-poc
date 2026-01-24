@@ -1,16 +1,16 @@
 import React from 'react';
-import { Home, MessageCircle, Calendar, MoreHorizontal } from 'lucide-react';
+import { Home, MessageCircle, Calendar, Info } from 'lucide-react';
 
 /**
  * TabNavigation Component
- * Mobile-first bottom tab navigation (4 tabs: Home, Chat, Calendar, More)
+ * Mobile-first bottom tab navigation (4 tabs: Home, Chat, Calendar, Info)
  */
 const TabNavigation = ({ activeTab, onTabChange }) => {
   const tabs = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'chat', label: 'Ask', icon: MessageCircle },
     { id: 'calendar', label: 'Calendar', icon: Calendar },
-    { id: 'more', label: 'More', icon: MoreHorizontal },
+    { id: 'more', label: 'Info', icon: Info },
   ];
 
   const handleTabClick = (tab) => {
