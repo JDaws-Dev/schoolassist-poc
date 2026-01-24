@@ -1921,7 +1921,14 @@
 }
 
 .calendar-embed-wrapper.full {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
+  min-height: 750px;
+}
+
+@media (max-width: 480px) {
+  .calendar-embed-wrapper.full {
+    min-height: 650px;
+  }
 }
 
 .calendar-iframe {
