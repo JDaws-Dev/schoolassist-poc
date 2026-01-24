@@ -8,6 +8,8 @@ export { default as ErrorBoundary } from './ErrorBoundary';
 // Pages
 export { default as HomePage } from './HomePage';
 export { default as HomeTab } from './HomeTab';
+export { default as ChatTab } from './ChatTab';
+export { default as CalendarTab } from './CalendarTab';
 export { default as AdminPanel } from './AdminPanel';
 
 // Admin components (used by AdminPanel)
