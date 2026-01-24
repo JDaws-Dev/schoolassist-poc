@@ -6398,6 +6398,8 @@ a:focus-visible {
   border: none;
   cursor: pointer;
   position: relative;
+  touch-action: manipulation; /* Prevent double-tap zoom delay */
+  -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-nav-item svg {
@@ -6413,6 +6415,12 @@ a:focus-visible {
 .mobile-nav-item:focus-visible {
   color: var(--primary);
   background: rgba(91, 76, 219, 0.06);
+}
+
+/* Pressed/active state for touch feedback */
+.mobile-nav-item:active {
+  transform: scale(0.95);
+  background: rgba(91, 76, 219, 0.12);
 }
 
 /* Active/selected state for current tab */
