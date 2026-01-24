@@ -1579,10 +1579,24 @@
 
 .mobile-nav-item.active {
   color: var(--accent);
+  background: rgba(249, 115, 22, 0.12);
 }
 
 .mobile-nav-item.active svg {
   transform: scale(1.1);
+}
+
+/* Reduced motion: disable scale animation for nav items */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-item {
+    transition: none;
+  }
+  .mobile-nav-item svg {
+    transition: none;
+  }
+  .mobile-nav-item.active svg {
+    transform: none;
+  }
 }
 
 .mobile-nav-item:focus-visible {
