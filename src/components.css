@@ -1826,6 +1826,53 @@
   flex-shrink: 0;
 }
 
+/* Quick Question Chips */
+.quick-questions-section {
+  padding-top: 0.5rem;
+}
+
+.quick-question-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.quick-question-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.quick-question-chip:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.quick-question-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-question-chip {
+    transition: none;
+  }
+  .quick-question-chip:hover {
+    transform: none;
+  }
+}
+
 /* ============================================
    CHAT TAB
    ============================================ */
@@ -1927,7 +1974,7 @@
 
 @media (max-width: 480px) {
   .calendar-embed-wrapper.full {
-    min-height: 650px;
+    min-height: 700px;
   }
 }
 

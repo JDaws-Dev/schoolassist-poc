@@ -48,6 +48,7 @@ export default function App() {
     return sessionStorage.getItem('parentLoggedIn') === 'true';
   });
   const [activeTab, setActiveTab] = useState('home');
+  const [pendingQuestion, setPendingQuestion] = useState(null);
   const [adminPassword, setAdminPassword] = useState('');
   const [parentPassword, setParentPassword] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -173,8 +174,15 @@ export default function App() {
     );
   }
 
-  const handleTabChange = (tabId) => {
+  const handleTabChange = (tabId, question = null) => {
+    if (question) {
+      setPendingQuestion(question);
+    }
     setActiveTab(tabId);
+  };
+
+  const handleQuestionSent = () => {
+    setPendingQuestion(null);
   };
 
   const renderActiveTab = () => {
@@ -182,7 +190,13 @@ export default function App() {
       case 'home':
         return <HomeTab data={data} onTabChange={handleTabChange} />;
       case 'chat':
-        return <ChatTab systemPrompt={systemPrompt} />;
+        return (
+          <ChatTab
+            systemPrompt={systemPrompt}
+            initialQuestion={pendingQuestion}
+            onQuestionSent={handleQuestionSent}
+          />
+        );
       case 'calendar':
         return <CalendarTab data={data} />;
       case 'more':

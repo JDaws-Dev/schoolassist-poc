@@ -28,14 +28,14 @@ const HomeTab = ({ data, onTabChange }) => {
     return data.upcomingEvents.filter(event => event.date === today);
   };
 
-  // Get upcoming events (next 5 starting from today, sorted ascending)
+  // Get upcoming events (next 3 starting from today, sorted ascending)
   const getUpcomingEvents = () => {
     if (!data?.upcomingEvents) return [];
     const today = new Date().toISOString().split('T')[0];
     return data.upcomingEvents
       .filter(event => event.date >= today)
       .sort((a, b) => a.date.localeCompare(b.date))
-      .slice(0, 5);
+      .slice(0, 3);
   };
 
   const todayEvents = getTodayEvents();
@@ -135,8 +135,35 @@ const HomeTab = ({ data, onTabChange }) => {
         </section>
       )}
 
-      {/* Ask Our Assistant CTA */}
-      <section className="home-section cta-section">
+      {/* Quick Question Chips */}
+      <section className="home-section quick-questions-section">
+        <h2 className="section-title">Quick Questions</h2>
+        <div className="quick-question-chips">
+          <button
+            className="quick-question-chip"
+            onClick={() => onTabChange?.('chat', 'What time does school start?')}
+          >
+            School hours?
+          </button>
+          <button
+            className="quick-question-chip"
+            onClick={() => onTabChange?.('chat', 'What is the dress code?')}
+          >
+            Dress code?
+          </button>
+          <button
+            className="quick-question-chip"
+            onClick={() => onTabChange?.('chat', 'How do I order lunch?')}
+          >
+            Lunch ordering?
+          </button>
+          <button
+            className="quick-question-chip"
+            onClick={() => onTabChange?.('chat', 'What is the weather/closure policy?')}
+          >
+            Weather policy?
+          </button>
+        </div>
         <button
           className="ask-assistant-btn"
           onClick={() => onTabChange?.('chat')}
@@ -146,7 +173,7 @@ const HomeTab = ({ data, onTabChange }) => {
           </div>
           <div className="cta-text">
             <strong>Ask Our Assistant</strong>
-            <span>Get answers about schedules, dress code, policies & more</span>
+            <span>Get answers about schedules, policies & more</span>
           </div>
           <ChevronRight size={20} className="cta-arrow" />
         </button>
