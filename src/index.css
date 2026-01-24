@@ -1646,7 +1646,7 @@ a:active,
 
 .calendar-iframe {
   width: 100%;
-  height: 580px;
+  height: 100%;
   border: none;
 }
 
@@ -4508,7 +4508,7 @@ a:focus-visible {
     justify-content: center;
   }
   .calendar-iframe {
-    height: 450px;
+    height: 550px;
   }
   .full-calendar-section h2 {
     font-size: 1.25rem;
@@ -7161,11 +7161,17 @@ a:focus-visible {
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   margin-bottom: 1rem;
+  /* Ensure wrapper has explicit height so iframe height: 100% works */
+  /* Height accommodates 6-week months (like Jan 2026) without scrolling */
+  min-height: 900px;
+  height: 900px;
 }
 
 .calendar-iframe.full {
-  height: calc(100vh - 200px);
-  min-height: 500px;
+  /* Ensure iframe fills wrapper completely */
+  width: 100%;
+  height: 100%;
+  min-height: 900px;
 }
 
 .open-external-btn {
