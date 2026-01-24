@@ -1,16 +1,21 @@
 @import "tailwindcss";
 
-/* Import custom theme */
+/* Import custom theme - Artios Brand Colors */
 @theme {
-  /* Primary colors */
-  --color-primary: #1e3a5f;
-  --color-primary-light: #2d4a6f;
-  --color-primary-dark: #152a47;
+  /* Primary colors - Artios olive green */
+  --color-primary: #8BA63A;
+  --color-primary-light: #A3BE52;
+  --color-primary-dark: #728B2E;
 
-  /* Accent colors */
-  --color-accent: #7cb342;
-  --color-accent-light: #8bc34a;
-  --color-accent-dark: #689f38;
+  /* Accent colors - warm terracotta */
+  --color-accent: #D4764E;
+  --color-accent-light: #E8936C;
+  --color-accent-dark: #C25E36;
+
+  /* Sage colors - supporting warmth */
+  --color-sage: #6B9080;
+  --color-sage-light: #89A99A;
+  --color-sage-dark: #567468;
 
   /* Font family */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

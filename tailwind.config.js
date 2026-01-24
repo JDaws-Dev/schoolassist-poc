@@ -8,14 +8,19 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#1e3a5f',
-          light: '#2d4a6f',
-          dark: '#152a47',
+          DEFAULT: '#8BA63A',
+          light: '#A3BE52',
+          dark: '#728B2E',
         },
         accent: {
-          DEFAULT: '#7cb342',
-          light: '#8bc34a',
-          dark: '#689f38',
+          DEFAULT: '#D4764E',
+          light: '#E8936C',
+          dark: '#C25E36',
+        },
+        sage: {
+          DEFAULT: '#6B9080',
+          light: '#89A99A',
+          dark: '#567468',
         },
       },
       fontFamily: {
