@@ -103,6 +103,7 @@ const EventDetailModal = ({ event, onClose }) => {
  */
 const CalendarTab = ({ data }) => {
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [calendarLoaded, setCalendarLoaded] = useState(false);
 
   // Get upcoming events and filter to only show future events
   const today = new Date().toISOString().split('T')[0];
@@ -144,13 +145,34 @@ const CalendarTab = ({ data }) => {
         {/* Main calendar area */}
         <div className="calendar-main">
           <div className="calendar-embed-wrapper full">
+            {/* Skeleton loading state while iframe loads */}
+            {!calendarLoaded && (
+              <div className="calendar-skeleton" aria-hidden="true">
+                <div className="skeleton-header">
+                  <div className="skeleton-nav"></div>
+                  <div className="skeleton-title"></div>
+                  <div className="skeleton-nav"></div>
+                </div>
+                <div className="skeleton-weekdays">
+                  {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+                    <div key={i} className="skeleton-weekday">{d}</div>
+                  ))}
+                </div>
+                <div className="skeleton-grid">
+                  {Array.from({ length: 35 }).map((_, i) => (
+                    <div key={i} className="skeleton-day"></div>
+                  ))}
+                </div>
+              </div>
+            )}
             <iframe
               src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
-              className="calendar-iframe full"
+              className={`calendar-iframe full ${calendarLoaded ? 'loaded' : ''}`}
               frameBorder="0"
               scrolling="no"
               title="Artios School Calendar"
               loading="lazy"
+              onLoad={() => setCalendarLoaded(true)}
             />
             <div className="calendar-fallback">
               <Calendar size={48} aria-hidden="true" />
