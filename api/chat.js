@@ -1,4 +1,7 @@
 import OpenAI from 'openai';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -10,6 +13,9 @@ const CALENDAR_URL = 'https://calendar.google.com/calendar/ical/c_f1e327887d2f97
 // Cache for calendar data
 let calendarCache = { events: [], lastFetch: 0 };
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+// Cache for knowledge base
+let knowledgeBaseCache = null;
 
 function parseICSDate(dateStr) {
   if (!dateStr) return null;
@@ -75,91 +81,74 @@ function formatCalendarForAI(events) {
   return `UPCOMING EVENTS:\n${upcoming.map(format).join('\n')}`;
 }
 
-// School information data
-const schoolData = {
-  schoolInfo: {
-    name: "Artios Academies of Sugar Hill",
-    location: "Sugar Hill, Georgia",
-    type: "Homeschool Hybrid / University-Model",
-    tagline: "Art. Heart. Smart.",
-    director: "John Lane",
-    email: "jmlane@artiosacademies.com"
-  },
-  divisions: [
-    { name: "Lower Elementary", grades: "1-3", program: "Smart Start" },
-    { name: "Upper Elementary", grades: "4-6", program: "Academy of Arts & History + Preparatory" },
-    { name: "Junior High", grades: "7-8", program: "Academy of Arts & History + Preparatory" },
-    { name: "High School", grades: "9-12", program: "Conservatory" }
-  ],
-  schedule: {
-    note: "Artios is a university-model/hybrid program. Students attend classes on campus certain days and complete work at home other days.",
-    elementary: { arrival: "8:30 AM", dismissal: "2:30 PM" },
-    secondary: { arrival: "8:30 AM", dismissal: "3:00 PM" }
-  },
-  faqs: [
-    { q: "What is the dress code?", a: "Modest, neat attire appropriate for a Christian academic environment. Performance classes may have specific attire requirements (concert black for choir, dance attire for dance, etc.)." },
-    { q: "Do parents have to teach classes?", a: "No. Artios does not require parents to teach any classes." },
-    { q: "Do parents have to stay on campus?", a: "No. Although we have an open door policy for parents, you are not required to stay on campus during your child's classes." },
-    { q: "How do I order lunch?", a: "Order through ArtiosCafe.com by 10 AM on class days." },
-    { q: "What is the weather policy?", a: "If Gwinnett/Forsyth County schools close, Artios closes." },
-    { q: "What time do classes start?", a: "Elementary: 8:30 AM - 2:30 PM. Secondary: 8:30 AM - 3:00 PM." },
-    { q: "Is Artios accredited?", a: "Artios operates as a homeschool support program. Parents maintain homeschool status and are responsible for their student's transcript and records." }
-  ],
-  quickLinks: {
-    parentPortal: "https://logins2.renweb.com/logins/ParentsWeb-Login.aspx",
-    lunchOrdering: "https://artioscafe.com",
-    schoolWebsite: "https://artiosacademies.com/sugarhill/",
-    calendar: "https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com"
+function loadKnowledgeBase() {
+  // In development, always reload to pick up changes
+  const isDev = process.env.NODE_ENV !== 'production';
+
+  if (knowledgeBaseCache && !isDev) {
+    return knowledgeBaseCache;
   }
-};
+
+  try {
+    // For Vercel serverless, we need to resolve the path relative to the function
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    const knowledgeBasePath = path.join(__dirname, '../src/data/KNOWLEDGE_BASE.md');
+
+    knowledgeBaseCache = fs.readFileSync(knowledgeBasePath, 'utf-8');
+    return knowledgeBaseCache;
+  } catch (error) {
+    console.error('Failed to load knowledge base:', error);
+    return `# Artios Academies of Sugar Hill
+
+Address: 415 Brogdon Road, Suwanee, GA 30024
+Director: John Lane (jmlane@artiosacademies.com)
+Assistant Director: Jackie Thompson (jthompson@artiosacademies.com)
+Office: office@artiosacademies.com
+
+For detailed information, please contact the office.`;
+  }
+}
 
 async function buildSystemPrompt() {
   const calendarEvents = await fetchCalendarEvents();
   const calendarData = formatCalendarForAI(calendarEvents);
+  const knowledgeBase = loadKnowledgeBase();
 
   return `You are ArtiosConnect, the friendly AI assistant for Artios Academies of Sugar Hill, Georgia.
 
 TODAY'S DATE: ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
 
-SCHOOL INFORMATION:
-${JSON.stringify(schoolData.schoolInfo, null, 2)}
+CRITICAL RULES - YOU MUST FOLLOW THESE WITHOUT EXCEPTION:
+1. ONLY provide information that is EXPLICITLY stated in the knowledge base below or the calendar data
+2. NEVER make up, invent, guess, or assume ANY information not explicitly provided
+3. If information is not in the knowledge base, say: "I don't have that specific information. Please contact the office at office@artiosacademies.com or check the Student Handbook."
+4. DO NOT use your general training knowledge - ONLY use the knowledge base and calendar below
+5. DO NOT fabricate staff names, phone numbers, email addresses, dates, times, policies, or any other details
+6. If asked about something outside your knowledge, DO NOT GUESS - direct them to the appropriate contact
+7. Be concise and friendly. No markdown formatting (no **, ##, etc). Plain text only.
+8. Accuracy is MORE important than appearing helpful - it's better to say you don't know than to give wrong information
 
-DIVISIONS:
-${JSON.stringify(schoolData.divisions, null, 2)}
+KNOWLEDGE BASE (OFFICIAL STUDENT/PARENT HANDBOOK 2025-2026):
 
-SCHEDULE:
-${JSON.stringify(schoolData.schedule, null, 2)}
-
-FREQUENTLY ASKED QUESTIONS:
-${schoolData.faqs.map(f => `Q: ${f.q}\nA: ${f.a}`).join('\n\n')}
-
-QUICK LINKS:
-- Parent Portal (FACTS): ${schoolData.quickLinks.parentPortal}
-- Order Lunch: ${schoolData.quickLinks.lunchOrdering}
-- School Website: ${schoolData.quickLinks.schoolWebsite}
-- School Calendar: ${schoolData.quickLinks.calendar}
+${knowledgeBase}
 
 LIVE SCHOOL CALENDAR:
 ${calendarData}
 
 INSTRUCTIONS:
-1. Answer questions about school schedules, events, policies, and general information
+1. Answer questions ONLY using the information provided in the knowledge base and calendar above - NO EXCEPTIONS
 2. Use the calendar data to answer questions about upcoming events and dates
-3. Be concise and friendly. No markdown formatting (no **, ##, etc). Plain text only.
-4. If asked about specific student grades, assignments, or confidential information, direct them to the Parent Portal
-5. For sensitive topics (behavioral concerns, family situations, faith questions), recommend contacting Mr. Lane directly
+3. If asked about specific student grades, assignments, or confidential information, direct them to the FACTS Parent Portal
+4. For sensitive topics (gender identity, bullying, mental health, family situations, faith questions, discipline), recommend contacting Director John Lane directly for a personal conversation
+5. If you're unsure or the information isn't provided in the knowledge base, ALWAYS say "I don't have that information. Please contact the office or check the Student Handbook." NEVER guess or make up an answer.
+6. Always be helpful, kind, and refer parents to the appropriate contact if you can't answer
+7. Before answering, verify the information exists in the knowledge base above. If it's not there, don't answer - redirect to the office
 
-SENSITIVE TOPICS:
-For sensitive, personal, or complex topics such as:
-- Gender identity, LGBTQ+ questions, or transgender students
-- Bullying, harassment, or conflict between students
-- Mental health concerns, anxiety, or emotional wellbeing
-- Family situations (divorce, custody, etc.)
-- Religious or faith-related concerns
-- Discipline issues or behavioral concerns
-- Any topic requiring personal judgment or pastoral care
-
-Always recommend contacting Mr. Lane (Administrator) directly for a personal conversation. He is available to discuss these matters confidentially and provide appropriate guidance.`;
+IMPORTANT CONTACTS:
+- Director: John Lane (jmlane@artiosacademies.com)
+- Assistant Director: Jackie Thompson (jthompson@artiosacademies.com)
+- Office: office@artiosacademies.com`;
 }
 
 // In-memory conversation history
@@ -202,7 +191,7 @@ export default async function handler(req, res) {
         { role: 'system', content: systemPrompt },
         ...recentHistory
       ],
-      temperature: 0.7,
+      temperature: 0.3, // Lower temperature to reduce hallucination
       max_tokens: 1000
     });
 

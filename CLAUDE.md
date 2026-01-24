@@ -187,7 +187,6 @@ Based on comprehensive parent feedback, implemented a complete redesign:
 - **Welcome Page**: Moved from onboarding steps on landing page to separate dedicated page
 - **Renamed "Ask AI" → "Get Answers"**: More parent-friendly, less intimidating
 - **Simplified Schedule**: Changed from detailed class listings to high-level hours by grade
-- **Added Link to Full Schedule**: Parents can view complete spreadsheet if needed
 - **Announcements on Landing**: Now prominently displayed on home page
 - **Removed Scary Elements**: No staff directory or confusing community sections
 
@@ -201,7 +200,6 @@ Based on comprehensive parent feedback, implemented a complete redesign:
 
 - **Google Calendar**: `https://calendar.google.com/calendar/ical/artiossugarhill%40gmail.com/public/basic.ics`
 - **Linktree**: `https://linktr.ee/ARTIOSSH` (all links manually integrated)
-- **Full Schedule**: `https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit?gid=2013129902#gid=2013129902`
 - **Open House PDF**: `public/Updated Open House 25_26.pdf` (contains all program details, pricing, enrollment info)
 
 ## School Contact Information

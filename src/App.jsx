@@ -1,1180 +1,30 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Lock, Settings } from 'lucide-react';
+
+// Import UI components - 4-tab navigation architecture
 import {
-  Calendar,
-  MessageCircle,
-  ExternalLink,
-  ChevronRight,
-  Send,
-  Menu,
-  X,
-  Settings,
-  Bell,
-  FileText,
-  Clock,
-  MapPin,
-  Plus,
-  Trash2,
-  Edit3,
-  Save,
-  LogOut,
-  Home,
-  BookOpen,
-  Users,
-  Info,
-  Lock,
-  Bot,
-  Eye,
-  EyeOff,
-  GraduationCap,
-  HelpCircle,
-  Heart,
-  CalendarPlus,
-  Phone,
-  Mail,
-  Sparkles,
-  CheckCircle,
-  ArrowRight,
-  Facebook,
-  Download,
-  ArrowUp,
-  Megaphone,
-  ShoppingBag,
-  Mic,
-  Ticket,
-  CalendarCheck
-} from 'lucide-react';
-
-// Get current date for filtering - the site should be date-aware
-const TODAY = new Date();
-TODAY.setHours(0, 0, 0, 0);
-
-// Auto-detect API URL
-const API_URL = import.meta.env.DEV ? 'http://localhost:3001' : '';
-const generateSessionId = () => 'session-' + Math.random().toString(36).substr(2, 9);
-
-// Initial data - this would come from a database in production
-const initialData = {
-  quickLinks: [
-    // Essential - Daily Use
-    { id: 1, title: 'FACTS Family Portal', url: 'https://accounts.renweb.com/Account/Login', icon: 'users', category: 'Essential' },
-    { id: 2, title: 'Artios 2025-2026 Calendar', url: 'https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York', icon: 'calendar', category: 'Essential' },
-    { id: 3, title: 'Artios Cafe Lunch Order', url: 'http://artioscafe.com', icon: 'external', category: 'Essential' },
-    // Events - Eventbrite (Open House, Plot Twist, Pilgrim's Progress)
-    { id: 4, title: 'Artios Events (Eventbrite)', url: 'https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471', icon: 'calendar', category: 'Events', description: 'Open House, Plot Twist, Pilgrims Progress' },
-    // Newsletters
-    { id: 5, title: 'The Elementary Connection - December', url: 'https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view?utm_content=DAG7VDbHm7U&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h88f5d4bf16', icon: 'book', category: 'Newsletters' },
-    { id: 6, title: 'The Choir Wire - November', url: 'https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view?usp=drive_link', icon: 'book', category: 'Newsletters' },
-    // Parent Partnership Meeting Signup
-    { id: 7, title: 'John Lane', url: 'https://calendar.app.google/1xHHZDQVMThZCspaA', icon: 'calendar', category: 'Parent Partnership Meetings' },
-    { id: 8, title: 'Jackie Thompson', url: 'https://calendly.com/artiosacademies/parent-partnership-meetings-2025', icon: 'calendar', category: 'Parent Partnership Meetings' },
-    { id: 9, title: 'Becky Buckwalter', url: 'https://calendar.app.google/WdVubvYxeKdJihpXA', icon: 'calendar', category: 'Parent Partnership Meetings' },
-    // Volunteer
-    { id: 10, title: 'Parent TA Sub Signup', url: 'https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent#', icon: 'users', category: 'Volunteer' },
-    // Shopping
-    { id: 11, title: 'Winter Wear', url: 'https://duesouthdesigns.net/school-orders', icon: 'external', category: 'Shopping' },
-    // Artios At Home Podcast
-    { id: 12, title: 'Artios At Home - Apple Podcasts', url: 'https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354', icon: 'external', category: 'Artios At Home Podcast' },
-    { id: 13, title: 'Artios At Home - Spotify', url: 'https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW', icon: 'external', category: 'Artios At Home Podcast' },
-  ],
-  // FAQ for common parent questions
-  faq: [
-    { id: 1, question: 'What time does school start?', answer: 'Elementary (K-6): Mon/Wed, 9:00 AM - 2:45 PM. Junior High & High School: Tue/Thu, 9:00 AM - 2:45 PM. Doors open at 8:50 AM (10 minutes before first class).' },
-    { id: 2, question: 'What is a University-Model school?', answer: 'Artios is a homeschool hybrid where students attend on-campus classes certain days and complete assignments at home on other days. Parents partner with teachers but do not need to teach academic content.' },
-    { id: 3, question: 'What is the dress code?', answer: 'Modest, neat attire appropriate for a Christian academic environment. No offensive graphics, appropriate length shorts/skirts, closed-toe shoes recommended. See the Student Handbook for full details.' },
-    { id: 4, question: 'How do I order lunch?', answer: 'Order through ArtiosCafe.com by 10 AM on class days. Orders cannot be placed same-day after the deadline. Students may also bring lunch from home.' },
-    { id: 5, question: 'What is the weather/closure policy?', answer: 'If Gwinnett County or Forsyth County public schools close due to weather, Artios closes. Check email/text alerts and social media for announcements.' },
-    { id: 6, question: 'Do parents have to stay on campus?', answer: 'No, parents do not need to stay on campus during the school day. However, parent volunteers are always welcome to help with various activities.' },
-    { id: 7, question: 'How do I contact my child\'s teacher?', answer: 'Use the FACTS Family Portal to message teachers directly, or email them using their @artiosacademies.com address. Response time is typically within 24-48 hours.' },
-    { id: 8, question: 'What grades does Artios serve?', answer: 'Artios serves K-12 students with Elementary (K-5), Junior High (6-8), and High School (9-12) divisions.' },
-  ],
-  // Staff directory
-  staffDirectory: [
-    { id: 1, name: 'John Lane', title: 'Director', email: 'jmlane@artiosacademies.com', department: 'Administration' },
-    { id: 2, name: 'Office Staff', title: 'Front Office', email: 'office@artiosacademies.com', department: 'Administration' },
-  ],
-  // New family onboarding checklist
-  onboardingSteps: [
-    { id: 1, title: 'Complete FACTS Enrollment', description: 'Finish all enrollment forms in the FACTS Family Portal', icon: 'file', link: 'https://accounts.renweb.com/Account/Login' },
-    { id: 2, title: 'Read the Student Handbook', description: 'Review policies, dress code, and expectations', icon: 'book', link: '#' },
-    { id: 3, title: 'Set Up Lunch Ordering', description: 'Create your ArtiosCafe.com account for meal orders', icon: 'external', link: 'https://artioscafe.com' },
-    { id: 4, title: 'Join Class Communication', description: 'Check FACTS for teacher contacts and class info', icon: 'users', link: 'https://accounts.renweb.com/Account/Login' },
-    { id: 5, title: 'Mark Your Calendar', description: 'Add school events and important dates', icon: 'calendar', link: 'https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com' },
-    { id: 6, title: 'Learn About Artios', description: 'Understand our university-model approach', icon: 'info', link: '#' },
-  ],
-  // Community resources
-  communityResources: [
-    { id: 1, title: 'Artios Facebook Group', url: 'https://facebook.com/artiosacademies', icon: 'users', description: 'Join our parent community' },
-    { id: 2, title: 'Volunteer Opportunities', url: 'https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent', icon: 'heart', description: 'Sign up to help at school' },
-    { id: 3, title: 'Prayer Requests', url: '#', icon: 'heart', description: 'Submit prayer requests for our community' },
-  ],
-  // Class Schedules - 2025-2026
-  schedules: {
-    overview: [
-      { id: 1, level: 'Elementary (K-6)', days: 'Mon/Wed', hours: '9:00 AM - 2:45 PM' },
-      { id: 2, level: 'Junior High (7-8)', days: 'Tue/Thu', hours: '9:00 AM - 2:45 PM' },
-      { id: 3, level: 'High School (9-12)', days: 'Tue/Thu', hours: '9:00 AM - 2:45 PM' },
-      { id: 4, level: 'HS Arts Conservatory', days: 'Friday', hours: '9:00 AM - 4:30 PM' },
-    ],
-    // Friday HS Arts Conservatory classes
-    fridayArts: [
-      { id: 1, time: '9:00-9:30 AM', classes: ['HS Choreo Club I', 'Photography', 'Music Theory I', 'Engineering 1', 'Fundamentals of Visual Arts', 'Directing', 'Acting I', 'Elements of Production'] },
-      { id: 2, time: '10:00-10:30 AM', classes: ['DM Ballet', 'Yearbook Club', 'Fundamentals of Film History', 'Fundamentals of Music', 'Worship Arts', 'Drawing/Painting I', 'Studio M I/II', 'Acting II', 'Worldview 10'] },
-      { id: 3, time: '11:00-11:30 AM', classes: ['Conditioning', 'Graphic Design', 'Intro to CT & EC', 'Creative Writing I/II', 'Worldview 9-12', 'Drawing/Painting II', 'Fundamentals of Theatre History', 'Acting III'] },
-      { id: 4, time: '12:00-12:30 PM', classes: ['Lunch'] },
-      { id: 5, time: '12:30-1:00 PM', classes: ['Makeup', '3D Design 1', 'Illustrations', 'Worldview 9-12'] },
-      { id: 6, time: '1:30-2:00 PM', classes: ['JH Contemporary', 'Editing I', 'Choir'] },
-      { id: 7, time: '2:30-2:45 PM', classes: ['JH Hip Hop', 'Drama Club'] },
-      { id: 8, time: '3:30-4:30 PM', classes: ['UE/JH Select Ballet (audition only)'] },
-    ],
-    // Monday Dance Classes (tentative)
-    mondayDance: [
-      { id: 1, time: '9:30-10:30 AM', name: 'Jazz IV' },
-      { id: 2, time: '10:30-11:30 AM', name: 'Hip Hop I / Contemporary III/IV / Jazz III' },
-      { id: 3, time: '11:30-12:30 PM', name: 'Advanced Hip Hop' },
-      { id: 4, time: '1:00-2:30 PM', name: 'Ballet' },
-      { id: 5, time: '1:30-2:30 PM', name: 'Contemporary I/II (HS)' },
-      { id: 6, time: '2:40-3:30 PM', name: 'Elementary Jazz A & B' },
-      { id: 7, time: '3:30-4:15 PM', name: 'Elementary Hip Hop (Grades 4-6)' },
-    ],
-    artClub: {
-      name: 'Lower Elementary Art Club',
-      grades: 'K-3rd',
-      time: '2:00-2:30 PM',
-    },
-  },
-  announcements: [
-    { id: 1, title: 'Welcome Back!', content: 'We hope everyone had a wonderful Christmas break. Classes resume January 5th for Elementary & JH, January 6th for HS.', date: '2026-01-05', priority: 'high' },
-    { id: 2, title: 'Open House - January 12th', content: 'Join us for our Open House at 6:00 PM. Great opportunity for prospective families!', date: '2026-01-12', priority: 'normal' },
-  ],
-  upcomingEvents: [
-    { id: 1, title: 'Elem & JH Academics Resume', date: '2026-01-05', time: 'All Day', location: 'Main Campus' },
-    { id: 2, title: 'HS Academics Resume', date: '2026-01-06', time: 'All Day', location: 'Main Campus' },
-    { id: 3, title: 'Artios Open House', date: '2026-01-12', time: '6:00 PM', location: 'Main Campus' },
-    { id: 4, title: "Pilgrim's Progress - Dance Performance", date: '2026-01-16', time: '7:00 PM', location: 'Main Auditorium' },
-    { id: 5, title: 'MLK Day - Artios Closed', date: '2026-01-19', time: 'All Day', location: '' },
-    { id: 6, title: 'Senior Meeting (Parents & Students)', date: '2026-01-20', time: '4:00 PM', location: 'Room 101' },
-    { id: 7, title: '9th Grade Preview Day', date: '2026-01-23', time: '9:00 AM', location: 'Main Campus' },
-  ],
-  documents: [
-    { id: 1, title: '2025-2026 Open House Brochure', url: '/Updated Open House 25_26.pdf', category: 'About Artios' },
-    { id: 2, title: '2025-2026 School Calendar', url: 'https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York', category: 'Calendar' },
-    { id: 3, title: 'Order Lunch - Artios Cafe', url: 'https://artioscafe.com', category: 'Resources' },
-    { id: 4, title: 'FACTS Family Portal', url: 'https://accounts.renweb.com/Account/Login', category: 'Resources' },
-  ],
-  schoolInfo: {
-    name: 'Artios Academies of Sugar Hill',
-    tagline: 'Art. Heart. Smart.',
-    address: '415 Brogdon Road, Suwanee, GA 30024',
-    email: 'jmlane@artiosacademies.com',
-    director: 'John Lane'
-  },
-  aiSettings: {
-    systemPrompt: `You are ArtiosConnect, the friendly AI assistant for Artios Academies of Sugar Hill, Georgia.
-
-SCHOOL INFO:
-- Name: Artios Academies of Sugar Hill
-- Type: Homeschool Hybrid / University-Model (Christian homeschool program)
-- Tagline: Art. Heart. Smart.
-- Address: 415 Brogdon Road, Suwanee, GA 30024
-- Director: John Lane (jmlane@artiosacademies.com)
-- Assistant Director: Jackie Thompson (jthompson@artiosacademies.com)
-- Mission: Train students to possess the wisdom, virtue, and eloquence necessary to lead the culture through their arts, vocations, and callings
-
-PROGRAMS & PRICING (2025-2026):
-- Elementary K-2nd: Mon/Wed 9:00 AM-2:45 PM, $2,390/year
-- Elementary 3rd-4th: Mon/Wed 9:00 AM-2:45 PM, $2,590/year
-- Elementary 5th-6th: Mon/Wed 9:00 AM-2:45 PM, $2,690/year
-- Jr High 7th: Tue/Thu 9:00 AM-2:45 PM, $3,030/year
-- Jr High 8th: Tue/Thu 9:00 AM-2:45 PM, $3,230/year
-- High School 9th-12th: Tue/Thu 9:00 AM-2:45 PM (pricing varies by grade)
-- Dance Classes: Fridays for K-12th (various times/levels)
-- Artios is a university-model program - students attend on campus certain days, complete work at home other days
-
-ENROLLMENT:
-- Must be registered homeschoolers with Declaration of Intent filed
-- FACTS Family Portal enrollment required
-- Class size limits apply (contact school for availability)
-
-COMMON QUESTIONS:
-- Dress code: Modest, neat attire appropriate for a Christian academic environment
-- Parents don't have to teach or stay on campus
-- Lunch ordering: ArtiosCafe.com by 10 AM on class days
-- Weather policy: If Gwinnett/Forsyth County schools close, Artios closes
-
-INSTRUCTIONS:
-1. Be concise and friendly
-2. No markdown formatting (no **, ##, etc)
-3. For student-specific info, direct to Parent Portal
-4. For sensitive topics, recommend contacting Mr. Lane directly`,
-    customInstructions: [],
-    sensitiveTopics: 'For sensitive topics (gender identity, bullying, mental health, family situations, faith questions, discipline), always recommend contacting Mr. Lane directly for a personal conversation.'
-  },
-  parentCredentials: {
-    // In production, this would be proper authentication
-    password: 'artios2026'
-  },
-  // Parent notifications - admin can push these to all parents
-  notifications: []
-};
-
-// Icon mapping component
-const IconComponent = ({ name, size = 20, className = '' }) => {
-  const icons = {
-    calendar: Calendar,
-    external: ExternalLink,
-    users: Users,
-    home: Home,
-    book: BookOpen,
-    info: Info,
-    file: FileText,
-    heart: Heart,
-    phone: Phone,
-    mail: Mail,
-    graduation: GraduationCap,
-    help: HelpCircle,
-    check: CheckCircle,
-    download: Download,
-  };
-  const Icon = icons[name] || ExternalLink;
-  return <Icon size={size} className={className} />;
-};
-
-// Format date helper
-const formatDate = (dateStr) => {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-};
-
-const isUpcoming = (dateStr) => {
-  const eventDate = new Date(dateStr);
-  eventDate.setHours(0, 0, 0, 0);
-  return eventDate >= TODAY;
-};
-
-// Check if event is today
-const isToday = (dateStr) => {
-  const eventDate = new Date(dateStr);
-  eventDate.setHours(0, 0, 0, 0);
-  return eventDate.getTime() === TODAY.getTime();
-};
-
-// Check if event is tomorrow
-const isTomorrow = (dateStr) => {
-  const eventDate = new Date(dateStr);
-  eventDate.setHours(0, 0, 0, 0);
-  const tomorrow = new Date(TODAY);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  return eventDate.getTime() === tomorrow.getTime();
-};
-
-// Get days until event
-const getDaysUntil = (dateStr) => {
-  const eventDate = new Date(dateStr);
-  eventDate.setHours(0, 0, 0, 0);
-  const diffTime = eventDate.getTime() - TODAY.getTime();
-  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-};
-
-// Chat Component
-const ChatWidget = ({ isOpen, onClose }) => {
-  const [messages, setMessages] = useState([
-    { role: 'assistant', content: 'Hi! I\'m the Artios Connect assistant. I can help answer questions about school policies, schedules, events, and more. What would you like to know?' }
-  ]);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [sessionId] = useState(generateSessionId);
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
-
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
-
-    const userMessage = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    setLoading(true);
-
-    try {
-      const response = await fetch(`${API_URL}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage, role: 'parent', sessionId })
-      });
-
-      const data = await response.json();
-      setMessages(prev => [...prev, { role: 'assistant', content: data.message || 'Sorry, I couldn\'t process that request.' }]);
-    } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I\'m having trouble connecting. Please try again.' }]);
-    }
-    setLoading(false);
-  };
-
-  if (!isOpen) return null;
-
-  return (
-    <div className="chat-widget">
-      <div className="chat-header">
-        <MessageCircle size={20} />
-        <span>Ask Artios Connect</span>
-        <button onClick={onClose} className="chat-close"><X size={20} /></button>
-      </div>
-      <div className="chat-messages">
-        {messages.map((msg, i) => (
-          <div key={i} className={`chat-message ${msg.role}`}>
-            {msg.content}
-          </div>
-        ))}
-        {loading && <div className="chat-message assistant loading">Thinking...</div>}
-        <div ref={messagesEndRef} />
-      </div>
-      <div className="chat-input-area">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-          placeholder="Ask a question..."
-          disabled={loading}
-        />
-        <button onClick={sendMessage} disabled={loading || !input.trim()}>
-          <Send size={18} />
-        </button>
-      </div>
-    </div>
-  );
-};
-
-// AI Settings Panel for Admin
-const AISettingsPanel = ({ data, setData }) => {
-  const [testMessages, setTestMessages] = useState([]);
-  const [testInput, setTestInput] = useState('');
-  const [testLoading, setTestLoading] = useState(false);
-  const [showPrompt, setShowPrompt] = useState(false);
-
-  const sendTestMessage = async () => {
-    if (!testInput.trim() || testLoading) return;
-    const userMessage = testInput.trim();
-    setTestInput('');
-    setTestMessages(prev => [...prev, { role: 'user', content: userMessage }]);
-    setTestLoading(true);
-
-    try {
-      const response = await fetch(`${API_URL}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: userMessage,
-          sessionId: 'admin-test-' + Date.now(),
-          customPrompt: data.aiSettings?.systemPrompt
-        })
-      });
-      const result = await response.json();
-      setTestMessages(prev => [...prev, { role: 'assistant', content: result.message || 'No response' }]);
-    } catch (error) {
-      setTestMessages(prev => [...prev, { role: 'assistant', content: 'Error: ' + error.message }]);
-    }
-    setTestLoading(false);
-  };
-
-  const updateAISettings = (field, value) => {
-    setData(prev => ({
-      ...prev,
-      aiSettings: { ...prev.aiSettings, [field]: value }
-    }));
-  };
-
-  return (
-    <div className="ai-settings-panel">
-      <div className="ai-settings-section">
-        <div className="ai-settings-header">
-          <h3><Bot size={18} /> System Prompt (AI Directives)</h3>
-          <button onClick={() => setShowPrompt(!showPrompt)} className="btn-toggle">
-            {showPrompt ? <EyeOff size={16} /> : <Eye size={16} />}
-            {showPrompt ? 'Hide' : 'Show'}
-          </button>
-        </div>
-        <p className="ai-settings-desc">This is what the AI assistant knows and how it behaves. Edit carefully.</p>
-        {showPrompt && (
-          <textarea
-            value={data.aiSettings?.systemPrompt || ''}
-            onChange={(e) => updateAISettings('systemPrompt', e.target.value)}
-            className="ai-prompt-editor"
-            rows={15}
-          />
-        )}
-      </div>
-
-      <div className="ai-settings-section">
-        <h3><Settings size={18} /> Sensitive Topics Guidance</h3>
-        <textarea
-          value={data.aiSettings?.sensitiveTopics || ''}
-          onChange={(e) => updateAISettings('sensitiveTopics', e.target.value)}
-          className="ai-prompt-editor"
-          rows={4}
-          placeholder="Instructions for handling sensitive topics..."
-        />
-      </div>
-
-      <div className="ai-settings-section">
-        <h3><MessageCircle size={18} /> Test AI Responses</h3>
-        <p className="ai-settings-desc">Test how the AI responds to questions before parents see it.</p>
-        <div className="ai-test-chat">
-          <div className="ai-test-messages">
-            {testMessages.length === 0 && (
-              <p className="ai-test-placeholder">Send a test message to see how the AI responds...</p>
-            )}
-            {testMessages.map((msg, i) => (
-              <div key={i} className={`ai-test-message ${msg.role}`}>
-                <strong>{msg.role === 'user' ? 'You' : 'AI'}:</strong> {msg.content}
-              </div>
-            ))}
-            {testLoading && <div className="ai-test-message assistant">Thinking...</div>}
-          </div>
-          <div className="ai-test-input">
-            <input
-              type="text"
-              value={testInput}
-              onChange={(e) => setTestInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && sendTestMessage()}
-              placeholder="Test a question..."
-            />
-            <button onClick={sendTestMessage} disabled={testLoading}><Send size={16} /></button>
-          </div>
-        </div>
-        <button onClick={() => setTestMessages([])} className="btn-clear-chat">Clear Test Chat</button>
-      </div>
-    </div>
-  );
-};
-
-// Admin Panel Component
-const AdminPanel = ({ data, setData, onLogout }) => {
-  const [activeTab, setActiveTab] = useState('announcements');
-  const [editingItem, setEditingItem] = useState(null);
-
-  const addItem = (type) => {
-    const newItem = type === 'announcements'
-      ? { id: Date.now(), title: 'New Announcement', content: '', date: new Date().toISOString().split('T')[0], priority: 'normal' }
-      : type === 'upcomingEvents'
-      ? { id: Date.now(), title: 'New Event', date: new Date().toISOString().split('T')[0], time: '', location: '' }
-      : type === 'quickLinks'
-      ? { id: Date.now(), title: 'New Link', url: 'https://', icon: 'external' }
-      : { id: Date.now(), title: 'New Document', url: '#', category: 'Resources' };
-
-    setData(prev => ({ ...prev, [type]: [...prev[type], newItem] }));
-    setEditingItem({ type, id: newItem.id });
-  };
-
-  const updateItem = (type, id, updates) => {
-    setData(prev => ({
-      ...prev,
-      [type]: prev[type].map(item => item.id === id ? { ...item, ...updates } : item)
-    }));
-  };
-
-  const deleteItem = (type, id) => {
-    if (confirm('Are you sure you want to delete this item?')) {
-      setData(prev => ({ ...prev, [type]: prev[type].filter(item => item.id !== id) }));
-    }
-  };
-
-  const renderEditor = (type, item) => {
-    const isEditing = editingItem?.type === type && editingItem?.id === item.id;
-
-    if (type === 'announcements') {
-      return (
-        <div className="admin-item">
-          <div className="admin-item-header">
-            {isEditing ? (
-              <input value={item.title} onChange={(e) => updateItem(type, item.id, { title: e.target.value })} className="admin-input" />
-            ) : (
-              <span className="admin-item-title">{item.title}</span>
-            )}
-            <div className="admin-item-actions">
-              {isEditing ? (
-                <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
-              ) : (
-                <button onClick={() => setEditingItem({ type, id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
-              )}
-              <button onClick={() => deleteItem(type, item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
-            </div>
-          </div>
-          {isEditing && (
-            <div className="admin-item-edit">
-              <textarea
-                value={item.content}
-                onChange={(e) => updateItem(type, item.id, { content: e.target.value })}
-                placeholder="Announcement content..."
-                rows={3}
-              />
-              <div className="admin-row">
-                <input type="date" value={item.date} onChange={(e) => updateItem(type, item.id, { date: e.target.value })} />
-                <select value={item.priority} onChange={(e) => updateItem(type, item.id, { priority: e.target.value })}>
-                  <option value="normal">Normal</option>
-                  <option value="high">High Priority</option>
-                </select>
-              </div>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    if (type === 'upcomingEvents') {
-      return (
-        <div className="admin-item">
-          <div className="admin-item-header">
-            {isEditing ? (
-              <input value={item.title} onChange={(e) => updateItem(type, item.id, { title: e.target.value })} className="admin-input" />
-            ) : (
-              <span className="admin-item-title">{item.title}</span>
-            )}
-            <div className="admin-item-actions">
-              {isEditing ? (
-                <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
-              ) : (
-                <button onClick={() => setEditingItem({ type, id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
-              )}
-              <button onClick={() => deleteItem(type, item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
-            </div>
-          </div>
-          {isEditing && (
-            <div className="admin-item-edit">
-              <div className="admin-row">
-                <input type="date" value={item.date} onChange={(e) => updateItem(type, item.id, { date: e.target.value })} />
-                <input type="text" value={item.time} onChange={(e) => updateItem(type, item.id, { time: e.target.value })} placeholder="Time (e.g., 6:00 PM)" />
-              </div>
-              <input type="text" value={item.location} onChange={(e) => updateItem(type, item.id, { location: e.target.value })} placeholder="Location" />
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    if (type === 'quickLinks') {
-      return (
-        <div className="admin-item">
-          <div className="admin-item-header">
-            {isEditing ? (
-              <input value={item.title} onChange={(e) => updateItem(type, item.id, { title: e.target.value })} className="admin-input" />
-            ) : (
-              <span className="admin-item-title">{item.title}</span>
-            )}
-            <div className="admin-item-actions">
-              {isEditing ? (
-                <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
-              ) : (
-                <button onClick={() => setEditingItem({ type, id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
-              )}
-              <button onClick={() => deleteItem(type, item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
-            </div>
-          </div>
-          {isEditing && (
-            <div className="admin-item-edit">
-              <input type="url" value={item.url} onChange={(e) => updateItem(type, item.id, { url: e.target.value })} placeholder="URL" />
-              <select value={item.icon} onChange={(e) => updateItem(type, item.id, { icon: e.target.value })}>
-                <option value="external">Link</option>
-                <option value="calendar">Calendar</option>
-                <option value="users">Users</option>
-                <option value="home">Home</option>
-                <option value="book">Book</option>
-                <option value="info">Info</option>
-              </select>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    if (type === 'documents') {
-      return (
-        <div className="admin-item">
-          <div className="admin-item-header">
-            {isEditing ? (
-              <input value={item.title} onChange={(e) => updateItem(type, item.id, { title: e.target.value })} className="admin-input" />
-            ) : (
-              <span className="admin-item-title">{item.title}</span>
-            )}
-            <div className="admin-item-actions">
-              {isEditing ? (
-                <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
-              ) : (
-                <button onClick={() => setEditingItem({ type, id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
-              )}
-              <button onClick={() => deleteItem(type, item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
-            </div>
-          </div>
-          {isEditing && (
-            <div className="admin-item-edit">
-              <input type="url" value={item.url} onChange={(e) => updateItem(type, item.id, { url: e.target.value })} placeholder="Document URL" />
-              <select value={item.category} onChange={(e) => updateItem(type, item.id, { category: e.target.value })}>
-                <option value="Policies">Policies</option>
-                <option value="Calendar">Calendar</option>
-                <option value="Resources">Resources</option>
-                <option value="Forms">Forms</option>
-              </select>
-            </div>
-          )}
-        </div>
-      );
-    }
-
-    return null;
-  };
-
-  const resetToDefaults = () => {
-    if (confirm('Reset all content to defaults? This cannot be undone.')) {
-      setData(initialData);
-      localStorage.removeItem('artiosConnectData');
-    }
-  };
-
-  return (
-    <div className="admin-panel">
-      <div className="admin-header">
-        <h1>Admin Dashboard</h1>
-        <div className="admin-header-actions">
-          <button onClick={resetToDefaults} className="btn-reset">Reset to Defaults</button>
-          <button onClick={onLogout} className="btn-logout"><LogOut size={18} /> Logout</button>
-        </div>
-      </div>
-
-      <div className="admin-tabs">
-        <button className={activeTab === 'notifications' ? 'active' : ''} onClick={() => setActiveTab('notifications')}>
-          <Megaphone size={16} /> Push Notifications
-        </button>
-        <button className={activeTab === 'announcements' ? 'active' : ''} onClick={() => setActiveTab('announcements')}>
-          <Bell size={16} /> Announcements
-        </button>
-        <button className={activeTab === 'upcomingEvents' ? 'active' : ''} onClick={() => setActiveTab('upcomingEvents')}>
-          <Calendar size={16} /> Events
-        </button>
-        <button className={activeTab === 'quickLinks' ? 'active' : ''} onClick={() => setActiveTab('quickLinks')}>
-          <ExternalLink size={16} /> Quick Links
-        </button>
-        <button className={activeTab === 'documents' ? 'active' : ''} onClick={() => setActiveTab('documents')}>
-          <FileText size={16} /> Documents
-        </button>
-        <button className={activeTab === 'aiSettings' ? 'active' : ''} onClick={() => setActiveTab('aiSettings')}>
-          <Bot size={16} /> AI Settings
-        </button>
-      </div>
-
-      <div className="admin-content">
-        {activeTab === 'aiSettings' ? (
-          <AISettingsPanel data={data} setData={setData} />
-        ) : activeTab === 'notifications' ? (
-          <div className="notifications-admin">
-            <div className="admin-section-header">
-              <h2>Push Notifications to Parents</h2>
-              <button onClick={() => {
-                const newNotification = {
-                  id: Date.now(),
-                  title: 'New Notification',
-                  content: '',
-                  date: new Date().toISOString().split('T')[0],
-                  type: 'info'
-                };
-                setData(prev => ({
-                  ...prev,
-                  notifications: [...(prev.notifications || []), newNotification]
-                }));
-                setEditingItem({ type: 'notifications', id: newNotification.id });
-              }} className="btn-add"><Plus size={16} /> Push New Notification</button>
-            </div>
-            <p className="admin-helper-text">
-              Notifications appear at the top of the parent portal. Parents can dismiss them individually.
-            </p>
-            <div className="admin-list">
-              {(data.notifications || []).map(item => (
-                <div key={item.id} className="admin-item">
-                  <div className="admin-item-header">
-                    {editingItem?.type === 'notifications' && editingItem?.id === item.id ? (
-                      <input value={item.title} onChange={(e) => updateItem('notifications', item.id, { title: e.target.value })} className="admin-input" />
-                    ) : (
-                      <span className="admin-item-title">{item.title}</span>
-                    )}
-                    <div className="admin-item-actions">
-                      {editingItem?.type === 'notifications' && editingItem?.id === item.id ? (
-                        <button onClick={() => setEditingItem(null)} className="btn-icon"><Save size={16} /></button>
-                      ) : (
-                        <button onClick={() => setEditingItem({ type: 'notifications', id: item.id })} className="btn-icon"><Edit3 size={16} /></button>
-                      )}
-                      <button onClick={() => deleteItem('notifications', item.id)} className="btn-icon delete"><Trash2 size={16} /></button>
-                    </div>
-                  </div>
-                  {editingItem?.type === 'notifications' && editingItem?.id === item.id && (
-                    <div className="admin-item-edit">
-                      <textarea
-                        value={item.content}
-                        onChange={(e) => updateItem('notifications', item.id, { content: e.target.value })}
-                        placeholder="Notification message..."
-                        rows={2}
-                      />
-                      <div className="admin-row">
-                        <select value={item.type} onChange={(e) => updateItem('notifications', item.id, { type: e.target.value })}>
-                          <option value="info">Info (Blue)</option>
-                          <option value="warning">Important (Yellow)</option>
-                          <option value="urgent">Urgent (Red)</option>
-                        </select>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-              {(!data.notifications || data.notifications.length === 0) && (
-                <p className="admin-empty-state">No notifications. Click "Push New Notification" to create one.</p>
-              )}
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="admin-section-header">
-              <h2>{activeTab === 'announcements' ? 'Announcements' : activeTab === 'upcomingEvents' ? 'Upcoming Events' : activeTab === 'quickLinks' ? 'Quick Links' : 'Documents'}</h2>
-              <button onClick={() => addItem(activeTab)} className="btn-add"><Plus size={16} /> Add New</button>
-            </div>
-
-            <div className="admin-list">
-              {data[activeTab]?.map(item => (
-                <React.Fragment key={item.id}>
-                  {renderEditor(activeTab, item)}
-                </React.Fragment>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// Suggested questions for parents - most common questions first
-const suggestedQuestions = [
-  "School hours?",
-  "Order lunch",
-  "Dress code",
-  "Weather policy",
-  "Spring break dates",
-  "Contact directors"
-];
-
-// Parent Notification Bar Component
-const NotificationBar = ({ notifications, onDismiss }) => {
-  const [dismissedIds, setDismissedIds] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('dismissedNotifications') || '[]');
-    } catch { return []; }
-  });
-
-  const handleDismiss = (id) => {
-    const newDismissed = [...dismissedIds, id];
-    setDismissedIds(newDismissed);
-    localStorage.setItem('dismissedNotifications', JSON.stringify(newDismissed));
-  };
-
-  const activeNotifications = (notifications || []).filter(n => !dismissedIds.includes(n.id));
-
-  // Don't render anything if no notifications
-  if (activeNotifications.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="notification-bar">
-      {activeNotifications.map(notification => (
-        <div key={notification.id} className={`notification-item ${notification.type || 'info'}`}>
-          <Megaphone size={20} />
-          <div className="notification-content">
-            <strong>{notification.title}</strong>
-            {notification.content && <p>{notification.content}</p>}
-          </div>
-          <button onClick={() => handleDismiss(notification.id)} className="notification-dismiss" aria-label="Dismiss">
-            <X size={18} />
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// FAQ Accordion Component
-const FAQSection = ({ faqItems, compact = false }) => {
-  const [openItem, setOpenItem] = useState(null);
-
-  // When compact, don't wrap in a section with its own heading
-  if (compact) {
-    return (
-      <div className="faq-list compact">
-        {faqItems.map(item => (
-          <div key={item.id} className={`faq-item ${openItem === item.id ? 'open' : ''}`}>
-            <button className="faq-question" onClick={() => setOpenItem(openItem === item.id ? null : item.id)}>
-              <span>{item.question}</span>
-              <ChevronRight size={18} className={`faq-arrow ${openItem === item.id ? 'rotated' : ''}`} />
-            </button>
-            {openItem === item.id && (
-              <div className="faq-answer">
-                <p>{item.answer}</p>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  return (
-    <section id="faq" className="faq-section">
-      <h2><HelpCircle size={24} /> Frequently Asked Questions</h2>
-      <div className="faq-list">
-        {faqItems.map(item => (
-          <div key={item.id} className={`faq-item ${openItem === item.id ? 'open' : ''}`}>
-            <button className="faq-question" onClick={() => setOpenItem(openItem === item.id ? null : item.id)}>
-              <span>{item.question}</span>
-              <ChevronRight size={18} className={`faq-arrow ${openItem === item.id ? 'rotated' : ''}`} />
-            </button>
-            {openItem === item.id && (
-              <div className="faq-answer">
-                <p>{item.answer}</p>
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-// New Family Onboarding Banner
-const OnboardingBanner = ({ steps, onDismiss }) => {
-  const [dismissed, setDismissed] = useState(() => {
-    return sessionStorage.getItem('onboardingDismissed') === 'true';
-  });
-  const [completedSteps, setCompletedSteps] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem('onboardingCompleted') || '[]');
-    } catch { return []; }
-  });
-
-  const toggleStep = (stepId) => {
-    const newCompleted = completedSteps.includes(stepId)
-      ? completedSteps.filter(id => id !== stepId)
-      : [...completedSteps, stepId];
-    setCompletedSteps(newCompleted);
-    localStorage.setItem('onboardingCompleted', JSON.stringify(newCompleted));
-  };
-
-  const handleDismiss = () => {
-    setDismissed(true);
-    sessionStorage.setItem('onboardingDismissed', 'true');
-  };
-
-  if (dismissed) return null;
-
-  const progress = Math.round((completedSteps.length / steps.length) * 100);
-
-  return (
-    <section className="onboarding-banner">
-      <div className="onboarding-header">
-        <div className="onboarding-title">
-          <Sparkles size={24} />
-          <div>
-            <h2>New to Artios?</h2>
-            <p>Complete these steps to get started at Artios Academies</p>
-          </div>
-        </div>
-        <button onClick={handleDismiss} className="onboarding-dismiss"><X size={18} /></button>
-      </div>
-      <div className="onboarding-progress">
-        <div className="progress-bar">
-          <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-        </div>
-        <span>{completedSteps.length} of {steps.length} completed</span>
-      </div>
-      <div className="onboarding-steps">
-        {steps.map(step => (
-          <div key={step.id} className={`onboarding-step ${completedSteps.includes(step.id) ? 'completed' : ''}`}>
-            <button className="step-checkbox" onClick={() => toggleStep(step.id)}>
-              {completedSteps.includes(step.id) ? <CheckCircle size={20} /> : <div className="checkbox-empty" />}
-            </button>
-            <div className="step-content">
-              <h4>{step.title}</h4>
-              <p>{step.description}</p>
-            </div>
-            {step.link && step.link !== '#' && (
-              <a href={step.link} target="_blank" rel="noopener noreferrer" className="step-link">
-                <ArrowRight size={16} />
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-// Staff Directory Component
-const StaffDirectory = ({ staff }) => {
-  return (
-    <section id="staff" className="staff-section">
-      <h2><Users size={24} /> Staff Directory</h2>
-      <div className="staff-grid">
-        {staff.map(person => (
-          <div key={person.id} className="staff-card">
-            <div className="staff-avatar">
-              <Users size={24} />
-            </div>
-            <div className="staff-info">
-              <h3>{person.name}</h3>
-              <p className="staff-title">{person.title}</p>
-              <p className="staff-dept">{person.department}</p>
-            </div>
-            <a href={`mailto:${person.email}`} className="staff-email">
-              <Mail size={16} /> Email
-            </a>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-// Community Resources Component
-const CommunitySection = ({ resources }) => {
-  return (
-    <section id="community" className="community-section">
-      <h2><Heart size={24} /> Community & Parent Resources</h2>
-      <div className="community-grid">
-        {resources.map(resource => (
-          <a key={resource.id} href={resource.url} target="_blank" rel="noopener noreferrer" className="community-card">
-            <IconComponent name={resource.icon} size={24} />
-            <div>
-              <h3>{resource.title}</h3>
-              <p>{resource.description}</p>
-            </div>
-            <ChevronRight size={16} className="arrow" />
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-// Schedule Section Component - High-level hours only
-const ScheduleSection = ({ schedules }) => {
-  if (!schedules) return null;
-
-  return (
-    <section id="schedule" className="schedule-section">
-      <h2><Clock size={24} /> School Hours</h2>
-      <div className="schedule-grid simple">
-        {schedules.overview?.map(item => (
-          <div key={item.id} className="schedule-card">
-            <h3>{item.level}</h3>
-            <div className="schedule-details">
-              <span className="schedule-days">{item.days}</span>
-              <span className="schedule-hours">{item.hours}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-      <p className="schedule-note-bottom">
-        Students should arrive 10-15 minutes before class starts.
-      </p>
-      <a
-        href="https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit?gid=2013129902#gid=2013129902"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="schedule-full-link"
-      >
-        View Full Class Schedule <ExternalLink size={14} />
-      </a>
-    </section>
-  );
-};
-
-// Generate ICS download link for an event
-const generateICSFile = (event) => {
-  const startDate = new Date(event.date);
-  if (event.time && event.time !== 'All Day') {
-    const [time, period] = event.time.split(' ');
-    const [hours, minutes] = time.split(':');
-    let hour = parseInt(hours);
-    if (period === 'PM' && hour !== 12) hour += 12;
-    if (period === 'AM' && hour === 12) hour = 0;
-    startDate.setHours(hour, parseInt(minutes) || 0, 0);
-  }
-  const endDate = new Date(startDate);
-  endDate.setHours(endDate.getHours() + 2);
-
-  const formatDate = (date) => {
-    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
-  };
-
-  const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Artios Connect//EN
-BEGIN:VEVENT
-DTSTART:${formatDate(startDate)}
-DTEND:${formatDate(endDate)}
-SUMMARY:${event.title}
-LOCATION:${event.location || 'Artios Academies'}
-DESCRIPTION:Artios Academies Event
-END:VEVENT
-END:VCALENDAR`;
-
-  const blob = new Blob([icsContent], { type: 'text/calendar' });
-  return URL.createObjectURL(blob);
-};
-
-// Welcome Page Component
-const WelcomePage = ({ onBack, onOpenChat }) => {
-  return (
-    <div className="welcome-page">
-      <header className="welcome-page-header">
-        <button onClick={onBack} className="back-btn">
-          <ChevronRight size={20} className="back-arrow" /> Back to Home
-        </button>
-      </header>
-
-      <div className="welcome-hero">
-        <Sparkles size={48} />
-        <h1>Welcome to Artios!</h1>
-        <p>Everything you need to know as a new Artios family</p>
-      </div>
-
-      <div className="welcome-content">
-        <div className="welcome-grid">
-          <div className="welcome-card highlight">
-            <h3>What is Artios?</h3>
-            <p>Artios Academies is a Christian homeschool hybrid / University-Model school where students attend on-campus classes certain days and complete assignments at home on other days.</p>
-            <p><strong>Mission:</strong> Train students to possess the wisdom, virtue, and eloquence necessary to lead the culture through their arts, vocations, and callings.</p>
-            <p><strong>Tagline:</strong> Art. Heart. Smart.</p>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Programs & Schedule</h3>
-            <ul>
-              <li><strong>Elementary (K-6):</strong> Mon/Wed, 9:00 AM - 2:45 PM</li>
-              <li><strong>Junior High (7-8):</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
-              <li><strong>High School (9-12):</strong> Tue/Thu, 9:00 AM - 2:45 PM</li>
-              <li><em>Doors open at 8:50 AM (10 minutes before first class)</em></li>
-              <li><strong>Dance Classes:</strong> Fridays (various levels K-12)</li>
-              <li><strong>HS Arts Conservatory:</strong> Fridays</li>
-            </ul>
-            <p>Please arrive 10-15 minutes early for drop-off.</p>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Tuition 2025-2026</h3>
-            <ul>
-              <li><strong>K-2nd Grade:</strong> $2,390/year</li>
-              <li><strong>3rd-4th Grade:</strong> $2,590/year</li>
-              <li><strong>5th-6th Grade:</strong> $2,690/year</li>
-              <li><strong>7th Grade:</strong> $3,030/year</li>
-              <li><strong>8th Grade:</strong> $3,230/year</li>
-            </ul>
-            <p>High school pricing varies by grade level. Contact us for details.</p>
-            <a href="/Updated Open House 25_26.pdf" target="_blank" rel="noopener noreferrer" className="welcome-link">
-              <FileText size={16} /> View Full Open House Brochure
-            </a>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Getting Started Checklist</h3>
-            <ul className="welcome-checklist">
-              <li>Complete all FACTS enrollment forms</li>
-              <li>Read the Student Handbook thoroughly</li>
-              <li>Set up your ArtiosCafe.com account for lunch orders</li>
-              <li>Add the school calendar to your phone</li>
-              <li>Join your grade-level communication groups</li>
-              <li>Review the dress code policy</li>
-              <li>Set up carpool arrangements if needed</li>
-            </ul>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Lunch Ordering</h3>
-            <p>Order lunch through <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer">ArtiosCafe.com</a> by <strong>10 AM on class days</strong>.</p>
-            <p>Orders cannot be placed same-day after the deadline. Students may also bring lunch from home.</p>
-            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="welcome-link">
-              Visit Artios Cafe <ExternalLink size={14} />
-            </a>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Weather Policy</h3>
-            <p>If <strong>Gwinnett County</strong> or <strong>Forsyth County</strong> public schools close due to weather, Artios closes.</p>
-            <p>Check email/text alerts and social media for announcements. When in doubt, check FACTS or contact the office.</p>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Dress Code Basics</h3>
-            <p>Modest, neat attire appropriate for a Christian academic environment:</p>
-            <ul>
-              <li>No offensive graphics or slogans</li>
-              <li>Appropriate length shorts and skirts</li>
-              <li>Closed-toe shoes recommended</li>
-              <li>See the Student Handbook for full details</li>
-            </ul>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Important Links</h3>
-            <div className="welcome-links">
-              <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="welcome-link">
-                <Users size={16} /> FACTS Family Portal
-              </a>
-              <a href="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York" target="_blank" rel="noopener noreferrer" className="welcome-link">
-                <Calendar size={16} /> School Calendar
-              </a>
-              <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="welcome-link">
-                <ExternalLink size={16} /> Lunch Ordering
-              </a>
-            </div>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Enrollment Requirements</h3>
-            <p>To enroll at Artios, families must:</p>
-            <ul>
-              <li>Be registered homeschoolers with Georgia Declaration of Intent filed</li>
-              <li>Complete all FACTS Family Portal enrollment forms</li>
-              <li>Submit required student health forms</li>
-              <li>Agree to the Statement of Faith and Parent Partnership</li>
-            </ul>
-            <p>Class sizes are limited. Contact us for current availability.</p>
-          </div>
-
-          <div className="welcome-card">
-            <h3>Questions?</h3>
-            <p>Contact our team:</p>
-            <p><strong>John Lane</strong> (Director): <a href="mailto:jmlane@artiosacademies.com">jmlane@artiosacademies.com</a></p>
-            <p><strong>Jackie Thompson</strong> (Asst. Director): <a href="mailto:jthompson@artiosacademies.com">jthompson@artiosacademies.com</a></p>
-            <p><strong>Phone:</strong> <a href="tel:+14702024042">(470) 202-4042</a></p>
-            <p>Or use our chat assistant for quick answers!</p>
-            <button onClick={onOpenChat} className="btn-welcome-chat">
-              <MessageCircle size={18} /> Get Answers
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+  AdminPanel,
+  HomeTab,
+  ChatTab,
+  CalendarTab,
+} from './components';
+import TabNavigation from './components/TabNavigation';
+import MoreTab from './components/MoreTab';
+
+// Import data
+import initialData from './data/initialData';
+
+// Check if we're on the admin page
+const isAdminPage = window.location.pathname === '/admin' || window.location.pathname === '/admin/';
 
 // Main App Component
 export default function App() {
   // Load data from localStorage or use defaults
-  // Note: quickLinks, faq, and schedules always use initialData to ensure latest linktree info
   const [data, setData] = useState(() => {
     try {
       const saved = localStorage.getItem('artiosConnectData');
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Always use latest quickLinks, faq, schedules, and schoolInfo from initialData
         return {
           ...initialData,
           ...parsed,
@@ -1189,31 +39,17 @@ export default function App() {
       return initialData;
     }
   });
-  const [chatOpen, setChatOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
+    return sessionStorage.getItem('adminLoggedIn') === 'true';
+  });
   const [isParentLoggedIn, setIsParentLoggedIn] = useState(() => {
     return sessionStorage.getItem('parentLoggedIn') === 'true';
   });
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [showParentLogin, setShowParentLogin] = useState(false);
+  const [activeTab, setActiveTab] = useState('home');
   const [adminPassword, setAdminPassword] = useState('');
   const [parentPassword, setParentPassword] = useState('');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currentView, setCurrentView] = useState('home'); // 'home' or 'welcome'
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  // Handle scroll for scroll-to-top button
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 400);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const [loginError, setLoginError] = useState('');
 
   // Save data to localStorage when it changes
   useEffect(() => {
@@ -1223,252 +59,110 @@ export default function App() {
       upcomingEvents: data.upcomingEvents,
       documents: data.documents,
       aiSettings: data.aiSettings,
-      notifications: data.notifications
+      notifications: data.notifications,
+      aiKnowledge: data.aiKnowledge
     }));
   }, [data]);
 
   // Parent login
   const handleParentLogin = () => {
     if (parentPassword === 'artios2026') {
+      setLoginError('');
       setIsParentLoggedIn(true);
       sessionStorage.setItem('parentLoggedIn', 'true');
-      setShowParentLogin(false);
       setParentPassword('');
     } else {
-      alert('Incorrect password');
+      setLoginError('Incorrect password. Please try again.');
+      setParentPassword('');
     }
   };
 
-  // Simple admin auth (in production, use proper auth)
+  // Admin login (separate password from parent portal)
   const handleAdminLogin = () => {
-    if (adminPassword === 'artios2026') {
-      setIsAdmin(true);
-      setShowAdminLogin(false);
+    if (adminPassword === 'artiosadmin2026') {
+      setIsAdminLoggedIn(true);
+      sessionStorage.setItem('adminLoggedIn', 'true');
       setAdminPassword('');
     } else {
       alert('Incorrect password');
     }
   };
 
-  if (isAdmin) {
-    return <AdminPanel data={data} setData={setData} onLogout={() => setIsAdmin(false)} />;
-  }
+  const handleAdminLogout = () => {
+    setIsAdminLoggedIn(false);
+    sessionStorage.removeItem('adminLoggedIn');
+    window.location.href = '/';
+  };
 
-  // Welcome page view
-  if (currentView === 'welcome') {
-    return (
-      <>
-        <WelcomePage onBack={() => setCurrentView('home')} onOpenChat={() => setChatOpen(true)} />
-        <ChatWidget isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-        {!chatOpen && (
-          <button className="chat-toggle" onClick={() => setChatOpen(true)}>
-            <MessageCircle size={24} />
-          </button>
-        )}
-      </>
-    );
-  }
-
-  // Calendar page view
-  if (currentView === 'calendar') {
-    return (
-      <div className="page-view">
-        <header className="page-header">
-          <button onClick={() => setCurrentView('home')} className="back-btn">
-            <ChevronRight size={20} className="back-arrow" /> Back
-          </button>
-          <h1>School Calendar</h1>
-        </header>
-        <div className="calendar-page-content">
-          <div className="calendar-embed-wrapper full">
-            <iframe
-              src="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&showTz=0&mode=MONTH"
-              className="calendar-iframe full"
-              frameBorder="0"
-              scrolling="no"
-              title="Artios School Calendar"
-            />
+  // Admin page - completely separate from parent portal
+  if (isAdminPage) {
+    if (!isAdminLoggedIn) {
+      return (
+        <div className="login-screen admin-login-screen">
+          <div className="login-card">
+            <Settings size={48} className="admin-login-icon" />
+            <h1>Admin Dashboard</h1>
+            <p>Artios Connect Administration</p>
+            <div className="login-form">
+              <div className="login-input-group">
+                <Lock size={18} />
+                <input
+                  type="password"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
+                  placeholder="Enter admin password"
+                  autoFocus
+                />
+              </div>
+              <button onClick={handleAdminLogin} className="btn-login">
+                Sign In
+              </button>
+            </div>
+            <a href="/" className="login-back-link">Back to Parent Portal</a>
           </div>
-          <a href="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com" target="_blank" rel="noopener noreferrer" className="open-external-btn">
-            <ExternalLink size={16} /> Open in Google Calendar
-          </a>
         </div>
-        <ChatWidget isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-        {!chatOpen && (
-          <button className="chat-toggle" onClick={() => setChatOpen(true)}>
-            <MessageCircle size={24} />
-          </button>
-        )}
-      </div>
-    );
+      );
+    }
+    return <AdminPanel data={data} setData={setData} onLogout={handleAdminLogout} initialData={initialData} />;
   }
 
-  // More page view - Resources, Get Involved, FAQ, Schedule
-  if (currentView === 'more') {
-    return (
-      <div className="page-view">
-        <header className="page-header">
-          <button onClick={() => setCurrentView('home')} className="back-btn">
-            <ChevronRight size={20} className="back-arrow" /> Back
-          </button>
-          <h1>Resources & More</h1>
-        </header>
-
-        <div className="more-page-content">
-          {/* Quick Links Grid */}
-          <section className="more-section">
-            <h2>Quick Links</h2>
-            <div className="quick-links-grid">
-              <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="quick-link-card">
-                <Users size={20} />
-                <span>FACTS Portal</span>
-              </a>
-              <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="quick-link-card">
-                <Clock size={20} />
-                <span>Order Lunch</span>
-              </a>
-              <a href="https://docs.google.com/spreadsheets/d/1Q_B04WaG9qUXTpLE02a6237nMJCq_y1LAQXf041uBEQ/edit" target="_blank" rel="noopener noreferrer" className="quick-link-card">
-                <FileText size={20} />
-                <span>Full Schedule</span>
-              </a>
-              <a href="/Updated Open House 25_26.pdf" target="_blank" rel="noopener noreferrer" className="quick-link-card">
-                <FileText size={20} />
-                <span>Open House PDF</span>
-              </a>
-            </div>
-          </section>
-
-          {/* Newsletters */}
-          <section className="more-section">
-            <h2>Newsletters</h2>
-            <div className="newsletters-list">
-              <a href="https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view" target="_blank" rel="noopener noreferrer" className="newsletter-item">
-                <FileText size={18} />
-                <div>
-                  <strong>Elementary Connection</strong>
-                  <span>December 2025</span>
-                </div>
-                <ExternalLink size={16} />
-              </a>
-              <a href="https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view" target="_blank" rel="noopener noreferrer" className="newsletter-item">
-                <FileText size={18} />
-                <div>
-                  <strong>The Choir Wire</strong>
-                  <span>November 2025</span>
-                </div>
-                <ExternalLink size={16} />
-              </a>
-            </div>
-          </section>
-
-          {/* Get Involved */}
-          <section className="more-section">
-            <h2>Get Involved</h2>
-            <div className="involved-list">
-              <a href="https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent#" target="_blank" rel="noopener noreferrer" className="involved-item">
-                <Heart size={20} />
-                <div>
-                  <strong>Volunteer as TA Sub</strong>
-                  <span>Help in the classroom</span>
-                </div>
-                <ArrowRight size={16} />
-              </a>
-              <a href="https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471" target="_blank" rel="noopener noreferrer" className="involved-item">
-                <Ticket size={20} />
-                <div>
-                  <strong>Event Tickets</strong>
-                  <span>Performances & special events</span>
-                </div>
-                <ArrowRight size={16} />
-              </a>
-              <a href="https://duesouthdesigns.net/school-orders" target="_blank" rel="noopener noreferrer" className="involved-item">
-                <ShoppingBag size={20} />
-                <div>
-                  <strong>School Store</strong>
-                  <span>Spirit wear & gear</span>
-                </div>
-                <ArrowRight size={16} />
-              </a>
-            </div>
-          </section>
-
-          {/* Podcast */}
-          <section className="more-section">
-            <h2>Artios At Home Podcast</h2>
-            <p className="section-desc">Insights and updates from our school family</p>
-            <div className="podcast-links">
-              <a href="https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354" target="_blank" rel="noopener noreferrer" className="podcast-btn apple">
-                Apple Podcasts
-              </a>
-              <a href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW" target="_blank" rel="noopener noreferrer" className="podcast-btn spotify">
-                Spotify
-              </a>
-            </div>
-          </section>
-
-          {/* School Hours */}
-          <section className="more-section">
-            <h2>School Hours</h2>
-            <p className="section-desc">Doors open at 8:50 AM</p>
-            <div className="hours-grid">
-              <div className="hours-card">
-                <strong>Elementary (K-6)</strong>
-                <span>Mon/Wed • 9 AM - 2:45 PM</span>
-              </div>
-              <div className="hours-card">
-                <strong>Jr High & High School</strong>
-                <span>Tue/Thu • 9 AM - 2:45 PM</span>
-              </div>
-            </div>
-          </section>
-
-          {/* FAQ */}
-          <section className="more-section">
-            <h2>Frequently Asked Questions</h2>
-            <FAQSection faqItems={data.faq || initialData.faq} compact />
-          </section>
-
-          {/* New Families Link */}
-          <section className="more-section">
-            <button onClick={() => setCurrentView('welcome')} className="new-families-btn">
-              <GraduationCap size={20} />
-              <span>New to Artios? Welcome Guide</span>
-              <ArrowRight size={16} />
-            </button>
-          </section>
-        </div>
-
-        <ChatWidget isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-        {!chatOpen && (
-          <button className="chat-toggle" onClick={() => setChatOpen(true)}>
-            <MessageCircle size={24} />
-          </button>
-        )}
-      </div>
-    );
-  }
+  // System prompt for AI chat
+  const systemPrompt = data.aiSettings?.systemPrompt;
 
   // Parent login screen
   if (!isParentLoggedIn) {
     return (
       <div className="login-screen">
         <div className="login-card">
-          <img src="/artios-logo.png" alt="Artios Academies" className="login-logo" />
+          <img
+            src="/artios-logo.png"
+            alt="Artios Academies logo"
+            className="login-logo"
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
           <h1>Artios Connect</h1>
           <p>Parent Information Portal</p>
           <div className="login-form">
-            <div className="login-input-group">
+            <div className={`login-input-group ${loginError ? 'error' : ''}`}>
               <Lock size={18} />
               <input
                 type="password"
                 value={parentPassword}
-                onChange={(e) => setParentPassword(e.target.value)}
+                onChange={(e) => { setParentPassword(e.target.value); setLoginError(''); }}
                 onKeyPress={(e) => e.key === 'Enter' && handleParentLogin()}
                 placeholder="Enter parent password"
                 autoFocus
+                aria-invalid={!!loginError}
+                aria-describedby={loginError ? 'login-error' : undefined}
               />
             </div>
-            <button onClick={handleParentLogin} className="btn-login">
+            {loginError && (
+              <p id="login-error" className="login-error" role="alert">
+                {loginError}
+              </p>
+            )}
+            <button onClick={handleParentLogin} className="btn-login" disabled={!parentPassword.trim()}>
               Sign In
             </button>
           </div>
@@ -1478,269 +172,31 @@ export default function App() {
     );
   }
 
-  const upcomingEvents = data.upcomingEvents.filter(e => isUpcoming(e.date)).slice(0, 7);
-  const activeAnnouncements = data.announcements.filter(a => isUpcoming(a.date));
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+  };
+
+  const renderActiveTab = () => {
+    switch (activeTab) {
+      case 'home':
+        return <HomeTab data={data} onTabChange={handleTabChange} />;
+      case 'chat':
+        return <ChatTab systemPrompt={systemPrompt} />;
+      case 'calendar':
+        return <CalendarTab data={data} />;
+      case 'more':
+        return <MoreTab />;
+      default:
+        return <HomeTab data={data} onTabChange={handleTabChange} />;
+    }
+  };
 
   return (
-    <div className="app">
-      {/* Header */}
-      <header className="header">
-        <div className="header-content">
-          <div className="logo-section">
-            <img src="/artios-logo.png" alt="Artios Academies" className="logo" />
-            <div className="logo-text">
-              <h1>Artios Connect</h1>
-              <span className="tagline">{data.schoolInfo.tagline}</span>
-            </div>
-          </div>
-
-          <nav className="nav-desktop">
-            <button onClick={() => setCurrentView('calendar')} className="nav-link-btn">Calendar</button>
-            <button onClick={() => setCurrentView('more')} className="nav-link-btn">More</button>
-            <button onClick={() => setChatOpen(true)} className="nav-chat-btn">
-              <MessageCircle size={18} /> Ask
-            </button>
-          </nav>
-
-          <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <nav className="nav-mobile">
-            <button onClick={() => { setCurrentView('calendar'); setMobileMenuOpen(false); }} className="nav-link-btn">Calendar</button>
-            <button onClick={() => { setCurrentView('more'); setMobileMenuOpen(false); }} className="nav-link-btn">Resources & More</button>
-            <button onClick={() => { setCurrentView('welcome'); setMobileMenuOpen(false); }} className="nav-link-btn">New Families</button>
-            <button onClick={() => { setChatOpen(true); setMobileMenuOpen(false); }} className="nav-chat-btn">
-              <MessageCircle size={18} /> Ask a Question
-            </button>
-          </nav>
-        )}
-      </header>
-
-      {/* Notification Bar - Admin pushed notifications */}
-      <NotificationBar notifications={data.notifications} />
-
-      {/* Streamlined Hero - Big 3 Actions Only */}
-      <section className="hero-clean">
-        <div className="hero-clean-content">
-          <div className="hero-greeting">
-            <h1>Artios Connect</h1>
-            <p>Quick access for busy families</p>
-          </div>
-
-          {/* The Big 3 - What parents use daily */}
-          <div className="hero-big-actions">
-            <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="big-action-btn facts">
-              <Users size={28} />
-              <span>FACTS</span>
-              <small>Grades & Attendance</small>
-            </a>
-            <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="big-action-btn lunch">
-              <Clock size={28} />
-              <span>Lunch</span>
-              <small>Order by 10 AM</small>
-            </a>
-            <a href="#this-week" className="big-action-btn calendar">
-              <Calendar size={28} />
-              <span>Calendar</span>
-              <small>View Events</small>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* School Notices - Always visible section */}
-      <section className="notices-section">
-        <div className="notices-header">
-          <Bell size={18} />
-          <h3>School Notices</h3>
-        </div>
-        {activeAnnouncements.length > 0 ? (
-          <div className="notices-list">
-            {activeAnnouncements.map(announcement => (
-              <div key={announcement.id} className={`notice-item ${announcement.priority}`}>
-                <div className="notice-content">
-                  <strong>{announcement.title}</strong>
-                  <p>{announcement.content}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="notices-empty">
-            <CheckCircle size={18} />
-            <span>No announcements - you're all caught up!</span>
-          </div>
-        )}
-      </section>
-
-      {/* This Week - Clean event list (max 5) */}
-      <section id="this-week" className="this-week-section">
-        <div className="this-week-header">
-          <h2>This Week</h2>
-          <button onClick={() => setCurrentView('calendar')} className="see-all-btn">
-            Full Calendar <ChevronRight size={16} />
-          </button>
-        </div>
-
-        {upcomingEvents.slice(0, 5).length > 0 ? (
-          <div className="this-week-list">
-            {upcomingEvents.slice(0, 5).map(event => {
-              const eventDate = new Date(event.date);
-              const isTodayEvent = isToday(event.date);
-              const isTomorrowEvent = isTomorrow(event.date);
-              const daysUntil = getDaysUntil(event.date);
-
-              let dayLabel = eventDate.toLocaleDateString('en-US', { weekday: 'short' });
-              if (isTodayEvent) dayLabel = 'Today';
-              else if (isTomorrowEvent) dayLabel = 'Tomorrow';
-
-              return (
-                <div key={event.id} className={`week-event ${isTodayEvent ? 'today' : ''} ${isTomorrowEvent ? 'tomorrow' : ''}`}>
-                  <div className="week-event-day">
-                    <span className="day-name">{dayLabel}</span>
-                    <span className="day-date">{eventDate.getDate()}</span>
-                  </div>
-                  <div className="week-event-info">
-                    <h3>{event.title}</h3>
-                    {event.time && <span className="event-time">{event.time}</span>}
-                  </div>
-                  <a
-                    href={generateICSFile(event)}
-                    download={`${event.title.replace(/\s+/g, '-')}.ics`}
-                    className="add-cal-mini"
-                    onClick={(e) => e.stopPropagation()}
-                    title="Add to calendar"
-                  >
-                    <CalendarCheck size={18} />
-                  </a>
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <p className="no-events">No upcoming events this week</p>
-        )}
-      </section>
-
-      {/* Quick Help Bar - AI + Contact in one line */}
-      <section className="quick-help-bar">
-        <button onClick={() => setChatOpen(true)} className="help-option">
-          <MessageCircle size={20} />
-          <span>Ask a Question</span>
-        </button>
-        <a href={`mailto:${data.schoolInfo.email}`} className="help-option">
-          <Mail size={20} />
-          <span>Email Office</span>
-        </a>
-        <button onClick={() => setCurrentView('more')} className="help-option">
-          <BookOpen size={20} />
-          <span>Resources & More</span>
-        </button>
-      </section>
-
-      {/* Compact Contact Strip */}
-      <section id="contact" className="contact-strip">
-        <div className="contact-strip-content">
-          <div className="contact-info-compact">
-            <a href={`mailto:${data.schoolInfo.email}`} className="contact-link">
-              <Mail size={16} /> {data.schoolInfo.email}
-            </a>
-            <span className="contact-divider">|</span>
-            <span className="contact-address">
-              <MapPin size={16} /> {data.schoolInfo.address}
-            </span>
-          </div>
-          <div className="director-links">
-            <a href="https://calendar.app.google/1xHHZDQVMThZCspaA" target="_blank" rel="noopener noreferrer" className="director-btn">
-              Meet with John
-            </a>
-            <a href="https://calendly.com/artiosacademies/parent-partnership-meetings-2025" target="_blank" rel="noopener noreferrer" className="director-btn">
-              Meet with Jackie
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Minimal Footer */}
-      <footer className="footer-minimal">
-        <div className="footer-minimal-content">
-          <div className="footer-brand">
-            <img src="/artios-logo.png" alt="Artios Academies" className="footer-logo-small" />
-            <span>Artios Connect</span>
-          </div>
-          <div className="footer-actions">
-            <a href="https://www.instagram.com/artios_sugarhill/" target="_blank" rel="noopener noreferrer" className="social-icon">
-              Instagram
-            </a>
-            <button onClick={() => setCurrentView('welcome')} className="footer-link">New Families</button>
-            <button onClick={() => setShowAdminLogin(true)} className="footer-link admin">Admin</button>
-          </div>
-        </div>
-        <p className="copyright">&copy; {new Date().getFullYear()} Artios Academies of Sugar Hill</p>
-      </footer>
-
-      {/* Chat Widget */}
-      <ChatWidget isOpen={chatOpen} onClose={() => setChatOpen(false)} />
-
-      {/* Chat Toggle Button (when chat is closed) */}
-      {!chatOpen && (
-        <button className="chat-toggle" onClick={() => setChatOpen(true)}>
-          <MessageCircle size={24} />
-        </button>
-      )}
-
-      {/* Scroll to Top Button */}
-      {showScrollTop && (
-        <button className="scroll-top-btn" onClick={scrollToTop} aria-label="Scroll to top">
-          <ArrowUp size={24} />
-        </button>
-      )}
-
-      {/* Mobile Bottom Navigation */}
-      <nav className="mobile-bottom-nav">
-        <div className="mobile-bottom-nav-items">
-          <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="mobile-nav-item">
-            <Users size={20} />
-            <span>FACTS</span>
-          </a>
-          <a href="http://artioscafe.com" target="_blank" rel="noopener noreferrer" className="mobile-nav-item">
-            <Clock size={20} />
-            <span>Lunch</span>
-          </a>
-          <a href="#full-calendar" className="mobile-nav-item">
-            <Calendar size={20} />
-            <span>Calendar</span>
-          </a>
-          <button className="mobile-nav-item accent" onClick={() => setChatOpen(true)}>
-            <MessageCircle size={20} />
-            <span>Ask</span>
-          </button>
-        </div>
-      </nav>
-
-      {/* Admin Login Modal */}
-      {showAdminLogin && (
-        <div className="modal-overlay" onClick={() => setShowAdminLogin(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <h3>Admin Login</h3>
-            <input
-              type="password"
-              value={adminPassword}
-              onChange={(e) => setAdminPassword(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
-              placeholder="Enter password"
-              autoFocus
-            />
-            <div className="modal-actions">
-              <button onClick={() => setShowAdminLogin(false)} className="btn-cancel">Cancel</button>
-              <button onClick={handleAdminLogin} className="btn-primary">Login</button>
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="app-container tabbed-layout">
+      <main className="tab-content-area">
+        {renderActiveTab()}
+      </main>
+      <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
   );
 }
