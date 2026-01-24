@@ -91,7 +91,14 @@ const ChatWidget = ({
   // Handle initial question (from clickable suggestions or quick questions)
   // When a quick question comes from Home tab, start a fresh conversation
   useEffect(() => {
-    if (initialQuestion && initialQuestion !== processedQuestionRef.current && !loading) {
+    // Reset the processed question ref when initialQuestion becomes null
+    // This allows the same question to trigger a fresh chat on repeated clicks
+    if (!initialQuestion) {
+      processedQuestionRef.current = null;
+      return;
+    }
+
+    if (initialQuestion !== processedQuestionRef.current && !loading) {
       processedQuestionRef.current = initialQuestion;
 
       // Clear existing chat and start fresh session
