@@ -1506,3 +1506,695 @@
   color: var(--text-secondary);
   margin-bottom: 0.75rem;
 }
+
+/* ============================================
+   4-TAB NAVIGATION LAYOUT - App Container
+   ============================================ */
+
+.app-container.tabbed-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--background);
+}
+
+.tab-content-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0));
+}
+
+/* ============================================
+   MOBILE BOTTOM NAVIGATION - TabNavigation
+   ============================================ */
+
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border-light);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.mobile-bottom-nav-items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.5rem 0.25rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: var(--radius-sm);
+  min-width: 60px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-item span {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.mobile-nav-item svg {
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav-item.active {
+  color: var(--accent);
+}
+
+.mobile-nav-item.active svg {
+  transform: scale(1.1);
+}
+
+.mobile-nav-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Hide bottom nav on desktop */
+@media (min-width: 769px) {
+  .mobile-bottom-nav {
+    display: none;
+  }
+
+  .tab-content-area {
+    padding-bottom: 0;
+  }
+}
+
+/* ============================================
+   TAB CONTENT - Base Styles
+   ============================================ */
+
+.tab-content {
+  min-height: 100%;
+  animation: fadeInTab 0.25s ease-out;
+}
+
+@keyframes fadeInTab {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   HOME TAB
+   ============================================ */
+
+.home-tab {
+  padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.offline-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.home-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem 0 1.5rem;
+}
+
+.home-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 0.75rem;
+}
+
+.home-header-text h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem;
+}
+
+.home-header-text p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.home-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.section-header .section-title {
+  margin: 0;
+}
+
+.see-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.2s;
+}
+
+.see-all-btn:hover {
+  background: rgba(124, 179, 66, 0.1);
+}
+
+/* Events list for Home Tab */
+.home-tab .events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.event-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  transition: all 0.2s;
+}
+
+.event-item:hover {
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.event-item.today {
+  border-left: 3px solid var(--accent);
+  background: linear-gradient(to right, #f0fdf4, var(--surface));
+}
+
+.event-time,
+.event-date {
+  flex-shrink: 0;
+  min-width: 70px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.event-item .event-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.event-item .event-details strong {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.125rem;
+}
+
+.event-item .event-details span {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+/* Ask Assistant CTA */
+.cta-section {
+  padding-top: 0.5rem;
+}
+
+.ask-assistant-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(124, 179, 66, 0.25);
+  transition: all 0.2s;
+}
+
+.ask-assistant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(124, 179, 66, 0.35);
+}
+
+.cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: white;
+  flex-shrink: 0;
+}
+
+.cta-text {
+  flex: 1;
+  color: white;
+}
+
+.cta-text strong {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.125rem;
+}
+
+.cta-text span {
+  font-size: 0.8125rem;
+  opacity: 0.9;
+}
+
+.cta-arrow {
+  color: rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+}
+
+/* ============================================
+   CHAT TAB
+   ============================================ */
+
+.chat-tab {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-tab .chat-widget-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   CALENDAR TAB
+   ============================================ */
+
+.calendar-tab {
+  padding: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  text-align: center;
+  padding: 1rem 0 1.5rem;
+}
+
+.calendar-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.calendar-header p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.calendar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.calendar-open-btn,
+.calendar-subscribe-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.calendar-open-btn {
+  background: var(--primary);
+  color: white;
+}
+
+.calendar-open-btn:hover {
+  background: var(--primary-dark);
+}
+
+.calendar-subscribe-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.calendar-subscribe-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.calendar-embed-wrapper {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.calendar-embed-wrapper.full {
+  aspect-ratio: 4 / 3;
+}
+
+.calendar-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.calendar-iframe.full {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.calendar-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  gap: 0.75rem;
+}
+
+.calendar-embed-wrapper:has(.calendar-iframe:not([src])) .calendar-fallback {
+  display: flex;
+}
+
+/* Empty state for calendar */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.empty-state-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin: 0 0 0.25rem;
+}
+
+.empty-state-hint {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ============================================
+   MORE TAB
+   ============================================ */
+
+.more-tab {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.more-header {
+  padding: 1.5rem 1rem 1rem;
+  text-align: center;
+}
+
+.more-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem;
+}
+
+.more-header p {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.more-menu {
+  flex: 1;
+  padding: 0.5rem 1rem 1rem;
+}
+
+.more-menu-item-wrapper {
+  margin-bottom: 0.5rem;
+}
+
+.more-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  width: 100%;
+  padding: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.more-menu-item:hover {
+  border-color: var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.more-menu-item.expanded {
+  border-color: var(--primary);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--background);
+  border-radius: 50%;
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.menu-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-item-title {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.menu-item-description {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  margin-top: 0.125rem;
+}
+
+.menu-item-arrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.menu-item-arrow .rotated {
+  transform: rotate(90deg);
+}
+
+/* Contact details expandable section */
+.contact-details {
+  background: var(--surface);
+  border: 1px solid var(--primary);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background 0.2s;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.contact-row:last-child {
+  border-bottom: none;
+}
+
+.contact-row:hover {
+  background: var(--background);
+}
+
+.contact-row svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.contact-row span {
+  flex: 1;
+  font-size: 0.9375rem;
+}
+
+.external-icon {
+  color: var(--text-muted);
+}
+
+/* More tab footer */
+.more-footer {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  border-top: 1px solid var(--border-light);
+  margin-top: auto;
+}
+
+.app-version {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0 0 0.25rem;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS - Tablets and larger
+   ============================================ */
+
+@media (min-width: 600px) {
+  .home-tab {
+    padding: 1.5rem;
+  }
+
+  .home-header {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .home-logo {
+    margin-bottom: 0;
+  }
+
+  .calendar-tab {
+    padding: 2rem;
+  }
+
+  .more-menu {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem 0;
+  }
+}
+
+@media (min-width: 769px) {
+  .app-container.tabbed-layout {
+    /* On desktop, could show sidebar instead */
+  }
+
+  .home-tab,
+  .calendar-tab {
+    padding: 2rem;
+  }
+}
