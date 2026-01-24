@@ -22,8 +22,8 @@ const SidebarNavigation = ({ activeTab, onTabChange }) => {
     <nav className="desktop-sidebar-nav" aria-label="Main navigation">
       <div className="sidebar-header">
         <div className="sidebar-logo">
-          <span className="sidebar-logo-icon">S</span>
-          <span className="sidebar-logo-text">SchoolAssist</span>
+          <span className="sidebar-logo-icon" aria-hidden="true">A</span>
+          <span className="sidebar-logo-text">Artios Connect</span>
         </div>
       </div>
       <div className="sidebar-nav-items">
@@ -44,6 +44,9 @@ const SidebarNavigation = ({ activeTab, onTabChange }) => {
             </button>
           );
         })}
+      </div>
+      <div className="sidebar-footer">
+        <p className="sidebar-footer-text">Artios Academies of Sugar Hill</p>
       </div>
     </nav>
   );
