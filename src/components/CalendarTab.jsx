@@ -1,7 +1,100 @@
-import { Calendar, CalendarPlus, ExternalLink, MapPin, Clock } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Calendar, CalendarPlus, ExternalLink, MapPin, Clock, X } from 'lucide-react';
 
 // Google Calendar ID for constructing URLs
 const CALENDAR_ID = 'c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b@group.calendar.google.com';
+
+/**
+ * EventDetailModal Component
+ * Shows full event details when an event card is clicked
+ */
+const EventDetailModal = ({ event, onClose }) => {
+  // Handle Escape key to close modal
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [handleKeyDown]);
+
+  // Handle click outside modal to close
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  // Format date for display
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr + 'T00:00:00');
+    return date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  return (
+    <div
+      className="event-modal-backdrop"
+      onClick={handleBackdropClick}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="event-modal-title"
+    >
+      <div className="event-modal">
+        <button
+          className="event-modal-close"
+          onClick={onClose}
+          aria-label="Close event details"
+        >
+          <X size={24} />
+        </button>
+
+        <div className="event-modal-content">
+          <h2 id="event-modal-title" className="event-modal-title">{event.title}</h2>
+
+          <div className="event-modal-details">
+            <div className="event-modal-row">
+              <Calendar size={18} aria-hidden="true" />
+              <span>{formatDate(event.date)}</span>
+            </div>
+
+            <div className="event-modal-row">
+              <Clock size={18} aria-hidden="true" />
+              <span>{event.time}</span>
+            </div>
+
+            {event.location && (
+              <div className="event-modal-row">
+                <MapPin size={18} aria-hidden="true" />
+                <span>{event.location}</span>
+              </div>
+            )}
+          </div>
+
+          {event.description && (
+            <div className="event-modal-description">
+              <h3>Details</h3>
+              <p>{event.description}</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /**
  * CalendarTab Component
@@ -9,6 +102,8 @@ const CALENDAR_ID = 'c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6
  * Also shows upcoming events from app data
  */
 const CalendarTab = ({ data }) => {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   // Get upcoming events and filter to only show future events
   const today = new Date().toISOString().split('T')[0];
   const upcomingEvents = (data?.upcomingEvents || [])
@@ -53,7 +148,12 @@ const CalendarTab = ({ data }) => {
               const dateParts = getDateParts(event.date);
               const dateClass = getDateClass(event.date);
               return (
-                <div key={event.id} className={`event-card ${dateClass}`}>
+                <button
+                  key={event.id}
+                  className={`event-card ${dateClass}`}
+                  onClick={() => setSelectedEvent(event)}
+                  aria-label={`View details for ${event.title}`}
+                >
                   <div className="event-left">
                     <div className="event-date-block">
                       <span className="day-label">{dateParts.dayLabel}</span>
@@ -69,7 +169,7 @@ const CalendarTab = ({ data }) => {
                       )}
                     </div>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -111,6 +211,14 @@ const CalendarTab = ({ data }) => {
           <p>Calendar preview not available. Click the button above to view the full calendar on Google.</p>
         </div>
       </div>
+
+      {/* Event Detail Modal */}
+      {selectedEvent && (
+        <EventDetailModal
+          event={selectedEvent}
+          onClose={() => setSelectedEvent(null)}
+        />
+      )}
     </div>
   );
 };
