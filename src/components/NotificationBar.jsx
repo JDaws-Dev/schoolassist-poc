@@ -36,17 +36,17 @@ const NotificationBar = ({ notifications }) => {
   // Icon mapping by type
   const getIcon = (type) => {
     switch (type) {
-      case 'urgent': return <Bell size={20} />;
-      case 'weather': return <Info size={20} />;
-      case 'reminder': return <Calendar size={20} />;
-      default: return <Megaphone size={20} />;
+      case 'urgent': return <Bell size={20} aria-hidden="true" />;
+      case 'weather': return <Info size={20} aria-hidden="true" />;
+      case 'reminder': return <Calendar size={20} aria-hidden="true" />;
+      default: return <Megaphone size={20} aria-hidden="true" />;
     }
   };
 
   return (
     <div className="notification-bar">
       <div className="notification-header">
-        <Bell size={16} />
+        <Bell size={16} aria-hidden="true" />
         <span>Announcements</span>
       </div>
       {sortedNotifications.length > 0 ? (
@@ -62,16 +62,16 @@ const NotificationBar = ({ notifications }) => {
               <button
                 onClick={() => handleDismiss(notification.id, notification.type)}
                 className="notification-dismiss"
-                aria-label="Dismiss"
+                aria-label={`Dismiss notification: ${notification.title}`}
               >
-                <X size={18} />
+                <X size={18} aria-hidden="true" />
               </button>
             )}
           </div>
         ))
       ) : (
         <div className="notification-empty">
-          <CheckCircle size={18} />
+          <CheckCircle size={18} aria-hidden="true" />
           <span>You're all caught up! School announcements will appear here.</span>
         </div>
       )}

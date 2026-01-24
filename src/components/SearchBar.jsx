@@ -103,7 +103,7 @@ const SearchBar = ({ quickLinks, faq, events, onResultClick, onAskAssistant }) =
   return (
     <div className="search-bar-container" ref={containerRef}>
       <div className={`search-bar ${isOpen ? 'focused' : ''}`}>
-        <Search size={18} className="search-icon" />
+        <Search size={18} className="search-icon" aria-hidden="true" />
         <input
           ref={inputRef}
           type="text"
@@ -112,6 +112,7 @@ const SearchBar = ({ quickLinks, faq, events, onResultClick, onAskAssistant }) =
           onFocus={() => setIsOpen(true)}
           placeholder="Search links, FAQ, events..."
           className="search-input"
+          aria-label="Search links, FAQ, and events"
         />
         {query && (
           <button
@@ -119,7 +120,7 @@ const SearchBar = ({ quickLinks, faq, events, onResultClick, onAskAssistant }) =
             className="search-clear"
             aria-label="Clear search"
           >
-            <X size={16} />
+            <X size={16} aria-hidden="true" />
           </button>
         )}
       </div>
@@ -136,13 +137,14 @@ const SearchBar = ({ quickLinks, faq, events, onResultClick, onAskAssistant }) =
                     key={`${result.type}-${index}`}
                     onClick={() => handleResultClick(result)}
                     className="search-result-item"
+                    aria-label={`${result.title} - ${result.type}`}
                   >
-                    <Icon size={18} className="result-icon" />
+                    <Icon size={18} className="result-icon" aria-hidden="true" />
                     <div className="result-content">
                       <span className="result-title">{result.title}</span>
                       <span className="result-subtitle">{result.subtitle}</span>
                     </div>
-                    <span className={`result-type ${result.type}`}>
+                    <span className={`result-type ${result.type}`} aria-hidden="true">
                       {result.type}
                     </span>
                   </button>
@@ -157,8 +159,8 @@ const SearchBar = ({ quickLinks, faq, events, onResultClick, onAskAssistant }) =
           )}
 
           {/* Always show option to ask assistant */}
-          <button onClick={handleAskAssistant} className="search-ask-assistant">
-            <HelpCircle size={18} />
+          <button onClick={handleAskAssistant} className="search-ask-assistant" aria-label={`Ask assistant about: ${query}`}>
+            <HelpCircle size={18} aria-hidden="true" />
             <span>Ask assistant: "{query}"</span>
           </button>
         </div>

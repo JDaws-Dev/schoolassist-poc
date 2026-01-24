@@ -41,14 +41,14 @@ const Omnibox = ({
     <div className="omnibox-container">
       <div className="omnibox-hero">
         <h1 className="omnibox-greeting">
-          {getGreeting()}{userName && `, ${userName}`}! <Sparkles className="omnibox-sparkle" size={24} />
+          {getGreeting()}{userName && `, ${userName}`}! <Sparkles className="omnibox-sparkle" size={24} aria-hidden="true" />
         </h1>
         <p className="omnibox-subtext">What do you need help with today?</p>
       </div>
 
       <form onSubmit={handleSubmit} className={`omnibox-form ${isFocused ? 'focused' : ''}`}>
         <div className="omnibox-input-wrapper">
-          <MessageCircle className="omnibox-icon" size={22} />
+          <MessageCircle className="omnibox-icon" size={22} aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
@@ -67,7 +67,7 @@ const Omnibox = ({
             aria-label="Ask"
           >
             <span className="omnibox-submit-text">Ask</span>
-            <ArrowRight size={18} className="omnibox-submit-icon" />
+            <ArrowRight size={18} className="omnibox-submit-icon" aria-hidden="true" />
           </button>
         </div>
       </form>

@@ -42,10 +42,11 @@ const iconMap = {
  * @param {string} props.name - Icon name from iconMap
  * @param {number} props.size - Icon size in pixels
  * @param {string} props.className - Additional CSS classes
+ * @param {string} props.ariaLabel - Accessible label (if provided, icon is not hidden)
  */
-const IconComponent = ({ name, size = 20, className = '' }) => {
+const IconComponent = ({ name, size = 20, className = '', ariaLabel }) => {
   const Icon = iconMap[name] || ExternalLink;
-  return <Icon size={size} className={className} />;
+  return <Icon size={size} className={className} aria-hidden={!ariaLabel} aria-label={ariaLabel} />;
 };
 
 export default IconComponent;

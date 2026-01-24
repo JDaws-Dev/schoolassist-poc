@@ -89,18 +89,18 @@ const EventCard = ({ event, variant = 'default', onClick }) => {
         </div>
         <div className="event-info">
           <span className={`event-category-tag ${categoryInfo.color}`}>
-            <categoryInfo.Icon size={12} /> {categoryInfo.label}
+            <categoryInfo.Icon size={12} aria-hidden="true" /> {categoryInfo.label}
           </span>
           <h4>{event.title}</h4>
           <div className="event-meta">
             {event.time && event.time !== 'All Day' && (
               <span className="event-time">
-                <Clock size={12} /> {event.time}
+                <Clock size={12} aria-hidden="true" /> {event.time}
               </span>
             )}
             {event.location && (
               <span className="event-location">
-                <MapPin size={12} /> {event.location}
+                <MapPin size={12} aria-hidden="true" /> {event.location}
               </span>
             )}
           </div>
@@ -108,9 +108,9 @@ const EventCard = ({ event, variant = 'default', onClick }) => {
         <button
           onClick={handleAddToCalendar}
           className="add-to-cal-btn"
-          title="Add to calendar"
+          aria-label={`Add ${event.title} to calendar`}
         >
-          <CalendarPlus size={18} />
+          <CalendarPlus size={18} aria-hidden="true" />
         </button>
       </div>
     );
@@ -131,7 +131,7 @@ const EventCard = ({ event, variant = 'default', onClick }) => {
       <div className="event-content">
         <div className="event-header">
           <span className={`category-badge ${categoryInfo.color}`}>
-            <categoryInfo.Icon size={12} /> {categoryInfo.label}
+            <categoryInfo.Icon size={12} aria-hidden="true" /> {categoryInfo.label}
           </span>
           {daysUntil >= 0 && daysUntil <= 7 && (
             <span className="days-until">
@@ -142,10 +142,10 @@ const EventCard = ({ event, variant = 'default', onClick }) => {
         <h3>{event.title}</h3>
         <div className="event-details">
           {event.time && event.time !== 'All Day' && (
-            <span><Clock size={14} /> {event.time}</span>
+            <span><Clock size={14} aria-hidden="true" /> {event.time}</span>
           )}
           {event.location && (
-            <span><MapPin size={14} /> {event.location}</span>
+            <span><MapPin size={14} aria-hidden="true" /> {event.location}</span>
           )}
         </div>
       </div>
@@ -153,12 +153,12 @@ const EventCard = ({ event, variant = 'default', onClick }) => {
         <button
           onClick={handleAddToCalendar}
           className="action-btn"
-          title="Add to calendar"
+          aria-label={`Add ${event.title} to calendar`}
         >
-          <CalendarPlus size={18} />
+          <CalendarPlus size={18} aria-hidden="true" />
         </button>
         {onClick && (
-          <ChevronRight size={18} className="chevron" />
+          <ChevronRight size={18} className="chevron" aria-hidden="true" />
         )}
       </div>
     </div>

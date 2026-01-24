@@ -259,19 +259,19 @@ const ChatWidget = ({
         <div className="chat-header">
           {!isEmbedded && (
             <>
-              <Bot size={20} />
+              <Bot size={20} aria-hidden="true" />
               <span>Artios Assistant</span>
             </>
           )}
           {isEmbedded && messages.length > 1 && (
-            <button onClick={clearChat} className="chat-clear" title="Start new conversation">
-              <RefreshCw size={16} />
+            <button onClick={clearChat} className="chat-clear" aria-label="Start new conversation">
+              <RefreshCw size={16} aria-hidden="true" />
               <span>New chat</span>
             </button>
           )}
           {!isEmbedded && (
-            <button onClick={onClose} className="chat-close">
-              <X size={20} />
+            <button onClick={onClose} className="chat-close" aria-label="Close chat">
+              <X size={20} aria-hidden="true" />
             </button>
           )}
         </div>
@@ -299,8 +299,9 @@ const ChatWidget = ({
                   key={i}
                   className="chat-suggestion-card"
                   onClick={() => sendMessageDirect(suggestion.text)}
+                  aria-label={`Ask: ${suggestion.text}`}
                 >
-                  <Icon size={18} />
+                  <Icon size={18} aria-hidden="true" />
                   <span>{suggestion.text}</span>
                 </button>
               );
@@ -333,7 +334,7 @@ const ChatWidget = ({
           aria-label="Type your question"
         />
         <button onClick={sendMessage} disabled={loading || !input.trim()} aria-label="Send message">
-          <Send size={18} />
+          <Send size={18} aria-hidden="true" />
         </button>
       </div>
     </div>

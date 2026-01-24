@@ -63,9 +63,9 @@ const CalendarTab = ({ data }) => {
                   <div className="event-content">
                     <h3>{event.title}</h3>
                     <div className="event-details">
-                      <span><Clock size={14} /> {event.time}</span>
+                      <span><Clock size={14} aria-hidden="true" /> {event.time}</span>
                       {event.location && (
-                        <span><MapPin size={14} /> {event.location}</span>
+                        <span><MapPin size={14} aria-hidden="true" /> {event.location}</span>
                       )}
                     </div>
                   </div>
@@ -82,16 +82,18 @@ const CalendarTab = ({ data }) => {
           target="_blank"
           rel="noopener noreferrer"
           className="calendar-open-btn"
+          aria-label="View full calendar on Google Calendar (opens in new tab)"
         >
-          <Calendar size={20} /> View Full Calendar <ExternalLink size={14} />
+          <Calendar size={20} aria-hidden="true" /> View Full Calendar <ExternalLink size={14} aria-hidden="true" />
         </a>
         <a
           href={`https://calendar.google.com/calendar/render?cid=${encodeURIComponent(CALENDAR_ID)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="calendar-subscribe-btn"
+          aria-label="Add school calendar to your Google Calendar (opens in new tab)"
         >
-          <CalendarPlus size={20} /> Add to My Calendar
+          <CalendarPlus size={20} aria-hidden="true" /> Add to My Calendar
         </a>
       </div>
 
@@ -105,7 +107,7 @@ const CalendarTab = ({ data }) => {
           loading="lazy"
         />
         <div className="calendar-fallback">
-          <Calendar size={48} />
+          <Calendar size={48} aria-hidden="true" />
           <p>Calendar preview not available. Click the button above to view the full calendar on Google.</p>
         </div>
       </div>

@@ -59,7 +59,7 @@ const SlideUpPanel = ({ isOpen, onClose, title, children }) => {
             className="slide-panel-close"
             aria-label="Close panel"
           >
-            <X size={20} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 

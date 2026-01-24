@@ -37,7 +37,7 @@ const MoreTab = ({ data }) => {
         {/* Contact Information - Always visible */}
         <section className="more-info-card">
           <div className="info-card-header">
-            <Mail size={20} />
+            <Mail size={20} aria-hidden="true" />
             <h2>Contact Us</h2>
           </div>
           <div className="contact-list">
@@ -60,10 +60,11 @@ const MoreTab = ({ data }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="contact-item-link address-link"
+              aria-label={`${schoolInfo.address} (opens in Google Maps)`}
             >
-              <MapPin size={16} />
+              <MapPin size={16} aria-hidden="true" />
               <span>{schoolInfo.address}</span>
-              <ExternalLink size={12} />
+              <ExternalLink size={12} aria-hidden="true" />
             </a>
           </div>
         </section>
@@ -71,7 +72,7 @@ const MoreTab = ({ data }) => {
         {/* School Hours - Always visible */}
         <section className="more-info-card">
           <div className="info-card-header">
-            <Clock size={20} />
+            <Clock size={20} aria-hidden="true" />
             <h2>School Hours</h2>
           </div>
           <p className="hours-note">Doors open at 8:50 AM (10 minutes before first class)</p>
@@ -102,12 +103,13 @@ const MoreTab = ({ data }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="link-card"
+                    aria-label={`${link.title}${link.description ? `: ${link.description}` : ''} (opens in new tab)`}
                   >
                     <span className="link-card-title">{link.title}</span>
                     {link.description && (
                       <span className="link-card-desc">{link.description}</span>
                     )}
-                    <ExternalLink size={14} className="link-card-icon" />
+                    <ExternalLink size={14} className="link-card-icon" aria-hidden="true" />
                   </a>
                 ))}
               </div>

@@ -32,7 +32,7 @@ const TabNavigation = ({ activeTab, onTabChange }) => {
               aria-label={tab.label}
               aria-current={isActive ? 'page' : undefined}
             >
-              <Icon size={22} />
+              <Icon size={22} aria-hidden="true" />
               <span>{tab.label}</span>
             </button>
           );

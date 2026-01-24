@@ -87,18 +87,19 @@ const QuickActions = ({ onCalendarClick }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`action-card ${action.color}${action.urgent ? ' urgent' : ''}`}
+                aria-label={`${action.title}: ${action.subtitle} (opens in new tab)`}
               >
                 {action.urgent && (
                   <span className="action-badge">Action Needed</span>
                 )}
                 <div className="action-icon">
-                  <Icon size={28} />
+                  <Icon size={28} aria-hidden="true" />
                 </div>
                 <div className="action-text">
                   <strong>{action.title}</strong>
                   <span>{action.subtitle}</span>
                 </div>
-                <ExternalLink size={14} className="external-indicator" />
+                <ExternalLink size={14} className="external-indicator" aria-hidden="true" />
               </a>
             );
           }
@@ -108,9 +109,10 @@ const QuickActions = ({ onCalendarClick }) => {
               key={action.id}
               onClick={action.onClick}
               className={`action-card ${action.color}`}
+              aria-label={`${action.title}: ${action.subtitle}`}
             >
               <div className="action-icon">
-                <Icon size={28} />
+                <Icon size={28} aria-hidden="true" />
               </div>
               <div className="action-text">
                 <strong>{action.title}</strong>

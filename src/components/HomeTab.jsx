@@ -167,15 +167,16 @@ const HomeTab = ({ data, onTabChange }) => {
         <button
           className="ask-assistant-btn"
           onClick={() => onTabChange?.('chat')}
+          aria-label="Ask our assistant for help with schedules, policies, and more"
         >
           <div className="cta-icon">
-            <MessageCircle size={24} />
+            <MessageCircle size={24} aria-hidden="true" />
           </div>
           <div className="cta-text">
             <strong>Ask Our Assistant</strong>
             <span>Get answers about schedules, policies & more</span>
           </div>
-          <ChevronRight size={20} className="cta-arrow" />
+          <ChevronRight size={20} className="cta-arrow" aria-hidden="true" />
         </button>
       </section>
     </div>

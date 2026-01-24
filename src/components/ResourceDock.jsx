@@ -85,7 +85,7 @@ const ResourceDock = ({ faqItems = [], onOpenChat, onNavigate }) => {
                 aria-label={`Open ${resource.label}`}
               >
                 <div className="icon-circle">
-                  <Icon size={22} strokeWidth={1.5} />
+                  <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <span>{resource.label}</span>
               </button>
@@ -98,7 +98,7 @@ const ResourceDock = ({ faqItems = [], onOpenChat, onNavigate }) => {
             aria-label="Ask AI for help"
           >
             <div className="icon-circle" style={{ background: 'var(--primary-light)', color: 'var(--primary)' }}>
-              <HelpCircle size={22} strokeWidth={1.5} />
+              <HelpCircle size={22} strokeWidth={1.5} aria-hidden="true" />
             </div>
             <span>Ask AI</span>
           </button>
@@ -126,8 +126,8 @@ const DatesContent = () => (
     <div className="panel-section">
       <h3>Upcoming</h3>
       <div className="panel-link-list">
-        <a href="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com" target="_blank" rel="noopener noreferrer" className="panel-link-item">
-          View Full Calendar <ExternalLink size={16} />
+        <a href="https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com" target="_blank" rel="noopener noreferrer" className="panel-link-item" aria-label="View Full Calendar (opens in new tab)">
+          View Full Calendar <ExternalLink size={16} aria-hidden="true" />
         </a>
       </div>
     </div>
@@ -168,8 +168,9 @@ const UniformsContent = () => (
       target="_blank"
       rel="noopener noreferrer"
       className="panel-cta-btn"
+      aria-label="Shop School Store (opens in new tab)"
     >
-      Shop School Store <ExternalLink size={16} style={{ marginLeft: '0.5rem', display: 'inline' }} />
+      Shop School Store <ExternalLink size={16} style={{ marginLeft: '0.5rem', display: 'inline' }} aria-hidden="true" />
     </a>
   </div>
 );
@@ -179,17 +180,17 @@ const HandbookContent = () => (
     <div className="panel-section">
       <h3>Popular Sections</h3>
       <div className="panel-link-list">
-        <button className="panel-link-item">
-          Attendance Policy <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="View Attendance Policy">
+          Attendance Policy <ChevronRight size={16} aria-hidden="true" />
         </button>
-        <button className="panel-link-item">
-          Cell Phone Rules <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="View Cell Phone Rules">
+          Cell Phone Rules <ChevronRight size={16} aria-hidden="true" />
         </button>
-        <button className="panel-link-item">
-          Grading Scale <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="View Grading Scale">
+          Grading Scale <ChevronRight size={16} aria-hidden="true" />
         </button>
-        <button className="panel-link-item">
-          Drop-off & Pick-up <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="View Drop-off and Pick-up information">
+          Drop-off & Pick-up <ChevronRight size={16} aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -198,8 +199,9 @@ const HandbookContent = () => (
       target="_blank"
       rel="noopener noreferrer"
       className="panel-cta-btn"
+      aria-label="View Full Handbook (opens in new tab)"
     >
-      View Full Handbook <ExternalLink size={16} style={{ marginLeft: '0.5rem', display: 'inline' }} />
+      View Full Handbook <ExternalLink size={16} style={{ marginLeft: '0.5rem', display: 'inline' }} aria-hidden="true" />
     </a>
   </div>
 );
@@ -211,9 +213,11 @@ const FaqContent = ({ items, openId, setOpenId }) => (
         <button
           className={`panel-faq-question ${openId === item.id ? 'open' : ''}`}
           onClick={() => setOpenId(openId === item.id ? null : item.id)}
+          aria-expanded={openId === item.id}
+          aria-label={item.question}
         >
           {item.question}
-          <ChevronRight size={16} />
+          <ChevronRight size={16} aria-hidden="true" />
         </button>
         {openId === item.id && (
           <div className="panel-faq-answer">{item.answer}</div>
@@ -260,22 +264,22 @@ const FormsContent = () => (
     <div className="panel-section">
       <h3>Enrollment</h3>
       <div className="panel-link-list">
-        <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="panel-link-item">
-          FACTS Portal <ExternalLink size={16} />
+        <a href="https://accounts.renweb.com/Account/Login" target="_blank" rel="noopener noreferrer" className="panel-link-item" aria-label="FACTS Portal (opens in new tab)">
+          FACTS Portal <ExternalLink size={16} aria-hidden="true" />
         </a>
-        <button className="panel-link-item">
-          Re-enrollment Forms <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="View Re-enrollment Forms">
+          Re-enrollment Forms <ChevronRight size={16} aria-hidden="true" />
         </button>
       </div>
     </div>
     <div className="panel-section">
       <h3>Academic</h3>
       <div className="panel-link-list">
-        <button className="panel-link-item">
-          Transcript Request <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="Request Transcript">
+          Transcript Request <ChevronRight size={16} aria-hidden="true" />
         </button>
-        <button className="panel-link-item">
-          Absence Report <ChevronRight size={16} />
+        <button className="panel-link-item" aria-label="Submit Absence Report">
+          Absence Report <ChevronRight size={16} aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -296,8 +300,9 @@ const PodcastContent = () => (
           rel="noopener noreferrer"
           className="panel-link-item"
           style={{ background: '#fef2f2', color: '#dc2626' }}
+          aria-label="Listen on Apple Podcasts (opens in new tab)"
         >
-          Apple Podcasts <ExternalLink size={16} />
+          Apple Podcasts <ExternalLink size={16} aria-hidden="true" />
         </a>
         <a
           href="https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW"
@@ -305,8 +310,9 @@ const PodcastContent = () => (
           rel="noopener noreferrer"
           className="panel-link-item"
           style={{ background: '#ecfdf5', color: '#059669' }}
+          aria-label="Listen on Spotify (opens in new tab)"
         >
-          Spotify <ExternalLink size={16} />
+          Spotify <ExternalLink size={16} aria-hidden="true" />
         </a>
       </div>
     </div>

@@ -43,14 +43,14 @@ const OnboardingBanner = ({ steps }) => {
     <section className="onboarding-banner">
       <div className="onboarding-header">
         <div className="onboarding-title">
-          <Sparkles size={24} />
+          <Sparkles size={24} aria-hidden="true" />
           <div>
             <h2>New to Artios?</h2>
             <p>Complete these steps to get started at Artios Academies</p>
           </div>
         </div>
-        <button onClick={handleDismiss} className="onboarding-dismiss" aria-label="Dismiss">
-          <X size={18} />
+        <button onClick={handleDismiss} className="onboarding-dismiss" aria-label="Dismiss onboarding checklist">
+          <X size={18} aria-hidden="true" />
         </button>
       </div>
 
@@ -70,10 +70,10 @@ const OnboardingBanner = ({ steps }) => {
             <button
               className="step-checkbox"
               onClick={() => toggleStep(step.id)}
-              aria-label={completedSteps.includes(step.id) ? 'Mark as incomplete' : 'Mark as complete'}
+              aria-label={completedSteps.includes(step.id) ? `Mark ${step.title} as incomplete` : `Mark ${step.title} as complete`}
             >
               {completedSteps.includes(step.id) ? (
-                <CheckCircle size={20} />
+                <CheckCircle size={20} aria-hidden="true" />
               ) : (
                 <div className="checkbox-empty" />
               )}
@@ -88,9 +88,9 @@ const OnboardingBanner = ({ steps }) => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="step-link"
-                aria-label={`Open ${step.title}`}
+                aria-label={`Open ${step.title} (opens in new tab)`}
               >
-                <ArrowRight size={16} />
+                <ArrowRight size={16} aria-hidden="true" />
               </a>
             )}
           </div>

@@ -77,6 +77,7 @@ const FAQSection = ({ faqItems = [], compact = false }) => {
             <ChevronRight
               size={18}
               className={`faq-arrow ${openItem === item.id ? 'rotated' : ''}`}
+              aria-hidden="true"
             />
           </button>
           {openItem === item.id && (
@@ -92,7 +93,7 @@ const FAQSection = ({ faqItems = [], compact = false }) => {
   // Search input component
   const SearchInput = () => (
     <div className="faq-search">
-      <Search size={18} className="faq-search-icon" />
+      <Search size={18} className="faq-search-icon" aria-hidden="true" />
       <input
         type="text"
         value={searchQuery}
@@ -107,7 +108,7 @@ const FAQSection = ({ faqItems = [], compact = false }) => {
           className="faq-search-clear"
           aria-label="Clear search"
         >
-          <X size={16} />
+          <X size={16} aria-hidden="true" />
         </button>
       )}
     </div>
@@ -126,7 +127,7 @@ const FAQSection = ({ faqItems = [], compact = false }) => {
   return (
     <section id="faq" className="faq-section">
       <h2>
-        <HelpCircle size={24} /> Frequently Asked Questions
+        <HelpCircle size={24} aria-hidden="true" /> Frequently Asked Questions
       </h2>
       <SearchInput />
       <FAQList />
