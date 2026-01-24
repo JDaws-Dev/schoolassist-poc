@@ -2622,8 +2622,12 @@
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
-  overflow: hidden;
+  /* Allow horizontal scrolling on narrow screens */
+  overflow-x: auto;
+  overflow-y: hidden;
   margin-bottom: 2rem;
+  /* Smooth scrolling for touch devices */
+  -webkit-overflow-scrolling: touch;
 }
 
 .calendar-embed-wrapper.full {
@@ -2644,6 +2648,9 @@
 }
 
 .calendar-iframe {
+  /* Google Calendar requires minimum width to display all 7 days */
+  /* Below ~580px, days get truncated. 600px provides safe margin */
+  min-width: 600px;
   width: 100%;
   height: 100%;
   border: none;
@@ -2654,6 +2661,8 @@
   position: absolute;
   top: 0;
   left: 0;
+  /* Ensure minimum width for all 7 days to display */
+  min-width: 600px;
   width: 100%;
   height: 100%;
   min-height: 900px;
@@ -2687,6 +2696,8 @@
   left: 0;
   right: 0;
   bottom: 0;
+  /* Match iframe min-width to display all 7 days */
+  min-width: 600px;
   background: var(--surface);
   padding: 1rem;
   z-index: 1;
@@ -3802,7 +3813,7 @@ select {
     border-radius: var(--radius-sm);
   }
 
-  /* Ensure calendar fits viewport */
+  /* Adjusted height for smaller screens - horizontal scroll ensures all days visible */
   .calendar-embed-wrapper.full {
     min-height: 700px;
     height: 700px;
@@ -4365,21 +4376,14 @@ select {
     gap: 0.875rem;
   }
 
-  .sidebar-logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: var(--gradient-primary);
+  .sidebar-logo-image {
+    height: 52px;
+    width: auto;
+    padding: 0.5rem;
+    background: var(--gradient-primary-vivid);
     border-radius: var(--radius-sm);
-    color: white;
-    font-weight: 700;
-    font-size: 1.375rem;
-    letter-spacing: -0.02em;
-    box-shadow:
-      var(--shadow-primary),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-primary);
+    object-fit: contain;
   }
 
   .sidebar-logo-text {
@@ -4490,10 +4494,8 @@ select {
     padding: 1rem 1.25rem;
   }
 
-  .sidebar-logo-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 1.5rem;
+  .sidebar-logo-image {
+    height: 56px;
   }
 
   .sidebar-logo-text {
