@@ -17,6 +17,7 @@ const MoreTab = ({ data }) => {
 
   const quickLinks = data?.quickLinks || [];
   const schedules = data?.schedules?.overview || [];
+  const timing = data?.schedules?.timing || { start: '9:00 AM', doorsOpen: '8:50 AM' };
 
   // Group quick links by category
   const groupedLinks = quickLinks.reduce((acc, link) => {
@@ -73,17 +74,16 @@ const MoreTab = ({ data }) => {
         <section className="more-info-card">
           <div className="info-card-header">
             <Clock size={20} aria-hidden="true" />
-            <h2>School Hours</h2>
+            <h2>School Schedule</h2>
           </div>
-          <p className="hours-note">Doors open at 8:50 AM (10 minutes before first class)</p>
+          <p className="hours-note">
+            Classes start at {timing.start} • Doors open at {timing.doorsOpen}
+          </p>
           <div className="schedule-list">
             {schedules.map((schedule) => (
               <div key={schedule.id} className="schedule-row">
-                <span className="schedule-level">{schedule.level}</span>
-                <div className="schedule-times">
-                  <span className="schedule-days">{schedule.days}</span>
-                  <span className="schedule-hours">{schedule.hours}</span>
-                </div>
+                <span className="schedule-day">{schedule.day}</span>
+                <span className="schedule-grades">{schedule.grades}</span>
               </div>
             ))}
           </div>

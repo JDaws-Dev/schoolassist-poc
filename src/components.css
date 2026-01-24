@@ -2852,27 +2852,16 @@ button.event-card:focus-visible {
   border-radius: calc(var(--radius) - 4px);
 }
 
-.schedule-level {
+.schedule-day {
   font-weight: 600;
   font-size: 0.875rem;
-  color: var(--text-primary);
+  color: var(--primary);
 }
 
-.schedule-times {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.schedule-days {
+.schedule-grades {
   font-size: 0.8125rem;
   color: var(--text-secondary);
-}
-
-.schedule-hours {
-  font-size: 0.8125rem;
-  color: var(--primary);
-  font-weight: 500;
+  line-height: 1.4;
 }
 
 /* Quick Links section */
@@ -4409,5 +4398,211 @@ select {
 
   .chat-input-area {
     padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ============================================
+   DESKTOP MORE TAB - POLISHED RESOURCE LAYOUT
+   ============================================ */
+
+/* Base: more tab refinements for mobile too */
+.more-tab {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Desktop: Multi-column layout */
+@media (min-width: 768px) {
+  .more-tab {
+    padding: 2rem 2.5rem;
+  }
+
+  /* Header: left-aligned on desktop */
+  .more-header {
+    text-align: left;
+    padding: 1rem 0 2rem;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 2rem;
+  }
+
+  .more-header h1 {
+    font-size: 2rem;
+  }
+
+  .more-header p {
+    font-size: 1rem;
+  }
+
+  /* Main content: grid layout */
+  .more-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    max-width: none;
+    padding: 0;
+  }
+
+  /* Info cards take full width each in 2-col */
+  .more-info-card {
+    padding: 1.5rem;
+  }
+
+  .info-card-header h2 {
+    font-size: 1.125rem;
+  }
+
+  /* Contact items: horizontal layout on desktop */
+  .contact-item-link {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1rem;
+  }
+
+  .contact-email {
+    flex-shrink: 0;
+  }
+
+  /* Schedule rows: horizontal layout */
+  .schedule-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 1rem;
+  }
+
+  .schedule-day {
+    min-width: 100px;
+  }
+
+  .schedule-grades {
+    text-align: right;
+    flex: 1;
+  }
+
+  /* Quick links: spans full width */
+  .more-links-section {
+    grid-column: 1 / -1;
+    margin-top: 0.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .links-section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .links-category {
+    margin-bottom: 1.5rem;
+  }
+
+  .links-category:last-child {
+    margin-bottom: 0;
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .link-card {
+    padding: 1.125rem 1.25rem;
+  }
+
+  .link-card-title {
+    font-size: 0.9375rem;
+  }
+
+  /* Footer styling */
+  .more-footer {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+  }
+}
+
+/* Wider desktop: 3-column layout for better use of space */
+@media (min-width: 1024px) {
+  .more-tab {
+    padding: 2.5rem 3rem;
+  }
+
+  .more-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .more-content {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* Contact and Hours cards stay single-column width */
+  .more-info-card {
+    grid-column: span 1;
+  }
+
+  /* Links section spans 2 columns on right, or full width */
+  .more-links-section {
+    grid-column: span 3;
+  }
+
+  /* Categories display in multi-column within links section */
+  .more-links-section {
+    padding: 2rem;
+  }
+
+  .links-section-title {
+    font-size: 1.375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Link categories as flowing columns */
+  .more-links-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .links-category {
+    margin-bottom: 1.75rem;
+  }
+
+  .links-category-title {
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .links-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .link-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.125rem;
+  }
+
+  .link-card-title {
+    flex: 1;
+    padding-right: 0;
+  }
+
+  .link-card-desc {
+    flex-shrink: 0;
+    max-width: 50%;
+  }
+
+  .link-card-icon {
+    position: static;
+    flex-shrink: 0;
   }
 }
