@@ -4508,7 +4508,9 @@ a:focus-visible {
     justify-content: center;
   }
   .calendar-iframe {
-    height: 550px;
+    /* Height to show 6-week months without scrolling on mobile */
+    height: 850px;
+    min-height: 850px;
   }
   .full-calendar-section h2 {
     font-size: 1.25rem;
