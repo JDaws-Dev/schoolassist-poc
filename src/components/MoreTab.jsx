@@ -1,133 +1,124 @@
-import React from 'react';
-import { Phone, Mail, MapPin, HelpCircle, FileText, ExternalLink, ChevronRight, Info, BookOpen } from 'lucide-react';
+import { Mail, MapPin, Clock, ExternalLink } from 'lucide-react';
 
 /**
  * MoreTab Component
- * Secondary menu with contact info, resources, and help links for the tabbed navigation redesign
+ * Resources, quick links, schedule info, and contact for Sugar Hill campus ONLY
+ * Shows ONLY data from initialData.js - no fake data
+ *
+ * Redesigned: No accordions - all info visible upfront
  */
-const MoreTab = () => {
-  const contactInfo = {
-    phone: '(615) 555-0123',
-    email: 'info@artiosacademies.com',
-    address: '123 Academy Way, Nashville, TN 37201'
+const MoreTab = ({ data }) => {
+  const schoolInfo = data?.schoolInfo || {
+    name: 'Artios Academies of Sugar Hill',
+    address: '415 Brogdon Road, Suwanee, GA 30024',
+    email: 'jmlane@artiosacademies.com',
+    director: 'John Lane'
   };
 
-  const menuItems = [
-    {
-      id: 'contact',
-      icon: Phone,
-      title: 'Contact Us',
-      description: 'Phone, email, and office hours',
-      action: 'section'
-    },
-    {
-      id: 'handbook',
-      icon: BookOpen,
-      title: 'Parent Handbook',
-      description: 'Policies, procedures, and guidelines',
-      href: '/handbook'
-    },
-    {
-      id: 'resources',
-      icon: FileText,
-      title: 'Resources',
-      description: 'Forms, documents, and downloads',
-      href: '/resources'
-    },
-    {
-      id: 'faq',
-      icon: HelpCircle,
-      title: 'FAQ',
-      description: 'Frequently asked questions',
-      href: '/faq'
-    },
-    {
-      id: 'about',
-      icon: Info,
-      title: 'About Artios',
-      description: 'Our mission and values',
-      href: '/about'
-    }
-  ];
+  const quickLinks = data?.quickLinks || [];
+  const schedules = data?.schedules?.overview || [];
 
-  const [expandedSection, setExpandedSection] = React.useState(null);
-
-  const handleItemClick = (item) => {
-    if (item.action === 'section') {
-      setExpandedSection(expandedSection === item.id ? null : item.id);
-    } else if (item.href) {
-      // For now, these could be internal routes or external links
-      // This will be connected to routing when App.jsx is updated
-      console.log('Navigate to:', item.href);
-    }
-  };
+  // Group quick links by category
+  const groupedLinks = quickLinks.reduce((acc, link) => {
+    const category = link.category || 'Other';
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(link);
+    return acc;
+  }, {});
 
   return (
     <div className="tab-content more-tab">
       <header className="more-header">
         <h1>More</h1>
-        <p>Contact info, resources, and help</p>
+        <p>Resources & Information</p>
       </header>
 
-      <div className="more-menu">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isExpanded = expandedSection === item.id;
+      <div className="more-content">
+        {/* Contact Information - Always visible */}
+        <section className="more-info-card">
+          <div className="info-card-header">
+            <Mail size={20} />
+            <h2>Contact Us</h2>
+          </div>
+          <div className="contact-list">
+            <a href="mailto:jmlane@artiosacademies.com" className="contact-item-link">
+              <div className="contact-item-info">
+                <span className="contact-name">John Lane</span>
+                <span className="contact-role">Director</span>
+              </div>
+              <span className="contact-email">jmlane@artiosacademies.com</span>
+            </a>
+            <a href="mailto:jthompson@artiosacademies.com" className="contact-item-link">
+              <div className="contact-item-info">
+                <span className="contact-name">Jackie Thompson</span>
+                <span className="contact-role">Assistant Director</span>
+              </div>
+              <span className="contact-email">jthompson@artiosacademies.com</span>
+            </a>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(schoolInfo.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-item-link address-link"
+            >
+              <MapPin size={16} />
+              <span>{schoolInfo.address}</span>
+              <ExternalLink size={12} />
+            </a>
+          </div>
+        </section>
 
-          return (
-            <div key={item.id} className="more-menu-item-wrapper">
-              <button
-                className={`more-menu-item ${isExpanded ? 'expanded' : ''}`}
-                onClick={() => handleItemClick(item)}
-                aria-expanded={item.action === 'section' ? isExpanded : undefined}
-              >
-                <div className="menu-item-icon">
-                  <Icon size={22} />
+        {/* School Hours - Always visible */}
+        <section className="more-info-card">
+          <div className="info-card-header">
+            <Clock size={20} />
+            <h2>School Hours</h2>
+          </div>
+          <p className="hours-note">Doors open at 8:50 AM (10 minutes before first class)</p>
+          <div className="schedule-list">
+            {schedules.map((schedule) => (
+              <div key={schedule.id} className="schedule-row">
+                <span className="schedule-level">{schedule.level}</span>
+                <div className="schedule-times">
+                  <span className="schedule-days">{schedule.days}</span>
+                  <span className="schedule-hours">{schedule.hours}</span>
                 </div>
-                <div className="menu-item-content">
-                  <span className="menu-item-title">{item.title}</span>
-                  <span className="menu-item-description">{item.description}</span>
-                </div>
-                <div className="menu-item-arrow">
-                  {item.href ? (
-                    <ChevronRight size={18} />
-                  ) : (
-                    <ChevronRight size={18} className={isExpanded ? 'rotated' : ''} />
-                  )}
-                </div>
-              </button>
+              </div>
+            ))}
+          </div>
+        </section>
 
-              {/* Expandable Contact Section */}
-              {item.id === 'contact' && isExpanded && (
-                <div className="contact-details">
-                  <a href={`tel:${contactInfo.phone.replace(/\D/g, '')}`} className="contact-row">
-                    <Phone size={18} />
-                    <span>{contactInfo.phone}</span>
-                  </a>
-                  <a href={`mailto:${contactInfo.email}`} className="contact-row">
-                    <Mail size={18} />
-                    <span>{contactInfo.email}</span>
-                  </a>
+        {/* Quick Links - As tiles/cards by category */}
+        <section className="more-links-section">
+          <h2 className="links-section-title">Quick Links</h2>
+          {Object.entries(groupedLinks).map(([category, links]) => (
+            <div key={category} className="links-category">
+              <h3 className="links-category-title">{category}</h3>
+              <div className="links-grid">
+                {links.map((link) => (
                   <a
-                    href={`https://maps.google.com/?q=${encodeURIComponent(contactInfo.address)}`}
+                    key={link.id}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="contact-row"
+                    className="link-card"
                   >
-                    <MapPin size={18} />
-                    <span>{contactInfo.address}</span>
-                    <ExternalLink size={14} className="external-icon" />
+                    <span className="link-card-title">{link.title}</span>
+                    {link.description && (
+                      <span className="link-card-desc">{link.description}</span>
+                    )}
+                    <ExternalLink size={14} className="link-card-icon" />
                   </a>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
-          );
-        })}
+          ))}
+        </section>
       </div>
 
       <footer className="more-footer">
-        <p className="app-version">SchoolAssist v1.0</p>
-        <p className="copyright">© 2025 Artios Academies</p>
+        <p className="app-version">Artios Connect v2.0</p>
+        <p className="copyright">© 2026 Artios Academies of Sugar Hill</p>
       </footer>
     </div>
   );

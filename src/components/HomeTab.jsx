@@ -28,12 +28,13 @@ const HomeTab = ({ data, onTabChange }) => {
     return data.upcomingEvents.filter(event => event.date === today);
   };
 
-  // Get upcoming events (next 5 that aren't today)
+  // Get upcoming events (next 5 starting from today, sorted ascending)
   const getUpcomingEvents = () => {
     if (!data?.upcomingEvents) return [];
     const today = new Date().toISOString().split('T')[0];
     return data.upcomingEvents
       .filter(event => event.date >= today)
+      .sort((a, b) => a.date.localeCompare(b.date))
       .slice(0, 5);
   };
 

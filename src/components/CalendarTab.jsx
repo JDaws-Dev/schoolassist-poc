@@ -10,7 +10,11 @@ const CALENDAR_ID = 'c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6
  * Full school calendar view for the tabbed navigation redesign
  */
 const CalendarTab = ({ data }) => {
-  const upcomingEvents = data?.upcomingEvents || [];
+  // Filter out past events and sort by date ascending
+  const today = new Date().toISOString().split('T')[0];
+  const upcomingEvents = (data?.upcomingEvents || [])
+    .filter(event => event.date >= today)
+    .sort((a, b) => a.date.localeCompare(b.date));
 
   return (
     <div className="tab-content calendar-tab">

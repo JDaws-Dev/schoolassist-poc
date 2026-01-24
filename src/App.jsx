@@ -185,7 +185,7 @@ export default function App() {
       case 'calendar':
         return <CalendarTab data={data} />;
       case 'more':
-        return <MoreTab />;
+        return <MoreTab data={data} />;
       default:
         return <HomeTab data={data} onTabChange={handleTabChange} />;
     }
