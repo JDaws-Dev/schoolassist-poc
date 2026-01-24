@@ -3186,6 +3186,141 @@ button.event-card:focus-visible {
   color: var(--text-muted);
 }
 
+.link-card-type-icon {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-bottom: 0.25rem;
+}
+
+/* Links search bar */
+.links-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.links-search-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.links-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.links-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.links-search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all var(--transition);
+}
+
+.links-search-clear:hover {
+  background: var(--glass-bg);
+  color: var(--text-primary);
+}
+
+/* No results message */
+.links-no-results {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--text-secondary);
+}
+
+.links-no-results p {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+}
+
+.links-clear-search-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  transition: background var(--transition);
+}
+
+.links-clear-search-btn:hover {
+  background: var(--glass-bg);
+}
+
+/* Collapsible category headers */
+.links-category-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.625rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary);
+  transition: opacity var(--transition);
+}
+
+.links-category-header:hover {
+  opacity: 0.8;
+}
+
+.links-category-icon {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.links-category-header .links-category-title {
+  flex: 1;
+  margin: 0;
+}
+
+.links-category-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--glass-bg);
+  padding: 0.125rem 0.5rem;
+  border-radius: 1rem;
+}
+
+.links-category-chevron {
+  color: var(--text-muted);
+  transition: transform var(--transition);
+  flex-shrink: 0;
+}
+
+.links-category-chevron.expanded {
+  transform: rotate(90deg);
+}
+
+.links-category.collapsed .links-grid {
+  display: none;
+}
+
 /* More tab footer */
 .more-footer {
   padding: 1.5rem 1rem;
