@@ -42,9 +42,6 @@ const SidebarNavigation = ({ activeTab, onTabChange }) => {
           );
         })}
       </div>
-      <div className="sidebar-footer">
-        <p className="sidebar-footer-text">Artios Academies of Sugar Hill</p>
-      </div>
     </nav>
   );
 };

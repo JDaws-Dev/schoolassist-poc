@@ -1906,7 +1906,7 @@
   z-index: 0;
 }
 
-.app-container.tabbed-layout > *:not(.mobile-bottom-nav) {
+.app-container.tabbed-layout > *:not(.mobile-bottom-nav):not(.desktop-sidebar-nav) {
   position: relative;
   z-index: 1;
 }
