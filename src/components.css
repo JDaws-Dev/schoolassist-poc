@@ -569,6 +569,10 @@
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
+  /* Prevent text overflow on mobile */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .event-details {
@@ -997,6 +1001,24 @@
     flex-direction: row;
     gap: 0.5rem;
     padding: 0.5rem;
+  }
+
+  /* Ensure event content takes full width and text doesn't overflow */
+  .event-content {
+    width: 100%;
+    padding: 0 0.5rem;
+    box-sizing: border-box;
+  }
+
+  .event-content h3 {
+    /* Allow long titles to wrap on mobile instead of truncating */
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    text-overflow: clip;
+    padding: 0;
+    margin-left: 0;
   }
 }
 
@@ -1774,6 +1796,10 @@
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.125rem;
+  /* Prevent text overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .event-item .event-details span {
