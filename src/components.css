@@ -3927,6 +3927,89 @@ select {
   .chat-tab {
     max-width: 1000px;
     margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* Chat widget takes full height when embedded */
+  .chat-tab .chat-widget.embedded {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+  }
+
+  /* Header styling for embedded chat on desktop */
+  .chat-tab .chat-widget.embedded .chat-header {
+    background: var(--glass-bg-strong);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    color: var(--text-primary);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .chat-tab .chat-widget.embedded .chat-header::after {
+    display: none;
+  }
+
+  /* Messages area */
+  .chat-tab .chat-widget.embedded .chat-messages {
+    flex: 1;
+    padding: 2rem;
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  /* Input area styling for desktop */
+  .chat-tab .chat-widget.embedded .chat-input-area {
+    padding: 1.25rem 1.5rem;
+    background: var(--glass-bg);
+    border-top: 1px solid var(--border-light);
+  }
+
+  .chat-tab .chat-widget.embedded .chat-input-area input {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  /* Quick suggestions grid for desktop - 3 columns */
+  .chat-tab .chat-suggestions-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+    padding: 1rem;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .chat-tab .chat-suggestion-card {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Wider desktop: slightly larger chat area */
+@media (min-width: 1024px) {
+  .chat-tab .chat-widget.embedded {
+    max-width: 850px;
+  }
+
+  .chat-tab .chat-widget.embedded .chat-messages {
+    padding: 2.5rem 3rem;
+  }
+
+  .chat-tab .chat-suggestions-grid {
+    gap: 1rem;
+    max-width: 750px;
   }
 }
 
