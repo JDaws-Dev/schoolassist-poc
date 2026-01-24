@@ -70,7 +70,11 @@ const SidebarNavigation = ({ activeTab, onTabChange, isOpen, onToggle }) => {
       >
         <div className="sidebar-header">
           <div className="sidebar-logo">
-            <span className="sidebar-logo-icon" aria-hidden="true">A</span>
+            <img
+              src="/artios-logo.png"
+              alt="Artios Academies logo"
+              className="sidebar-logo-image"
+            />
             <span className="sidebar-logo-text">Artios Connect</span>
           </div>
           <button
