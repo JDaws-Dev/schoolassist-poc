@@ -9,6 +9,7 @@ import {
   CalendarTab,
 } from './components';
 import TabNavigation from './components/TabNavigation';
+import SidebarNavigation from './components/SidebarNavigation';
 import MoreTab from './components/MoreTab';
 
 // Import data
@@ -207,7 +208,8 @@ export default function App() {
   };
 
   return (
-    <div className="app-container tabbed-layout">
+    <div className="app-container tabbed-layout desktop-layout">
+      <SidebarNavigation activeTab={activeTab} onTabChange={handleTabChange} />
       <main className="tab-content-area">
         {renderActiveTab()}
       </main>

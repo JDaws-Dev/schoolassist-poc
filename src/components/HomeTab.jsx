@@ -85,55 +85,62 @@ const HomeTab = ({ data, onTabChange }) => {
         </div>
       </header>
 
-      {/* Quick Actions - The Big 3 */}
-      <section className="home-section">
-        <QuickActions onCalendarClick={() => onTabChange?.('calendar')} />
-      </section>
-
-      {/* Today's Events */}
-      {todayEvents.length > 0 && (
+      {/* Dashboard Grid - Quick Actions and Events side by side on desktop */}
+      <div className="home-dashboard-grid">
+        {/* Quick Actions - The Big 3 */}
         <section className="home-section">
-          <h2 className="section-title">Today</h2>
-          <div className="events-list">
-            {todayEvents.map(event => (
-              <div key={event.id} className="event-item today">
-                <div className="event-time">{event.time}</div>
-                <div className="event-details">
-                  <strong>{event.title}</strong>
-                  {event.location && <span>{event.location}</span>}
-                </div>
-              </div>
-            ))}
-          </div>
+          <h2 className="section-title">Quick Access</h2>
+          <QuickActions onCalendarClick={() => onTabChange?.('calendar')} />
         </section>
-      )}
 
-      {/* Upcoming Events */}
-      {upcomingEvents.length > 0 && (
-        <section className="home-section">
-          <div className="section-header">
-            <h2 className="section-title">Upcoming Events</h2>
-            <button
-              className="see-all-btn"
-              onClick={() => onTabChange?.('calendar')}
-              aria-label="View all events in calendar"
-            >
-              See All <ChevronRight size={16} aria-hidden="true" />
-            </button>
-          </div>
-          <div className="events-list">
-            {upcomingEvents.map(event => (
-              <div key={event.id} className="event-item">
-                <div className="event-date">{formatEventDate(event.date)}</div>
-                <div className="event-details">
-                  <strong>{event.title}</strong>
-                  <span>{event.time}{event.location ? ` · ${event.location}` : ''}</span>
-                </div>
+        {/* Events Column */}
+        <div className="home-events-column">
+          {/* Today's Events */}
+          {todayEvents.length > 0 && (
+            <section className="home-section">
+              <h2 className="section-title">Today</h2>
+              <div className="events-list">
+                {todayEvents.map(event => (
+                  <div key={event.id} className="event-item today">
+                    <div className="event-time">{event.time}</div>
+                    <div className="event-details">
+                      <strong>{event.title}</strong>
+                      {event.location && <span>{event.location}</span>}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-      )}
+            </section>
+          )}
+
+          {/* Upcoming Events */}
+          {upcomingEvents.length > 0 && (
+            <section className="home-section">
+              <div className="section-header">
+                <h2 className="section-title">Upcoming Events</h2>
+                <button
+                  className="see-all-btn"
+                  onClick={() => onTabChange?.('calendar')}
+                  aria-label="View all events in calendar"
+                >
+                  See All <ChevronRight size={16} aria-hidden="true" />
+                </button>
+              </div>
+              <div className="events-list">
+                {upcomingEvents.map(event => (
+                  <div key={event.id} className="event-item">
+                    <div className="event-date">{formatEventDate(event.date)}</div>
+                    <div className="event-details">
+                      <strong>{event.title}</strong>
+                      <span>{event.time}{event.location ? ` · ${event.location}` : ''}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
 
       {/* Quick Question Chips */}
       <section className="home-section quick-questions-section">
