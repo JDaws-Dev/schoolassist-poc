@@ -66,7 +66,7 @@ const HomeTab = ({ data, onTabChange }) => {
       {/* Offline indicator */}
       {isOffline && (
         <div className="offline-banner" role="alert">
-          <WifiOff size={16} />
+          <WifiOff size={16} aria-hidden="true" />
           <span>You're offline</span>
         </div>
       )}
@@ -118,7 +118,7 @@ const HomeTab = ({ data, onTabChange }) => {
               onClick={() => onTabChange?.('calendar')}
               aria-label="View all events in calendar"
             >
-              See All <ChevronRight size={16} />
+              See All <ChevronRight size={16} aria-hidden="true" />
             </button>
           </div>
           <div className="events-list">
