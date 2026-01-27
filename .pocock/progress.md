@@ -10,6 +10,50 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 6: UI/Design Polish (ArtiosConnect-7x0, s9u, r5m, eps, alr, 56h, 6xp, 7ef, g6l)
+**Date**: 2026-01-27
+**Status**: Completed
+
+**What was done**:
+- Fixed chat markdown rendering - AI responses now render bold and bullet lists properly (lightweight parser, no new deps)
+- Corrected Resources page data to match initialData.js knowledge base:
+  - Doors open: 8:45→8:50 AM, lunch deadline: 9AM→11:59PM, dress code: generic→specific
+  - Contact email: info@artiosacademies.com→office@artiossugarhill.org
+  - Office hours: fabricated→"School days during operating hours"
+  - Address: incomplete→full address
+- Tightened Home hero spacing (smaller heading, compact padding, better rhythm)
+- Made Chat tab visually prominent in bottom nav (AI-first design)
+- Polished event cards with gradient date badges and hover states
+- Simplified chat welcome state (2x2 grid with icons, concise copy)
+- Added fade-in animation on all page mounts (CSS only, 200ms)
+- Improved calendar event pill sizing and simplified legend
+- Converted document links from list to responsive card grid
+
+**Key decisions**:
+- Used lightweight inline markdown parser instead of react-markdown dependency
+- Kept all changes CSS/component-level only - no structural changes
+- Data corrections sourced exclusively from initialData.js
+
+**Files modified**:
+- src/components/chat/MessageBubble.jsx (markdown rendering)
+- src/pages/Resources.jsx (data corrections + document cards)
+- src/components/home/AIHeroSection.jsx (spacing)
+- src/components/home/QuickActions.jsx (spacing)
+- src/pages/Home.jsx (spacing + fade-in)
+- src/components/BottomNav.jsx (chat prominence)
+- src/components/home/UpcomingEvents.jsx (card polish)
+- src/components/chat/WelcomeState.jsx (redesign)
+- src/pages/Chat.jsx (header + fade-in)
+- src/pages/Calendar.jsx (legend + fade-in)
+- src/components/CalendarMonthView.jsx (event pills)
+
+**Learnings**:
+- Resources page had hardcoded data that diverged from initialData.js - always source from there
+- TailwindCSS v4 animate-fade-in already exists in index.css - reuse design system utilities
+- grid-rows-[1fr]/grid-rows-[0fr] pattern works great for accordion animation in CSS
+
+---
+
 ### Iteration 5: AI Chat Assistant - Backend (ArtiosConnect-zn0)
 **Date**: 2026-01-26
 **Status**: Completed
