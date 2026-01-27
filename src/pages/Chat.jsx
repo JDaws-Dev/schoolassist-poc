@@ -155,9 +155,9 @@ export default function Chat() {
   };
 
   return (
-    <div className="min-h-screen bg-primary-50 flex flex-col">
+    <div className="min-h-screen bg-primary-50 flex flex-col lg:max-w-4xl lg:mx-auto">
       {/* Header */}
-      <header className="bg-white border-b border-primary-100 px-4 py-3 flex items-center gap-3 sticky top-0 z-10 shadow-sm safe-top">
+      <header className="bg-white border-b border-primary-100 px-4 md:px-6 py-3 md:py-4 flex items-center gap-3 sticky top-0 z-10 shadow-sm safe-top">
         <Link
           to="/"
           className="p-2.5 -ml-2 hover:bg-primary-100 active:bg-primary-200 rounded-xl transition-all duration-150 focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2"
@@ -180,7 +180,7 @@ export default function Chat() {
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6 md:py-8 space-y-4 md:space-y-6">
         {messages.length === 0 && !isLoading && <EmptyState />}
 
         {messages.map((message, index) => (
