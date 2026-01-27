@@ -26,14 +26,14 @@ export default function CalendarMonthView({
   const dayNames = getShortDayNames()
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+    <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
       {/* Day names header */}
-      <div className="grid grid-cols-7 bg-slate-50 border-b border-slate-200">
+      <div className="grid grid-cols-7 bg-gradient-to-b from-slate-50 to-slate-100 border-b border-slate-200">
         {dayNames.map((day, index) => (
           <div
             key={day}
             className={`
-              py-3 text-center text-xs font-semibold uppercase tracking-wide
+              py-4 text-center text-xs font-bold uppercase tracking-wider
               ${index === 0 || index === 6 ? 'text-slate-400' : 'text-slate-600'}
             `}
           >
@@ -60,25 +60,25 @@ export default function CalendarMonthView({
                   key={dayData.date.toISOString()}
                   onClick={() => onDateClick(dayData.date, dayEvents)}
                   className={`
-                    relative min-h-[80px] sm:min-h-[100px] p-2 text-left
-                    transition-colors focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500
-                    ${dayData.isCurrentMonth ? '' : 'bg-slate-50/50'}
-                    ${isTodayDate ? 'bg-blue-50' : ''}
-                    ${isSelected ? 'bg-blue-100' : ''}
-                    hover:bg-slate-50
+                    relative min-h-[80px] sm:min-h-[110px] p-2 text-left
+                    transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500
+                    ${dayData.isCurrentMonth ? 'bg-white' : 'bg-slate-50/70'}
+                    ${isTodayDate ? 'bg-gradient-to-br from-blue-50 to-indigo-50 ring-2 ring-inset ring-blue-400/30' : ''}
+                    ${isSelected && !isTodayDate ? 'bg-blue-50' : ''}
+                    ${hasEvents && !isTodayDate && !isSelected ? 'hover:bg-blue-50/50' : 'hover:bg-slate-50'}
                   `}
                   aria-label={`${dayData.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}${hasEvents ? `, ${dayEvents.length} event${dayEvents.length > 1 ? 's' : ''}` : ''}`}
                 >
                   {/* Day number */}
                   <span
                     className={`
-                      inline-flex items-center justify-center w-7 h-7 text-sm font-medium rounded-full
-                      ${dayData.isCurrentMonth ? '' : 'text-slate-400'}
+                      inline-flex items-center justify-center w-8 h-8 text-sm font-bold rounded-full transition-all duration-200
+                      ${dayData.isCurrentMonth ? 'text-slate-700' : 'text-slate-400'}
                       ${isWeekend && dayData.isCurrentMonth ? 'text-slate-500' : ''}
                       ${isTodayDate
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 ring-2 ring-blue-400/50'
                         : isSelected
-                          ? 'bg-blue-200 text-blue-800'
+                          ? 'bg-blue-200 text-blue-900'
                           : ''
                       }
                     `}
@@ -88,36 +88,45 @@ export default function CalendarMonthView({
 
                   {/* Event dots / preview */}
                   {hasEvents && (
-                    <div className="mt-1 space-y-1">
+                    <div className="mt-1.5 space-y-1">
                       {/* Show up to 2 event previews on larger screens */}
                       <div className="hidden sm:block space-y-1">
-                        {dayEvents.slice(0, 2).map((event) => (
+                        {dayEvents.slice(0, 2).map((event, idx) => (
                           <div
                             key={event.id}
-                            className="text-xs truncate px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 font-medium"
+                            className={`
+                              text-xs truncate px-2 py-1 rounded-md font-semibold border-l-3
+                              ${idx === 0
+                                ? 'bg-blue-100/80 text-blue-800 border-l-blue-500'
+                                : 'bg-emerald-100/80 text-emerald-800 border-l-emerald-500'
+                              }
+                            `}
                             title={event.title}
                           >
                             {event.title}
                           </div>
                         ))}
                         {dayEvents.length > 2 && (
-                          <div className="text-xs text-slate-500 px-1.5">
+                          <div className="text-xs font-semibold text-slate-500 px-2 py-0.5">
                             +{dayEvents.length - 2} more
                           </div>
                         )}
                       </div>
 
                       {/* Show dots on mobile */}
-                      <div className="sm:hidden flex items-center gap-1 flex-wrap">
-                        {dayEvents.slice(0, 3).map((event) => (
+                      <div className="sm:hidden flex items-center gap-1.5 flex-wrap mt-1">
+                        {dayEvents.slice(0, 3).map((event, idx) => (
                           <span
                             key={event.id}
-                            className="w-2 h-2 rounded-full bg-blue-500"
+                            className={`
+                              w-2.5 h-2.5 rounded-full shadow-sm
+                              ${idx === 0 ? 'bg-blue-500' : idx === 1 ? 'bg-emerald-500' : 'bg-amber-500'}
+                            `}
                             aria-hidden="true"
                           />
                         ))}
                         {dayEvents.length > 3 && (
-                          <span className="text-xs text-slate-400">
+                          <span className="text-xs font-bold text-slate-500">
                             +{dayEvents.length - 3}
                           </span>
                         )}

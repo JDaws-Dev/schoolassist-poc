@@ -1,8 +1,17 @@
 import { useState, useEffect, useCallback } from 'react'
 import { parseICS, sortEventsByDate } from '../utils/calendarUtils'
 
-// Sample ICS data for development/demo purposes
-// In production, this would be fetched from Google Calendar ICS feed
+/**
+ * Sample ICS data for development/demo purposes
+ * When VITE_GOOGLE_CALENDAR_ICS_URL is not set, these events are displayed.
+ *
+ * To configure the real calendar:
+ * 1. Go to Google Calendar > Settings > Settings for [calendar name]
+ * 2. Under "Integrate calendar", find "Public address in iCal format"
+ * 3. Add the URL to .env.local as VITE_GOOGLE_CALENDAR_ICS_URL
+ *
+ * Example format: https://calendar.google.com/calendar/ical/[calendar-id]/public/basic.ics
+ */
 const SAMPLE_ICS = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Artios Academies//School Calendar//EN
@@ -115,6 +124,9 @@ export function useCalendarEvents(calendarUrl = DEFAULT_CALENDAR_URL) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [lastUpdated, setLastUpdated] = useState(null)
+
+  // Track if we're using sample data (no ICS URL configured)
+  const isDemoMode = !calendarUrl
 
   // Load cached data
   const loadFromCache = useCallback(() => {
@@ -233,5 +245,6 @@ export function useCalendarEvents(calendarUrl = DEFAULT_CALENDAR_URL) {
     error,
     lastUpdated,
     refresh,
+    isDemoMode,
   }
 }

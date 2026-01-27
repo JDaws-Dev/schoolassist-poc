@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { Calendar as CalendarIcon, AlertCircle } from 'lucide-react'
+import { Calendar as CalendarIcon, AlertCircle, Info } from 'lucide-react'
 import { useCalendarEvents } from '../hooks/useCalendarEvents'
 import { useCalendarView } from '../hooks/useCalendarView'
 import CalendarHeader from '../components/CalendarHeader'
@@ -13,7 +13,7 @@ import EventModal from '../components/EventModal'
  */
 export default function Calendar() {
   // Calendar events data
-  const { events, loading, error, refresh } = useCalendarEvents()
+  const { events, loading, error, refresh, isDemoMode } = useCalendarEvents()
 
   // Calendar view state
   const {
@@ -89,6 +89,20 @@ export default function Calendar() {
           onRefresh={refresh}
           loading={loading}
         />
+
+        {/* Demo mode notice */}
+        {isDemoMode && !loading && (
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start gap-3">
+            <Info className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-medium text-blue-800">Showing sample events</p>
+              <p className="text-sm text-blue-700 mt-1">
+                The calendar ICS feed URL is not configured. To display real events, set the
+                VITE_GOOGLE_CALENDAR_ICS_URL environment variable.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Error message */}
         {error && (

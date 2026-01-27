@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Calendar, MapPin, Clock } from 'lucide-react'
+import { Calendar, MapPin, Clock, ChevronRight } from 'lucide-react'
 import {
   getEventsForMonth,
   groupEventsByDate,
@@ -35,14 +35,14 @@ export default function CalendarListView({
 
   if (!hasEvents) {
     return (
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 text-center">
-        <div className="w-16 h-16 mx-auto mb-4 bg-slate-100 rounded-full flex items-center justify-center">
-          <Calendar className="w-8 h-8 text-slate-400" />
+      <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-12 text-center">
+        <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center shadow-inner">
+          <Calendar className="w-10 h-10 text-slate-400" />
         </div>
-        <h3 className="text-lg font-semibold text-slate-700 mb-2">
+        <h3 className="text-xl font-bold text-slate-700 mb-2">
           No Events This Month
         </h3>
-        <p className="text-slate-500">
+        <p className="text-slate-500 max-w-sm mx-auto">
           There are no scheduled events for {getMonthName(month)} {year}.
         </p>
       </div>
@@ -50,44 +50,59 @@ export default function CalendarListView({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {sortedDates.map((dateKey) => {
         const dateEvents = groupedEvents[dateKey]
         const date = new Date(dateKey)
         const isTodayDate = isToday(date)
 
         return (
-          <div key={dateKey} className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <div
+            key={dateKey}
+            className={`
+              bg-white rounded-2xl shadow-lg border overflow-hidden transition-all duration-200
+              ${isTodayDate ? 'border-blue-300 ring-2 ring-blue-100' : 'border-slate-200'}
+            `}
+          >
             {/* Date header */}
             <div
               className={`
-                px-4 py-3 border-b border-slate-100
-                ${isTodayDate ? 'bg-blue-50' : 'bg-slate-50'}
+                px-5 py-4 border-b
+                ${isTodayDate
+                  ? 'bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200'
+                  : 'bg-gradient-to-r from-slate-50 to-slate-100 border-slate-200'
+                }
               `}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-4">
                 {/* Day number */}
                 <div
                   className={`
-                    w-12 h-12 rounded-xl flex flex-col items-center justify-center
-                    ${isTodayDate ? 'bg-blue-600 text-white' : 'bg-white text-slate-700 border border-slate-200'}
+                    w-14 h-14 rounded-xl flex flex-col items-center justify-center shadow-md
+                    ${isTodayDate
+                      ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white ring-2 ring-blue-400/50'
+                      : 'bg-white text-slate-700 border border-slate-200'
+                    }
                   `}
                 >
-                  <span className="text-xs font-medium uppercase leading-none">
+                  <span className={`text-[10px] font-bold uppercase tracking-wider leading-none ${isTodayDate ? 'text-blue-100' : 'text-slate-500'}`}>
                     {date.toLocaleDateString('en-US', { weekday: 'short' })}
                   </span>
-                  <span className="text-lg font-bold leading-none mt-0.5">
+                  <span className="text-xl font-extrabold leading-none mt-0.5">
                     {date.getDate()}
                   </span>
                 </div>
 
                 {/* Full date */}
                 <div>
-                  <p className={`font-semibold ${isTodayDate ? 'text-blue-800' : 'text-slate-700'}`}>
+                  <p className={`font-bold text-lg ${isTodayDate ? 'text-blue-900' : 'text-slate-800'}`}>
                     {formatDate(date, { weekday: 'long', month: 'long', day: 'numeric' })}
                   </p>
                   {isTodayDate && (
-                    <span className="text-sm text-blue-600 font-medium">Today</span>
+                    <span className="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full mt-0.5">
+                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                      Today
+                    </span>
                   )}
                 </div>
               </div>
@@ -95,44 +110,47 @@ export default function CalendarListView({
 
             {/* Events for this date */}
             <div className="divide-y divide-slate-100">
-              {dateEvents.map((event) => (
+              {dateEvents.map((event, idx) => (
                 <button
                   key={event.id}
                   onClick={() => onEventClick(event)}
-                  className="w-full p-4 text-left hover:bg-slate-50 transition-colors focus:outline-none focus:bg-slate-50"
+                  className="w-full p-5 text-left hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/30 transition-all duration-200 focus:outline-none focus:bg-blue-50 group"
                 >
                   <div className="flex gap-4">
                     {/* Time indicator */}
-                    <div className="w-16 flex-shrink-0 text-right">
+                    <div className="w-18 flex-shrink-0 text-right pt-0.5">
                       {event.allDay ? (
-                        <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded">
+                        <span className="inline-flex items-center text-xs font-bold text-blue-700 bg-blue-100 px-2.5 py-1.5 rounded-lg border border-blue-200/50">
                           All day
                         </span>
                       ) : (
-                        <span className="text-sm text-slate-500">
+                        <span className="text-sm font-semibold text-slate-600 bg-slate-100 px-2 py-1 rounded-md">
                           {formatTime(event.start)}
                         </span>
                       )}
                     </div>
 
+                    {/* Color bar indicator */}
+                    <div className={`w-1 rounded-full flex-shrink-0 ${idx % 3 === 0 ? 'bg-blue-500' : idx % 3 === 1 ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+
                     {/* Event details */}
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-slate-800 truncate">
+                      <h4 className="font-bold text-slate-900 truncate text-base group-hover:text-blue-700 transition-colors">
                         {event.title}
                       </h4>
 
                       {/* Location */}
                       {event.location && (
-                        <div className="flex items-center gap-1.5 mt-1 text-sm text-slate-500">
-                          <MapPin className="w-4 h-4 flex-shrink-0" />
+                        <div className="flex items-center gap-2 mt-1.5 text-sm text-slate-600">
+                          <MapPin className="w-4 h-4 flex-shrink-0 text-slate-400" />
                           <span className="truncate">{event.location}</span>
                         </div>
                       )}
 
                       {/* Duration for non-all-day events */}
                       {!event.allDay && event.end && (
-                        <div className="flex items-center gap-1.5 mt-1 text-sm text-slate-500">
-                          <Clock className="w-4 h-4 flex-shrink-0" />
+                        <div className="flex items-center gap-2 mt-1 text-sm text-slate-600">
+                          <Clock className="w-4 h-4 flex-shrink-0 text-slate-400" />
                           <span>
                             {formatTime(event.start)} - {formatTime(event.end)}
                           </span>
@@ -141,7 +159,7 @@ export default function CalendarListView({
 
                       {/* Description preview */}
                       {event.description && (
-                        <p className="mt-2 text-sm text-slate-600 line-clamp-2">
+                        <p className="mt-2 text-sm text-slate-500 line-clamp-2 leading-relaxed">
                           {event.description}
                         </p>
                       )}
@@ -149,19 +167,7 @@ export default function CalendarListView({
 
                     {/* Arrow indicator */}
                     <div className="flex-shrink-0 self-center">
-                      <svg
-                        className="w-5 h-5 text-slate-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
+                      <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-1 transition-all duration-200" />
                     </div>
                   </div>
                 </button>
