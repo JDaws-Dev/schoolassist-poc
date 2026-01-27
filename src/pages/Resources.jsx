@@ -84,7 +84,7 @@ function SectionHeader({ icon: Icon, title, subtitle }) {
         </div>
       )}
       <div>
-        <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-base md:text-lg font-semibold text-gray-900">{title}</h2>
         {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
       </div>
     </div>
@@ -97,7 +97,7 @@ function FAQItem({ question, answer, isOpen, onToggle }) {
     <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:border-gray-200 transition-colors">
       <button
         onClick={onToggle}
-        className="flex items-center gap-3 p-4 w-full text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+        className="flex items-center gap-3 p-4 w-full text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset min-h-[56px]"
       >
         <div className={`p-1.5 rounded-lg transition-colors ${isOpen ? 'bg-blue-100' : 'bg-gray-100'}`}>
           <HelpCircle className={`w-4 h-4 transition-colors ${isOpen ? 'text-blue-600' : 'text-gray-500'}`} />
@@ -128,7 +128,7 @@ export default function Resources() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
       {/* Header */}
       <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3 sticky top-0 z-10">
         <Link
@@ -140,7 +140,7 @@ export default function Resources() {
         <h1 className="font-semibold text-gray-900">Resources & Info</h1>
       </header>
 
-      <div className="px-4 py-6 max-w-lg mx-auto space-y-8">
+      <div className="px-4 md:px-6 py-6 md:py-8 max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto space-y-8 md:space-y-10">
         {/* Quick Links */}
         <section>
           <SectionHeader
@@ -148,7 +148,7 @@ export default function Resources() {
             title="Quick Links"
             subtitle="Access important resources"
           />
-          <div className="space-y-3">
+          <div className="space-y-3 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:space-y-0">
             {QUICK_LINKS.map((link) => {
               const Icon = link.icon;
               const Component = link.internal ? Link : 'a';
@@ -233,7 +233,7 @@ export default function Resources() {
             title="Frequently Asked Questions"
             subtitle="Find answers to common questions"
           />
-          <div className="space-y-3">
+          <div className="space-y-3 md:grid md:grid-cols-2 md:gap-4 md:space-y-0">
             {FAQ_ITEMS.map((item, index) => (
               <FAQItem
                 key={index}
