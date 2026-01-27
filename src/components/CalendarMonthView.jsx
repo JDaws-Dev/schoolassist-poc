@@ -33,7 +33,7 @@ export default function CalendarMonthView({
           <div
             key={day}
             className={`
-              py-4 text-center text-xs font-bold uppercase tracking-wider
+              py-3 md:py-4 text-center text-xs font-bold uppercase tracking-wider
               ${index === 0 || index === 6 ? 'text-slate-400' : 'text-slate-600'}
             `}
           >
@@ -60,7 +60,7 @@ export default function CalendarMonthView({
                   key={dayData.date.toISOString()}
                   onClick={() => onDateClick(dayData.date, dayEvents)}
                   className={`
-                    relative min-h-[80px] sm:min-h-[110px] p-2 text-left
+                    relative min-h-[72px] sm:min-h-[100px] md:min-h-[110px] p-1.5 sm:p-2 text-left
                     transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500
                     ${dayData.isCurrentMonth ? 'bg-white' : 'bg-slate-50/70'}
                     ${isTodayDate ? 'bg-gradient-to-br from-blue-50 to-indigo-50 ring-2 ring-inset ring-blue-400/30' : ''}
@@ -72,7 +72,7 @@ export default function CalendarMonthView({
                   {/* Day number */}
                   <span
                     className={`
-                      inline-flex items-center justify-center w-8 h-8 text-sm font-bold rounded-full transition-all duration-200
+                      inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 text-xs sm:text-sm font-bold rounded-full transition-all duration-200
                       ${dayData.isCurrentMonth ? 'text-slate-700' : 'text-slate-400'}
                       ${isWeekend && dayData.isCurrentMonth ? 'text-slate-500' : ''}
                       ${isTodayDate
