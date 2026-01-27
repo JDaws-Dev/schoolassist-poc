@@ -58,7 +58,7 @@ export default function Calendar() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-20 lg:pb-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 pb-20 lg:pb-8 animate-fade-in">
       {/* Page header */}
       <header className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-5xl mx-auto px-4 md:px-6 py-5">

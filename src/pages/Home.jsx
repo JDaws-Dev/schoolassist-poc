@@ -10,7 +10,7 @@ export default function Home() {
   const { upcomingEvents } = useFormattedCalendar()
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
+    <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8 animate-fade-in">
       {/* Notification Banner */}
       <NotificationBanner />
 

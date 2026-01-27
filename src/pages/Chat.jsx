@@ -17,7 +17,7 @@ export default function Chat() {
   }, [messages])
 
   return (
-    <div className="min-h-screen bg-primary-50 flex flex-col lg:max-w-4xl lg:mx-auto">
+    <div className="min-h-screen bg-primary-50 flex flex-col lg:max-w-4xl lg:mx-auto animate-fade-in">
       {/* Header */}
       <header className="bg-white border-b border-primary-100 px-4 md:px-6 py-3 md:py-4 flex items-center gap-3 sticky top-0 z-10 shadow-sm safe-top">
         <Link
