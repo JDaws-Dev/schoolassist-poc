@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MessageCircle, Calendar, ExternalLink, BookOpen, Clock, ChevronRight } from 'lucide-react';
+import { MessageCircle, Calendar, ExternalLink, BookOpen, Clock, ChevronRight, Sparkles, UtensilsCrossed, GraduationCap } from 'lucide-react';
 import NotificationBanner from '../components/NotificationBanner';
 import AnnouncementCard from '../components/AnnouncementCard';
 import { useRecentAnnouncements } from '../hooks/useConvex';
@@ -89,66 +89,104 @@ export default function Home() {
       <NotificationBanner />
 
       {/* Hero Section with Chat */}
-      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white px-4 pt-8 pb-12">
-        <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold mb-1">{getGreeting()}!</h1>
-          <p className="text-blue-100 mb-6">How can I help you today?</p>
+      <div className="bg-gradient-to-br from-blue-600 via-blue-600 to-indigo-700 text-white px-4 pt-6 pb-14 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
 
-          {/* Chat Input */}
-          <form onSubmit={handleChatSubmit} className="relative">
-            <input
-              type="text"
-              value={chatInput}
-              onChange={(e) => setChatInput(e.target.value)}
-              placeholder="Ask me anything about Artios..."
-              className="w-full px-4 py-4 pr-12 rounded-xl text-gray-900 placeholder-gray-500 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <MessageCircle className="w-5 h-5" />
-            </button>
-          </form>
+        <div className="max-w-lg mx-auto relative">
+          {/* Logo and greeting */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center">
+              <img
+                src="/Artios Logo.png"
+                alt="Artios"
+                className="w-8 h-8 object-contain"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <GraduationCap className="w-6 h-6 text-blue-600 hidden" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold">{getGreeting()}!</h1>
+              <p className="text-blue-200 text-sm">Artios Connect</p>
+            </div>
+          </div>
 
-          {/* Suggestion Chips */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            {suggestions.map((suggestion, index) => (
+          {/* AI Chat Input */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span className="text-sm font-medium text-blue-100">Ask the AI Assistant</span>
+            </div>
+            <form onSubmit={handleChatSubmit} className="relative">
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                placeholder="Ask me anything about Artios..."
+                className="w-full px-4 py-3.5 pr-12 rounded-xl text-gray-900 placeholder-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400 transition-shadow"
+              />
               <button
-                key={index}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-sm transition-colors"
+                type="submit"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md"
               >
-                {suggestion}
+                <MessageCircle className="w-5 h-5" />
               </button>
-            ))}
+            </form>
+
+            {/* Suggestion Chips */}
+            <div className="flex flex-wrap gap-2 mt-3">
+              {suggestions.map((suggestion, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-sm transition-all hover:scale-105 active:scale-95"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="px-4 -mt-4 max-w-lg mx-auto space-y-4">
+      <div className="px-4 -mt-6 max-w-lg mx-auto space-y-4 relative z-10">
         {/* Today Card */}
-        <div className={`rounded-xl p-4 shadow-sm ${
-          todayInfo.type === 'school' ? 'bg-green-50 border border-green-200' : 'bg-gray-100 border border-gray-200'
+        <div className={`rounded-2xl p-4 shadow-lg border ${
+          todayInfo.type === 'school'
+            ? 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200'
+            : 'bg-white border-gray-200'
         }`}>
-          <div className="flex items-center gap-3">
-            <div className={`p-2 rounded-lg ${
-              todayInfo.type === 'school' ? 'bg-green-100' : 'bg-gray-200'
+          <div className="flex items-center gap-4">
+            <div className={`p-3 rounded-xl ${
+              todayInfo.type === 'school'
+                ? 'bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg shadow-emerald-200'
+                : 'bg-gray-100'
             }`}>
-              <Clock className={`w-5 h-5 ${
-                todayInfo.type === 'school' ? 'text-green-600' : 'text-gray-600'
+              <Clock className={`w-6 h-6 ${
+                todayInfo.type === 'school' ? 'text-white' : 'text-gray-500'
               }`} />
             </div>
-            <div>
-              <p className="font-semibold text-gray-900">{todayInfo.dayName}</p>
-              <p className={`text-sm ${
-                todayInfo.type === 'school' ? 'text-green-700' : 'text-gray-600'
+            <div className="flex-1">
+              <div className="flex items-center gap-2">
+                <p className="font-bold text-gray-900">{todayInfo.dayName}</p>
+                {todayInfo.type === 'school' && (
+                  <span className="px-2 py-0.5 bg-emerald-500 text-white text-xs font-medium rounded-full">
+                    School Day
+                  </span>
+                )}
+              </div>
+              <p className={`text-sm font-medium ${
+                todayInfo.type === 'school' ? 'text-emerald-700' : 'text-gray-600'
               }`}>
                 {todayInfo.label}
               </p>
               {todayInfo.time && (
-                <p className="text-xs text-gray-500 mt-0.5">{todayInfo.time}</p>
+                <p className="text-xs text-gray-500 mt-1">{todayInfo.time}</p>
               )}
             </div>
           </div>
@@ -160,32 +198,32 @@ export default function Home() {
             href="https://factsmgt.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+            className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
           >
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <ExternalLink className="w-5 h-5 text-blue-600" />
+            <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-md shadow-blue-200">
+              <GraduationCap className="w-5 h-5 text-white" />
             </div>
-            <span className="text-sm font-medium text-gray-700">FACTS</span>
+            <span className="text-sm font-semibold text-gray-700">FACTS</span>
           </a>
           <a
             href="https://artioscafe.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+            className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
           >
-            <div className="p-2 bg-amber-100 rounded-lg">
-              <ExternalLink className="w-5 h-5 text-amber-600" />
+            <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl shadow-md shadow-amber-200">
+              <UtensilsCrossed className="w-5 h-5 text-white" />
             </div>
-            <span className="text-sm font-medium text-gray-700">Lunch</span>
+            <span className="text-sm font-semibold text-gray-700">Lunch</span>
           </a>
           <Link
             to="/calendar"
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+            className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
           >
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Calendar className="w-5 h-5 text-purple-600" />
+            <div className="p-3 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-md shadow-purple-200">
+              <Calendar className="w-5 h-5 text-white" />
             </div>
-            <span className="text-sm font-medium text-gray-700">Calendar</span>
+            <span className="text-sm font-semibold text-gray-700">Calendar</span>
           </Link>
         </div>
 
