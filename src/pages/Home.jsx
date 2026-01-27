@@ -131,7 +131,7 @@ export default function Home() {
               />
               <button
                 type="submit"
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md"
               >
                 <MessageCircle className="w-5 h-5" />
               </button>
@@ -143,7 +143,7 @@ export default function Home() {
                 <button
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="px-3 py-1.5 bg-white/20 hover:bg-white/30 rounded-full text-sm transition-all hover:scale-105 active:scale-95"
+                  className="px-3 py-2 min-h-[36px] bg-white/20 hover:bg-white/30 rounded-full text-sm transition-all hover:scale-105 active:scale-95"
                 >
                   {suggestion}
                 </button>
@@ -198,7 +198,7 @@ export default function Home() {
             href="https://factsmgt.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
+            className="flex flex-col items-center gap-2 p-4 min-h-[88px] bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
           >
             <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-md shadow-blue-200">
               <GraduationCap className="w-5 h-5 text-white" />
@@ -209,7 +209,7 @@ export default function Home() {
             href="https://artioscafe.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
+            className="flex flex-col items-center gap-2 p-4 min-h-[88px] bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
           >
             <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl shadow-md shadow-amber-200">
               <UtensilsCrossed className="w-5 h-5 text-white" />

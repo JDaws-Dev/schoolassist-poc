@@ -66,7 +66,7 @@ function AnnouncementItem({ announcement }) {
             href={announcement.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex-shrink-0"
+            className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex-shrink-0"
             aria-label="View link"
           >
             <ExternalLink className="w-5 h-5" />
@@ -102,7 +102,7 @@ export default function AnnouncementCard({ limit = 2, showViewAll = true, onView
       {showViewAll && (
         <button
           onClick={onViewAll}
-          className="w-full flex items-center justify-center gap-2 py-3 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-3 min-h-[48px] text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-colors"
         >
           View All Announcements
           <ChevronRight className="w-4 h-4" />
