@@ -114,7 +114,7 @@ export default function CalendarListView({
                 <button
                   key={event.id}
                   onClick={() => onEventClick(event)}
-                  className="w-full p-5 text-left hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/30 transition-all duration-200 focus:outline-none focus:bg-blue-50 group"
+                  className="w-full p-5 text-left hover:bg-gradient-to-r hover:from-slate-50 hover:to-blue-50/30 transition-all duration-200 focus:outline-none focus:bg-blue-50 group min-h-[56px]"
                 >
                   <div className="flex gap-4">
                     {/* Time indicator */}
