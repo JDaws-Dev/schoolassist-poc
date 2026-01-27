@@ -1,14 +1,30 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ConvexProvider, ConvexReactClient } from 'convex/react'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Chat from './pages/Chat'
+import Calendar from './pages/Calendar'
+import Resources from './pages/Resources'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
-import Calendar from './pages/Calendar'
+import BottomNav from './components/BottomNav'
 
 // Initialize Convex client
 const convexUrl = import.meta.env.VITE_CONVEX_URL
 const convex = convexUrl ? new ConvexReactClient(convexUrl) : null
 
-// Admin authentication check component
+// Parent authentication check
+function RequireParentAuth({ children }) {
+  const isParentLoggedIn = sessionStorage.getItem('parentLoggedIn') === 'true'
+
+  if (!isParentLoggedIn) {
+    return <Navigate to="/login" replace />
+  }
+
+  return children
+}
+
+// Admin authentication check
 function RequireAdminAuth({ children }) {
   const isAdminLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true'
 
@@ -42,80 +58,108 @@ function ConvexWrapper({ children }) {
   return <ConvexProvider client={convex}>{children}</ConvexProvider>
 }
 
+// Layout with bottom navigation for parent views
+function ParentLayout({ children }) {
+  return (
+    <>
+      {children}
+      <BottomNav />
+    </>
+  )
+}
+
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        {/* Admin login - doesn't need Convex */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+      <ConvexWrapper>
+        <Routes>
+          {/* Public: Login */}
+          <Route path="/login" element={<Login />} />
 
-        {/* Admin dashboard - needs Convex */}
-        <Route
-          path="/admin/*"
-          element={
-            <RequireAdminAuth>
-              <ConvexWrapper>
+          {/* Parent routes - require auth */}
+          <Route
+            path="/"
+            element={
+              <RequireParentAuth>
+                <ParentLayout>
+                  <Home />
+                </ParentLayout>
+              </RequireParentAuth>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <RequireParentAuth>
+                <Chat />
+              </RequireParentAuth>
+            }
+          />
+          <Route
+            path="/calendar"
+            element={
+              <RequireParentAuth>
+                <ParentLayout>
+                  <Calendar />
+                </ParentLayout>
+              </RequireParentAuth>
+            }
+          />
+          <Route
+            path="/resources"
+            element={
+              <RequireParentAuth>
+                <ParentLayout>
+                  <Resources />
+                </ParentLayout>
+              </RequireParentAuth>
+            }
+          />
+
+          {/* Admin login - public */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+
+          {/* Admin dashboard - requires admin auth */}
+          <Route
+            path="/admin/*"
+            element={
+              <RequireAdminAuth>
                 <AdminDashboard />
-              </ConvexWrapper>
-            </RequireAdminAuth>
-          }
-        />
+              </RequireAdminAuth>
+            }
+          />
 
-        {/* Redirect /admin to dashboard or login */}
-        <Route
-          path="/admin"
-          element={
-            <Navigate
-              to={
-                sessionStorage.getItem('adminLoggedIn') === 'true'
-                  ? '/admin/dashboard'
-                  : '/admin/login'
-              }
-              replace
-            />
-          }
-        />
+          {/* Redirect /admin to dashboard or login */}
+          <Route
+            path="/admin"
+            element={
+              <Navigate
+                to={
+                  sessionStorage.getItem('adminLoggedIn') === 'true'
+                    ? '/admin/dashboard'
+                    : '/admin/login'
+                }
+                replace
+              />
+            }
+          />
 
-        {/* Calendar route */}
-        <Route path="/calendar" element={<Calendar />} />
-
-        {/* Default route - show calendar for now */}
-        <Route path="/" element={<Calendar />} />
-
-        {/* Catch-all for unknown routes */}
-        <Route
-          path="*"
-          element={
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
-              <div className="text-center max-w-md">
-                <div className="w-20 h-20 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-white text-3xl font-bold">A</span>
-                </div>
-                <h1 className="text-3xl font-bold text-slate-800 mb-2">
-                  Page Not Found
-                </h1>
-                <p className="text-slate-600 mb-8">
-                  The page you are looking for does not exist.
-                </p>
-                <div className="flex gap-4 justify-center">
-                  <a
-                    href="/"
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors"
-                  >
-                    Home
-                  </a>
-                  <a
-                    href="/admin"
-                    className="px-6 py-3 border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-xl transition-colors"
-                  >
-                    Admin
-                  </a>
-                </div>
-              </div>
-            </div>
-          }
-        />
-      </Routes>
+          {/* Catch-all: redirect to home or login */}
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to={
+                  sessionStorage.getItem('parentLoggedIn') === 'true'
+                    ? '/'
+                    : '/login'
+                }
+                replace
+              />
+            }
+          />
+        </Routes>
+      </ConvexWrapper>
     </BrowserRouter>
   )
 }
