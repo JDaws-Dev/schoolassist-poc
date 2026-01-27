@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ConvexProvider, ConvexReactClient } from 'convex/react'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import Calendar from './pages/Calendar'
 
 // Initialize Convex client
 const convexUrl = import.meta.env.VITE_CONVEX_URL
@@ -75,7 +76,13 @@ function App() {
           }
         />
 
-        {/* Default placeholder for parent portal */}
+        {/* Calendar route */}
+        <Route path="/calendar" element={<Calendar />} />
+
+        {/* Default route - show calendar for now */}
+        <Route path="/" element={<Calendar />} />
+
+        {/* Catch-all for unknown routes */}
         <Route
           path="*"
           element={
@@ -85,17 +92,25 @@ function App() {
                   <span className="text-white text-3xl font-bold">A</span>
                 </div>
                 <h1 className="text-3xl font-bold text-slate-800 mb-2">
-                  Artios Connect
+                  Page Not Found
                 </h1>
                 <p className="text-slate-600 mb-8">
-                  Parent portal coming soon...
+                  The page you are looking for does not exist.
                 </p>
-                <a
-                  href="/admin"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors"
-                >
-                  Admin Dashboard
-                </a>
+                <div className="flex gap-4 justify-center">
+                  <a
+                    href="/"
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors"
+                  >
+                    Home
+                  </a>
+                  <a
+                    href="/admin"
+                    className="px-6 py-3 border border-slate-300 text-slate-700 hover:bg-slate-50 font-medium rounded-xl transition-colors"
+                  >
+                    Admin
+                  </a>
+                </div>
               </div>
             </div>
           }
