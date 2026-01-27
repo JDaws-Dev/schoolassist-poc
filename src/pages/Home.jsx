@@ -127,7 +127,7 @@ export default function Home() {
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 placeholder="Ask me anything about Artios..."
-                className="w-full px-4 py-3.5 pr-12 rounded-xl text-gray-900 placeholder-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400 transition-shadow"
+                className="w-full px-4 py-3.5 pr-14 min-h-[48px] rounded-xl text-gray-900 placeholder-gray-400 shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400 transition-shadow"
               />
               <button
                 type="submit"
@@ -218,7 +218,7 @@ export default function Home() {
           </a>
           <Link
             to="/calendar"
-            className="flex flex-col items-center gap-2 p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
+            className="flex flex-col items-center gap-2 p-4 min-h-[88px] bg-white rounded-2xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 active:translate-y-0 border border-gray-100"
           >
             <div className="p-3 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-md shadow-purple-200">
               <Calendar className="w-5 h-5 text-white" />
@@ -232,7 +232,7 @@ export default function Home() {
           <div>
             <div className="flex items-center justify-between mb-3">
               <h2 className="font-semibold text-gray-900">Announcements</h2>
-              <Link to="/resources" className="text-sm text-blue-600 flex items-center gap-1">
+              <Link to="/resources" className="text-sm text-blue-600 flex items-center gap-1 py-1 px-2 -mr-2 min-h-[44px] rounded-lg hover:bg-blue-50 transition-colors">
                 View all <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -247,7 +247,7 @@ export default function Home() {
         {/* Resources Link */}
         <Link
           to="/resources"
-          className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+          className="flex items-center justify-between p-4 min-h-[72px] bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
         >
           <div className="flex items-center gap-3">
             <div className="p-2 bg-gray-100 rounded-lg">
