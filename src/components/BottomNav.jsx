@@ -3,16 +3,16 @@ import { Home, MessageCircle, Calendar, BookOpen } from 'lucide-react';
 
 const NAV_ITEMS = [
   { to: '/', icon: Home, label: 'Home' },
-  { to: '/chat', icon: MessageCircle, label: 'Chat' },
+  { to: '/chat', icon: MessageCircle, label: 'Chat', primary: true },
   { to: '/calendar', icon: Calendar, label: 'Calendar' },
   { to: '/resources', icon: BookOpen, label: 'Resources' }
 ];
 
 export default function BottomNav() {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.08)] px-2 pb-safe z-50 lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-100 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.08)] px-2 pb-safe z-50">
       <div className="max-w-lg mx-auto flex justify-around">
-        {NAV_ITEMS.map(({ to, icon: Icon, label }) => (
+        {NAV_ITEMS.map(({ to, icon: Icon, label, primary }) => (
           <NavLink
             key={to}
             to={to}
@@ -21,7 +21,9 @@ export default function BottomNav() {
               `relative flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[56px] py-2 px-3 rounded-xl transition-all duration-200 ease-out ${
                 isActive
                   ? 'text-blue-600'
-                  : 'text-gray-400 hover:text-gray-600 active:scale-95'
+                  : primary
+                    ? 'text-blue-400 hover:text-blue-600 active:scale-95'
+                    : 'text-gray-400 hover:text-gray-600 active:scale-95'
               }`
             }
           >
@@ -38,13 +40,17 @@ export default function BottomNav() {
                 <span
                   className={`flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-200 ease-out ${
                     isActive
-                      ? 'bg-blue-50'
-                      : 'bg-transparent'
+                      ? primary
+                        ? 'bg-blue-100'
+                        : 'bg-blue-50'
+                      : primary
+                        ? 'bg-blue-50'
+                        : 'bg-transparent'
                   }`}
                 >
                   <Icon
                     className={`transition-all duration-200 ease-out ${
-                      isActive ? 'w-6 h-6 stroke-[2.5]' : 'w-5 h-5 stroke-2'
+                      isActive ? 'w-6 h-6 stroke-[2.5]' : primary ? 'w-5.5 h-5.5 stroke-2' : 'w-5 h-5 stroke-2'
                     }`}
                   />
                 </span>
@@ -52,7 +58,7 @@ export default function BottomNav() {
                 {/* Label */}
                 <span
                   className={`text-[11px] font-semibold tracking-tight transition-all duration-200 ease-out ${
-                    isActive ? 'opacity-100' : 'opacity-70'
+                    isActive ? 'opacity-100' : primary ? 'opacity-85' : 'opacity-70'
                   }`}
                 >
                   {label}
