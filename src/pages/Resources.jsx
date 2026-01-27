@@ -43,35 +43,35 @@ const QUICK_LINKS = [
 const FAQ_ITEMS = [
   {
     question: 'What is the school schedule?',
-    answer: 'Elementary students attend on Monday/Wednesday. Jr High & High School students attend on Tuesday/Thursday. Friday is a home learning day with optional enrichment activities.'
+    answer: 'Elementary students (K-6) attend Monday and Wednesday. Jr High and High School students (7-12) attend Tuesday and Thursday. Friday is a home learning day for all grades.'
   },
   {
     question: 'What time do doors open?',
-    answer: 'Doors open at 8:45 AM. Classes begin at 9:00 AM. Dismissal times vary by grade level - check FACTS for your student\'s specific dismissal time.'
+    answer: 'Doors open at 8:50 AM. School starts at 9:00 AM. Please do not drop off students before doors open. Check FACTS for grade-specific dismissal times.'
   },
   {
     question: 'How do I order lunch?',
-    answer: 'Lunch orders can be placed through artioscafe.com. Orders must be submitted by 9:00 AM on the day of service. If you miss the deadline, please send a packed lunch with your student.'
+    answer: 'Lunch is ordered through Artios Cafe. Orders must be placed by the deadline, which is usually 11:59 PM the day before. Students may also bring lunch from home.'
   },
   {
     question: 'What is the dress code?',
-    answer: 'Students should wear modest, neat, and clean attire. No clothing with inappropriate graphics or messages. Closed-toe shoes are recommended for safety. Athletic wear is acceptable on PE days.'
+    answer: 'Students should wear solid navy, black, white, or gray tops, and khaki or navy bottoms. No jeans, athletic wear, or clothing with large logos. Closed-toe shoes required. Check the handbook for complete details.'
   },
   {
     question: 'How do I contact the school?',
-    answer: 'For non-urgent matters, email info@artiosacademies.com. For urgent matters, contact the front office directly through the phone number listed in FACTS.'
+    answer: 'Email the office at office@artiossugarhill.org during school hours. For director-level concerns, contact John Lane at john@artiossugarhill.org.'
   },
   {
     question: 'What if my student is absent?',
-    answer: 'Please report absences through FACTS or by contacting the front office before 9:00 AM. Provide a reason for the absence and expected return date.'
+    answer: 'Report absences via email to the office and complete the absence form in FACTS. Please notify the school as early as possible.'
   }
 ];
 
 const CONTACT_INFO = {
   name: 'Artios Academies of Sugar Hill',
-  email: 'info@artiosacademies.com',
-  address: 'Sugar Hill, GA',
-  hours: 'Monday-Thursday: 8:30 AM - 3:30 PM'
+  email: 'office@artiossugarhill.org',
+  address: '415 Brogdon Road, Suwanee, GA 30024',
+  hours: 'School days during operating hours'
 };
 
 // Section Header Component for consistent styling
