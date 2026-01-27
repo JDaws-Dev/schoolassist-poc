@@ -53,7 +53,7 @@ function EmptyState() {
       </div>
 
       {/* Text content */}
-      <h2 className="text-xl font-bold text-primary-900 mb-2 text-center">
+      <h2 className="text-xl md:text-2xl font-bold text-primary-900 mb-2 text-center">
         Welcome to Artios Assistant
       </h2>
       <p className="text-primary-500 text-center max-w-xs mb-8 leading-relaxed">
@@ -195,7 +195,7 @@ export default function Chat() {
               </div>
             )}
             <div
-              className={`max-w-[80%] px-4 py-3 ${
+              className={`max-w-[80%] md:max-w-[70%] lg:max-w-[60%] px-4 py-3 ${
                 message.role === 'user'
                   ? 'bg-gradient-to-br from-primary-600 to-primary-700 text-white rounded-2xl rounded-br-md shadow-primary'
                   : 'bg-white border border-primary-100 text-primary-900 rounded-2xl rounded-bl-md shadow-soft'
@@ -219,7 +219,7 @@ export default function Chat() {
       </div>
 
       {/* Input */}
-      <div className="bg-white border-t border-primary-100 px-4 py-3 shadow-[0_-4px_16px_-4px_rgb(0_0_0_/_0.06)] safe-bottom">
+      <div className="bg-white border-t border-primary-100 px-4 md:px-6 py-3 md:py-4 shadow-[0_-4px_16px_-4px_rgb(0_0_0_/_0.06)] safe-bottom lg:pb-4">
         <form onSubmit={handleSubmit} className="flex gap-3">
           <div className="flex-1 relative">
             <input
