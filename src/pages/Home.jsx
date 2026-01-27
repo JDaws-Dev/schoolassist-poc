@@ -84,7 +84,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 lg:pb-8">
       {/* Notification Banner */}
       <NotificationBanner />
 
@@ -94,7 +94,7 @@ export default function Home() {
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
 
-        <div className="max-w-lg mx-auto relative">
+        <div className="max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto relative">
           {/* Logo and greeting */}
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center">
@@ -110,7 +110,7 @@ export default function Home() {
               <GraduationCap className="w-6 h-6 text-blue-600 hidden" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">{getGreeting()}!</h1>
+              <h1 className="text-2xl md:text-3xl font-bold">{getGreeting()}!</h1>
               <p className="text-blue-200 text-sm">Artios Connect</p>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="px-4 -mt-6 max-w-lg mx-auto space-y-4 relative z-10">
+      <div className="px-4 md:px-6 -mt-6 max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto space-y-4 md:space-y-6 relative z-10">
         {/* Today Card */}
         <div className={`rounded-2xl p-4 shadow-lg border ${
           todayInfo.type === 'school'
@@ -193,7 +193,7 @@ export default function Home() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
           <a
             href="https://factsmgt.com"
             target="_blank"
