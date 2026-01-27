@@ -6,10 +6,27 @@
  * Or use: npm run server (after adding script to package.json)
  */
 
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
-import { buildKnowledgeBaseContent } from "./src/data/initialData.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load knowledge base
+function loadKnowledgeBase() {
+  try {
+    const kbPath = path.join(__dirname, "src/data/KNOWLEDGE_BASE.md");
+    return fs.readFileSync(kbPath, "utf-8");
+  } catch (error) {
+    console.error("Failed to load knowledge base:", error);
+    return "Knowledge base not available. Please contact the office for information.";
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -46,7 +63,7 @@ CRITICAL SAFETY RULES - YOU MUST FOLLOW THESE:
  * Build the complete system prompt with knowledge base content
  */
 function buildSystemPrompt(calendarEvents = []) {
-  const knowledgeBase = buildKnowledgeBaseContent();
+  const knowledgeBase = loadKnowledgeBase();
 
   let calendarSection = "";
   if (calendarEvents && calendarEvents.length > 0) {
@@ -133,7 +150,7 @@ app.post("/api/chat", async (req, res) => {
       throw new Error("No response received from AI model");
     }
 
-    res.json({ response: aiResponse });
+    res.json({ message: aiResponse });
   } catch (error) {
     console.error("[Chat Error]", error);
 

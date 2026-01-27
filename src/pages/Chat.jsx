@@ -139,12 +139,35 @@ export default function Chat() {
     setInput('');
     setIsLoading(true);
 
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 700));
+    try {
+      // Get or create session ID
+      let sessionId = sessionStorage.getItem('chatSessionId');
+      if (!sessionId) {
+        sessionId = crypto.randomUUID();
+        sessionStorage.setItem('chatSessionId', sessionId);
+      }
 
-    const response = getResponse(text);
-    const assistantMessage = { role: 'assistant', content: response };
-    setMessages(prev => [...prev, assistantMessage]);
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, sessionId })
+      });
+
+      if (!response.ok) {
+        throw new Error('API request failed');
+      }
+
+      const data = await response.json();
+      const assistantMessage = { role: 'assistant', content: data.message };
+      setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Chat error:', error);
+      // Fallback to sample response if API fails
+      const fallbackResponse = getResponse(text);
+      const assistantMessage = { role: 'assistant', content: fallbackResponse };
+      setMessages(prev => [...prev, assistantMessage]);
+    }
+
     setIsLoading(false);
     inputRef.current?.focus();
   };
