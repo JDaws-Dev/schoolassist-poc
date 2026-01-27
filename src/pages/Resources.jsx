@@ -1,17 +1,18 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
   ExternalLink,
-  Phone,
   Mail,
-  MapPin,
   Clock,
   BookOpen,
   FileText,
   HelpCircle,
+  ChevronDown,
   ChevronRight,
   Calendar,
-  UtensilsCrossed
+  UtensilsCrossed,
+  Building2
 } from 'lucide-react';
 
 const QUICK_LINKS = [
@@ -73,7 +74,59 @@ const CONTACT_INFO = {
   hours: 'Monday-Thursday: 8:30 AM - 3:30 PM'
 };
 
+// Section Header Component for consistent styling
+function SectionHeader({ icon: Icon, title, subtitle }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      {Icon && (
+        <div className="p-2 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-lg">
+          <Icon className="w-5 h-5 text-blue-600" />
+        </div>
+      )}
+      <div>
+        <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+        {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
+// Animated FAQ Item Component
+function FAQItem({ question, answer, isOpen, onToggle }) {
+  return (
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:border-gray-200 transition-colors">
+      <button
+        onClick={onToggle}
+        className="flex items-center gap-3 p-4 w-full text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+      >
+        <div className={`p-1.5 rounded-lg transition-colors ${isOpen ? 'bg-blue-100' : 'bg-gray-100'}`}>
+          <HelpCircle className={`w-4 h-4 transition-colors ${isOpen ? 'text-blue-600' : 'text-gray-500'}`} />
+        </div>
+        <span className="font-medium text-gray-900 flex-1 text-sm">{question}</span>
+        <ChevronDown
+          className={`w-5 h-5 text-gray-400 transition-transform duration-300 ease-out ${isOpen ? 'rotate-180' : ''}`}
+        />
+      </button>
+      <div
+        className={`grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+      >
+        <div className="overflow-hidden">
+          <div className="px-4 pb-4 pl-14 border-t border-gray-100">
+            <p className="text-sm text-gray-600 leading-relaxed pt-3">{answer}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Resources() {
+  const [openFAQ, setOpenFAQ] = useState(null);
+
+  const toggleFAQ = (index) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       {/* Header */}
@@ -87,11 +140,15 @@ export default function Resources() {
         <h1 className="font-semibold text-gray-900">Resources & Info</h1>
       </header>
 
-      <div className="px-4 py-6 max-w-lg mx-auto space-y-6">
+      <div className="px-4 py-6 max-w-lg mx-auto space-y-8">
         {/* Quick Links */}
         <section>
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Quick Links</h2>
-          <div className="space-y-2">
+          <SectionHeader
+            icon={ExternalLink}
+            title="Quick Links"
+            subtitle="Access important resources"
+          />
+          <div className="space-y-3">
             {QUICK_LINKS.map((link) => {
               const Icon = link.icon;
               const Component = link.internal ? Link : 'a';
@@ -103,19 +160,21 @@ export default function Resources() {
                 <Component
                   key={link.title}
                   {...props}
-                  className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                  className="group flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-gray-100
+                           hover:shadow-lg hover:border-blue-200 hover:bg-gradient-to-r hover:from-white hover:to-blue-50/50
+                           transition-all duration-200 transform hover:-translate-y-0.5"
                 >
-                  <div className={`p-2 rounded-lg ${link.color}`}>
+                  <div className={`p-2.5 rounded-xl ${link.color} group-hover:scale-110 transition-transform duration-200`}>
                     <Icon className="w-5 h-5" />
                   </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">{link.title}</p>
-                    <p className="text-sm text-gray-500">{link.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{link.title}</p>
+                    <p className="text-sm text-gray-500 truncate">{link.description}</p>
                   </div>
                   {link.internal ? (
-                    <ChevronRight className="w-5 h-5 text-gray-400" />
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
                   ) : (
-                    <ExternalLink className="w-5 h-5 text-gray-400" />
+                    <ExternalLink className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors" />
                   )}
                 </Component>
               );
@@ -125,89 +184,96 @@ export default function Resources() {
 
         {/* Contact Info */}
         <section>
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Contact</h2>
-          <div className="bg-white rounded-xl shadow-sm p-4 space-y-3">
-            <div className="flex items-start gap-3">
-              <MapPin className="w-5 h-5 text-gray-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-medium text-gray-900">{CONTACT_INFO.name}</p>
-                <p className="text-sm text-gray-500">{CONTACT_INFO.address}</p>
-              </div>
+          <SectionHeader
+            icon={Building2}
+            title="Contact Us"
+            subtitle="Get in touch with the school"
+          />
+          <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            {/* School Name Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4">
+              <h3 className="font-semibold text-white text-lg">{CONTACT_INFO.name}</h3>
+              <p className="text-blue-100 text-sm mt-0.5">{CONTACT_INFO.address}</p>
             </div>
-            <div className="flex items-center gap-3">
-              <Mail className="w-5 h-5 text-gray-400" />
+
+            {/* Contact Details */}
+            <div className="p-5 space-y-4">
               <a
                 href={`mailto:${CONTACT_INFO.email}`}
-                className="text-blue-600 hover:underline"
+                className="flex items-center gap-4 p-3 rounded-xl bg-white border border-gray-100
+                         hover:border-blue-200 hover:bg-blue-50/50 transition-all group"
               >
-                {CONTACT_INFO.email}
+                <div className="p-2 bg-blue-100 rounded-lg group-hover:bg-blue-200 transition-colors">
+                  <Mail className="w-5 h-5 text-blue-600" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Email</p>
+                  <p className="text-blue-600 font-medium group-hover:text-blue-700">{CONTACT_INFO.email}</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
               </a>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock className="w-5 h-5 text-gray-400" />
-              <p className="text-sm text-gray-600">{CONTACT_INFO.hours}</p>
+
+              <div className="flex items-center gap-4 p-3 rounded-xl bg-white border border-gray-100">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <Clock className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Office Hours</p>
+                  <p className="text-gray-900 font-medium">{CONTACT_INFO.hours}</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* FAQ */}
         <section>
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">
-            Frequently Asked Questions
-          </h2>
+          <SectionHeader
+            icon={HelpCircle}
+            title="Frequently Asked Questions"
+            subtitle="Find answers to common questions"
+          />
           <div className="space-y-3">
             {FAQ_ITEMS.map((item, index) => (
-              <details
+              <FAQItem
                 key={index}
-                className="bg-white rounded-xl shadow-sm group"
-              >
-                <summary className="flex items-center gap-3 p-4 cursor-pointer list-none">
-                  <HelpCircle className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                  <span className="font-medium text-gray-900 flex-1">{item.question}</span>
-                  <ChevronRight className="w-5 h-5 text-gray-400 transition-transform group-open:rotate-90" />
-                </summary>
-                <div className="px-4 pb-4 pl-12">
-                  <p className="text-sm text-gray-600 leading-relaxed">{item.answer}</p>
-                </div>
-              </details>
+                question={item.question}
+                answer={item.answer}
+                isOpen={openFAQ === index}
+                onToggle={() => toggleFAQ(index)}
+              />
             ))}
           </div>
         </section>
 
         {/* Documents */}
         <section>
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-3">Documents</h2>
-          <div className="bg-white rounded-xl shadow-sm divide-y divide-gray-100">
-            <a
-              href="https://factsmgt.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors"
-            >
-              <FileText className="w-5 h-5 text-gray-400" />
-              <span className="flex-1 text-gray-900">Parent Handbook</span>
-              <ExternalLink className="w-4 h-4 text-gray-400" />
-            </a>
-            <a
-              href="https://factsmgt.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors"
-            >
-              <FileText className="w-5 h-5 text-gray-400" />
-              <span className="flex-1 text-gray-900">Academic Calendar</span>
-              <ExternalLink className="w-4 h-4 text-gray-400" />
-            </a>
-            <a
-              href="https://factsmgt.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-4 hover:bg-gray-50 transition-colors"
-            >
-              <FileText className="w-5 h-5 text-gray-400" />
-              <span className="flex-1 text-gray-900">Supply Lists</span>
-              <ExternalLink className="w-4 h-4 text-gray-400" />
-            </a>
+          <SectionHeader
+            icon={FileText}
+            title="Documents"
+            subtitle="Important school documents"
+          />
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            {[
+              { name: 'Parent Handbook', color: 'text-blue-600 bg-blue-100' },
+              { name: 'Academic Calendar', color: 'text-purple-600 bg-purple-100' },
+              { name: 'Supply Lists', color: 'text-amber-600 bg-amber-100' }
+            ].map((doc, index, arr) => (
+              <a
+                key={doc.name}
+                href="https://factsmgt.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`group flex items-center gap-4 p-4 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50/30 transition-all
+                          ${index !== arr.length - 1 ? 'border-b border-gray-100' : ''}`}
+              >
+                <div className={`p-2 rounded-lg ${doc.color} group-hover:scale-110 transition-transform`}>
+                  <FileText className="w-5 h-5" />
+                </div>
+                <span className="flex-1 font-medium text-gray-900 group-hover:text-blue-700 transition-colors">{doc.name}</span>
+                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
+              </a>
+            ))}
           </div>
         </section>
       </div>
