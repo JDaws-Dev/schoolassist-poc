@@ -10,6 +10,72 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 5: AI Chat Assistant - Backend (ArtiosConnect-zn0)
+**Date**: 2026-01-26
+**Status**: Completed
+
+**What was done**:
+- Created `server.js` - Express.js chat API server for local development
+  - POST /api/chat endpoint with OpenAI GPT-4o-mini integration
+  - GET /api/health endpoint for health checks
+  - CORS middleware for cross-origin requests
+  - Temperature set to 0.2 (low to reduce hallucination)
+  - Max tokens: 1000, presence/frequency penalty: 0.1
+- Created `api/chat.js` - Vercel serverless function for production deployment
+  - Same API contract as server.js
+  - Inline knowledge base (no file system access in serverless)
+  - Proper CORS headers and OPTIONS handling
+- Created `src/data/initialData.js` - Comprehensive school knowledge base
+  - SCHOOL_INFO: name, address, type, description, philosophy
+  - SCHEDULE: weekly schedule by division, daily timing
+  - CONTACTS: directors, office
+  - QUICK_LINKS: categorized external links
+  - FAQ: 10 common questions with answers
+  - POLICIES: tardiness, early pickup, visitors, medications, emergencies
+  - `buildKnowledgeBaseContent()` function for AI context
+- Updated `package.json` with new dependencies:
+  - express: ^4.21.2
+  - cors: ^2.8.5
+  - openai: ^4.77.0
+  - concurrently: ^9.1.2 (dev)
+  - New scripts: `npm run server`, `npm run dev:all`
+
+**AI Safety Rules implemented in system prompt**:
+1. ONLY provide information from knowledge base or calendar events
+2. NEVER make up, invent, guess, or assume information
+3. If unknown: "I don't have that specific information. Please contact the school office..."
+4. For sensitive topics: redirect to Director John Lane
+5. Be helpful, friendly, and concise
+6. Clarify which division (Elementary K-6 or Jr High/High School 7-12) applies
+7. Do not provide legal, medical, or financial advice
+8. Acknowledge limitations honestly
+
+**API Contract**:
+```
+POST /api/chat
+Request: { message: string, history: Message[], sessionId: string, calendarEvents?: Event[] }
+Response: { response: string }
+
+Message: { role: 'user' | 'assistant', content: string }
+Event: { title: string, date: string, time?: string, location?: string }
+```
+
+**Key files created**:
+- `server.js` - Express.js chat API server (local dev)
+- `api/chat.js` - Vercel serverless function (production)
+- `src/data/initialData.js` - School knowledge base
+
+**Learnings**:
+- OpenAI client initialized with `new OpenAI({ apiKey: process.env.OPENAI_API_KEY })`
+- Vercel serverless functions have no file system access - data must be inline
+- CORS headers required for Vercel serverless: Access-Control-Allow-Origin, Methods, Headers
+- History limited to last 20 messages to stay within context window
+- Error handling for rate_limit_exceeded, insufficient_quota OpenAI errors
+- Temperature 0.2 significantly reduces hallucination while maintaining natural responses
+- System prompt should be comprehensive but not overwhelming - focus on boundaries
+
+---
+
 ### Iteration 4: Convex Database Integration (ArtiosConnect-9xo)
 **Date**: 2026-01-26
 **Status**: Completed
@@ -107,47 +173,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 2: Admin Dashboard (ArtiosConnect-ztz)
-**Date**: 2026-01-26
-**Status**: Completed
-
-**What was done**:
-- Built complete Admin Dashboard at `/admin` route
-- Protected by admin authentication (password: artiosadmin2026)
-- Created Notifications Management panel with full CRUD
-  - Support for types: alert, info, warning, success
-  - Live/draft toggle, scheduling, expiration
-- Created Announcements Management panel with full CRUD
-  - Priority levels: low, normal, high, urgent
-  - Announcement types: general, event, reminder, update
-  - Optional URL linking
-- Created AI Settings panel
-  - System prompt editor with default template
-  - Temperature slider (0.0-1.0) with visual feedback
-  - Knowledge base management (add/edit/delete topics)
-- Created Analytics Dashboard
-  - Chat session metrics (total, 24h, 7d)
-  - Message counts and averages
-  - Notification view/dismiss metrics
-  - Content overview (active notifications, announcements)
-
-**Key files created**:
-- `src/pages/AdminLogin.jsx` - Admin authentication page
-- `src/pages/AdminDashboard.jsx` - Main dashboard with sidebar navigation
-- `src/components/admin/NotificationsPanel.jsx` - Notifications CRUD
-- `src/components/admin/AnnouncementsPanel.jsx` - Announcements CRUD
-- `src/components/admin/AISettingsPanel.jsx` - AI configuration
-- `src/components/admin/AnalyticsPanel.jsx` - Usage statistics
-
-**Learnings**:
-- Convex queries return `undefined` initially, need `?? []` for arrays
-- Admin auth uses sessionStorage for browser-session-only persistence
-- ConvexProvider should only wrap components that need Convex access
-- Modal forms need proper z-index (z-50) to appear above sidebar
-- Temperature slider auto-saves on change with visual feedback
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -188,6 +213,24 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 2: Admin Dashboard (ArtiosConnect-ztz)
+**Date**: 2026-01-26
+**Status**: Completed
+
+**What was done**:
+- Built complete Admin Dashboard at `/admin` route
+- Protected by admin authentication (password: artiosadmin2026)
+- Created Notifications Management panel with full CRUD
+- Created Announcements Management panel with full CRUD
+- Created AI Settings panel with system prompt, temperature, knowledge base
+- Created Analytics Dashboard with chat and notification metrics
+
+**Key files created**:
+- `src/pages/AdminLogin.jsx`, `src/pages/AdminDashboard.jsx`
+- `src/components/admin/` - NotificationsPanel, AnnouncementsPanel, AISettingsPanel, AnalyticsPanel
+
+---
 
 ### Iteration 1: Calendar View (ArtiosConnect-yru)
 **Date**: 2026-01-26

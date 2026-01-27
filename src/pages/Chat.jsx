@@ -63,10 +63,10 @@ function EmptyState() {
       {/* Suggestion chips */}
       <div className="flex flex-wrap gap-2 justify-center max-w-sm">
         {[
-          'What's the schedule?',
-          'How do I order lunch?',
-          'Contact info',
-          'Dress code'
+          "What's the schedule?",
+          "How do I order lunch?",
+          "Contact info",
+          "Dress code"
         ].map((suggestion) => (
           <span
             key={suggestion}
