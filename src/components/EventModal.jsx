@@ -170,7 +170,7 @@ export default function EventModal({ event, onClose }) {
 
           <button
             onClick={onClose}
-            className="sm:w-auto px-5 py-3.5 text-slate-700 font-semibold bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+            className="sm:w-auto px-5 py-3.5 min-h-[48px] text-slate-700 font-semibold bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
           >
             Close
           </button>

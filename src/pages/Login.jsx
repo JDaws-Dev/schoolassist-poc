@@ -81,7 +81,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter parent password"
-                  className="w-full pl-11 pr-11 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl
+                  className="w-full pl-11 pr-14 py-3.5 min-h-[48px] bg-gray-50 border-2 border-gray-200 rounded-xl
                     focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white
                     hover:border-gray-300 hover:bg-white
                     transition-all duration-200 text-gray-900 placeholder-gray-400"
@@ -90,8 +90,8 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600
-                    p-1 rounded-lg hover:bg-gray-100 transition-all duration-200"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600
+                    p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-gray-100 transition-all duration-200"
                 >
                   {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                 </button>
@@ -107,7 +107,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-blue-700
+              className="w-full py-3.5 min-h-[48px] bg-gradient-to-r from-blue-600 to-blue-700
                 hover:from-blue-700 hover:to-blue-800
                 active:from-blue-800 active:to-blue-900 active:scale-[0.98]
                 text-white font-semibold rounded-xl
