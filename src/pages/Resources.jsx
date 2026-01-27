@@ -253,24 +253,24 @@ export default function Resources() {
             title="Documents"
             subtitle="Important school documents"
           />
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="space-y-3 md:grid md:grid-cols-3 md:gap-3 md:space-y-0">
             {[
               { name: 'Parent Handbook', color: 'text-blue-600 bg-blue-100' },
               { name: 'Academic Calendar', color: 'text-purple-600 bg-purple-100' },
               { name: 'Supply Lists', color: 'text-amber-600 bg-amber-100' }
-            ].map((doc, index, arr) => (
+            ].map((doc) => (
               <a
                 key={doc.name}
                 href="https://factsmgt.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group flex items-center gap-4 p-4 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50/30 transition-all
-                          ${index !== arr.length - 1 ? 'border-b border-gray-100' : ''}`}
+                className="group flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100
+                         hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <div className={`p-2 rounded-lg ${doc.color} group-hover:scale-110 transition-transform`}>
+                <div className={`p-2.5 rounded-xl ${doc.color} group-hover:scale-110 transition-transform duration-200`}>
                   <FileText className="w-5 h-5" />
                 </div>
-                <span className="flex-1 font-medium text-gray-900 group-hover:text-blue-700 transition-colors">{doc.name}</span>
+                <span className="flex-1 font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">{doc.name}</span>
                 <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors" />
               </a>
             ))}
