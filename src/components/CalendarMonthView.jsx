@@ -90,22 +90,25 @@ export default function CalendarMonthView({
                   {hasEvents && (
                     <div className="mt-1.5 space-y-1">
                       {/* Show up to 2 event previews on larger screens */}
-                      <div className="hidden sm:block space-y-1">
-                        {dayEvents.slice(0, 2).map((event, idx) => (
-                          <div
-                            key={event.id}
-                            className={`
-                              text-xs truncate px-2 py-1 rounded-md font-semibold border-l-3
-                              ${idx === 0
-                                ? 'bg-blue-100/80 text-blue-800 border-l-blue-500'
-                                : 'bg-emerald-100/80 text-emerald-800 border-l-emerald-500'
-                              }
-                            `}
-                            title={event.title}
-                          >
-                            {event.title}
-                          </div>
-                        ))}
+                      <div className="hidden sm:block space-y-0.5">
+                        {dayEvents.slice(0, 2).map((event, idx) => {
+                          const colors = [
+                            'bg-blue-100/80 text-blue-800 border-l-blue-500',
+                            'bg-emerald-100/80 text-emerald-800 border-l-emerald-500',
+                          ]
+                          return (
+                            <div
+                              key={event.id}
+                              className={`
+                                text-[11px] truncate px-1.5 py-0.5 rounded font-medium border-l-2
+                                ${colors[idx] || colors[1]}
+                              `}
+                              title={event.title}
+                            >
+                              {event.title}
+                            </div>
+                          )
+                        })}
                         {dayEvents.length > 2 && (
                           <div className="text-xs font-semibold text-slate-500 px-2 py-0.5">
                             +{dayEvents.length - 2} more

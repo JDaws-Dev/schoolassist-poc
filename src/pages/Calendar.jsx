@@ -147,25 +147,18 @@ export default function Calendar() {
         )}
 
         {/* Legend */}
-        <div className="mt-8 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">Legend</p>
-          <div className="flex flex-wrap items-center gap-6 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="w-4 h-4 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full shadow-md ring-2 ring-blue-400/30" />
-              <span className="font-medium text-slate-700">Today</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-blue-500 rounded-full shadow-sm" />
-              <span className="font-medium text-slate-600">Event (primary)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-emerald-500 rounded-full shadow-sm" />
-              <span className="font-medium text-slate-600">Event (secondary)</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 bg-amber-500 rounded-full shadow-sm" />
-              <span className="font-medium text-slate-600">Event (tertiary)</span>
-            </div>
+        <div className="mt-6 flex flex-wrap items-center gap-4 px-2 text-xs text-slate-500">
+          <div className="flex items-center gap-1.5">
+            <span className="w-3 h-3 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full ring-1 ring-blue-400/30" />
+            <span>Today</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 bg-blue-500 rounded-full" />
+            <span>Events</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full" />
+            <span>Additional</span>
           </div>
         </div>
       </main>
