@@ -1,4 +1,4 @@
-import { CalendarDays, ExternalLink, GraduationCap, Sandwich } from 'lucide-react'
+import { CalendarDays, ChevronRight, ExternalLink, GraduationCap, Sandwich } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -39,19 +39,23 @@ export function QuickActions() {
         {actions.map((action) => {
           const Icon = action.icon
           const content = (
-            <div className="flex h-full flex-col justify-between gap-4 rounded-2xl border border-border/60 bg-background p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-              <div className="flex items-center justify-between">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-primary">
-                  <Icon className="h-5 w-5" />
-                </span>
-                {action.external ? <ExternalLink className="h-4 w-4 text-muted-foreground" /> : null}
-              </div>
-              <div>
-                <p className="text-sm font-semibold">{action.title}</p>
-                <p className="text-xs text-muted-foreground">{action.description}</p>
-                {action.title === 'Lunch Ordering' ? (
-                  <p className="text-[11px] text-primary/80">{deadlineLabel}</p>
-                ) : null}
+            <div className="flex h-full flex-col justify-between gap-3 rounded-2xl border border-border/60 bg-background p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-primary">
+                <Icon className="h-5 w-5" />
+              </span>
+              <div className="flex items-end justify-between gap-2">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold">{action.title}</p>
+                  <p className="text-xs text-muted-foreground">{action.description}</p>
+                  {action.title === 'Lunch Ordering' ? (
+                    <p className="text-[11px] text-primary/80">{deadlineLabel}</p>
+                  ) : null}
+                </div>
+                {action.external ? (
+                  <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground" />
+                ) : (
+                  <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                )}
               </div>
             </div>
           )

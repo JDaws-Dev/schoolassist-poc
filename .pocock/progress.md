@@ -10,6 +10,31 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 35: Improve Quick Action Card Tap Affordance (ArtiosConnect-566)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Repositioned external link icon from top-right to bottom-right next to text content
+- Added ChevronRight icon for internal links (Calendar) to indicate navigation
+- All cards now have clear tap affordance indicator at bottom-right
+
+**Files modified**:
+- `src/components/home/QuickActions.tsx` - Restructured card layout, added ChevronRight import
+
+**Key decisions**:
+- External link icon moved to be near the action area (text) where user attention lands
+- Internal links get chevron-right (navigation convention), external get external-link icon
+- Icons positioned at `items-end` to align with bottom of text content
+- Used `shrink-0` on icons to prevent shrinking on narrow screens
+
+**Learnings**:
+- Icons positioned far from content create disconnection between indicator and action
+- Consistent icon placement (bottom-right) for all cards creates predictable pattern
+- ChevronRight is standard for "go to another page", ExternalLink for "opens in new tab"
+
+---
+
 ### Iteration 34: Expandable FAQ Items (ArtiosConnect-5fq)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -61,27 +86,6 @@ This file maintains context between autonomous iterations.
 **Learnings**:
 - EventModal already had "Add to Google Calendar" functionality - just needed to wire it up
 - Consistent with CalendarMonthView pattern for handling event selection
-
----
-
-### Iteration 32: Fix Lunch Ordering Link (ArtiosConnect-9yg)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed Lunch Ordering quick action linking to wrong URL (factsmgt.com → artioscafe.com)
-- Fixed deadline text from incorrect "11:59 PM" to correct "10 AM on class days"
-
-**Files modified**:
-- `src/components/home/QuickActions.tsx` - Fixed URL and deadline text
-
-**Key decisions**:
-- Removed unnecessary date logic - static text "Order by 10 AM on class days" is clearer
-- Kept deadline label simple rather than calculating dynamic countdown
-
-**Learnings**:
-- QuickActions had copy/paste error from FACTS Portal
-- Knowledge base says 10 AM deadline, not 11:59 PM - always verify against authoritative source
 
 ---
 
@@ -190,6 +194,27 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 32: Fix Lunch Ordering Link (ArtiosConnect-9yg)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed Lunch Ordering quick action linking to wrong URL (factsmgt.com → artioscafe.com)
+- Fixed deadline text from incorrect "11:59 PM" to correct "10 AM on class days"
+
+**Files modified**:
+- `src/components/home/QuickActions.tsx` - Fixed URL and deadline text
+
+**Key decisions**:
+- Removed unnecessary date logic - static text "Order by 10 AM on class days" is clearer
+- Kept deadline label simple rather than calculating dynamic countdown
+
+**Learnings**:
+- QuickActions had copy/paste error from FACTS Portal
+- Knowledge base says 10 AM deadline, not 11:59 PM - always verify against authoritative source
+
+---
 
 ### Iteration 31: Simplify Admin + Linktree Sync + Calendar Fix
 **Date**: 2026-01-29
