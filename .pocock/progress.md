@@ -10,6 +10,35 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 10: Warmer Design System (ArtiosConnect-925)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Updated color palette to feel warmer and more mom-friendly:
+  - Shifted primary from cool teal (hue 155) to warm forest green (hue 145)
+  - Background now cream-white with subtle sage undertone (hue 90)
+  - Added peachy-coral accent color (hue 55) for warmth instead of yellow-green
+  - Borders and muted colors now warmer gray-sage (hue 100)
+- Updated body background gradients to be warmer (sage + peach touches)
+- Increased default radius from 1rem to 1.125rem for softer corners
+
+**Key decisions**:
+- Used OKLCH color space for perceptually uniform color changes
+- Kept primary green recognizable but warmer (forest vs teal)
+- Added subtle peachy warmth without changing brand identity
+- All components use design tokens, so changes apply site-wide automatically
+
+**Files modified**:
+- src/index.css (@theme design tokens, body gradient)
+
+**Learnings**:
+- OKLCH hue 140-145 is warm sage/forest, hue 155+ is cooler teal
+- Peachy accent (hue 55-65) adds warmth without clashing with green
+- Background subtle warmth (hue 90) makes cream feel inviting vs sterile
+
+---
+
 ### Iteration 9: Fix Remaining Schedule References (ArtiosConnect-yei)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -87,32 +116,6 @@ This file maintains context between autonomous iterations.
 - The simple "Elementary M/W, Jr High & HS T/Th" schedule was a simplification that lost critical info about Academics vs Arts days
 - Email domains: artiosacademies.com is correct, not artiossugarhill.org
 - Weather closure policy includes Forsyth County, not just Gwinnett
-
----
-
-### Iteration 7: Bottom Nav Active State Fix (ArtiosConnect-ql7)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed bottom nav to clearly indicate active tab
-- Active tabs now have filled primary background on icon (bg-primary text-primary-foreground shadow-md)
-- Inactive tabs have muted text (text-muted-foreground)
-- Chat tab (highlight) gets subtle primary tint when inactive (bg-primary/15 text-primary)
-- Used NavLink render prop pattern to access isActive state for both className and children
-
-**Key decisions**:
-- Used render prop children for NavLink (not just className) to conditionally style icon container
-- Chat highlight styling only applies when inactive - active state overrides it
-- Kept styling minimal - bg + shadow is enough visual distinction
-
-**Files modified**:
-- src/components/layout/BottomNav.tsx (active state logic)
-
-**Learnings**:
-- React Router v6 NavLink supports render prop children: `{({ isActive }) => <content />}`
-- Both className and children can receive the isActive state
-- Previous code only used isActive for className, not for icon styling
 
 ---
 
@@ -272,6 +275,32 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 7: Bottom Nav Active State Fix (ArtiosConnect-ql7)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed bottom nav to clearly indicate active tab
+- Active tabs now have filled primary background on icon (bg-primary text-primary-foreground shadow-md)
+- Inactive tabs have muted text (text-muted-foreground)
+- Chat tab (highlight) gets subtle primary tint when inactive (bg-primary/15 text-primary)
+- Used NavLink render prop pattern to access isActive state for both className and children
+
+**Key decisions**:
+- Used render prop children for NavLink (not just className) to conditionally style icon container
+- Chat highlight styling only applies when inactive - active state overrides it
+- Kept styling minimal - bg + shadow is enough visual distinction
+
+**Files modified**:
+- src/components/layout/BottomNav.tsx (active state logic)
+
+**Learnings**:
+- React Router v6 NavLink supports render prop children: `{({ isActive }) => <content />}`
+- Both className and children can receive the isActive state
+- Previous code only used isActive for className, not for icon styling
+
+---
 
 ### Iteration 6: UI/Design Polish (ArtiosConnect-7x0, s9u, r5m, eps, alr, 56h, 6xp, 7ef, g6l)
 **Date**: 2026-01-27
