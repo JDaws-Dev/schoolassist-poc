@@ -100,12 +100,12 @@ export function useChat() {
 
         if (!response.ok) throw new Error('API request failed')
 
-        const data = (await response.json()) as { response: string }
+        const data = (await response.json()) as { message: string }
 
         const assistantMessage: ChatMessage = {
           id: crypto.randomUUID(),
           role: 'assistant',
-          content: data.response,
+          content: data.message,
           createdAt: Date.now(),
         }
 

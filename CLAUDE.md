@@ -28,8 +28,12 @@ npx convex dev       # Convex dev server (run in separate terminal)
 ## Environment Variables
 
 ```env
+# Client-side (Vite)
 VITE_CONVEX_URL=https://[deployment].convex.cloud
 VITE_GOOGLE_CALENDAR_ICS_URL=https://calendar.google.com/calendar/ical/[id]/public/basic.ics
+
+# Server-side (Vercel serverless functions)
+GOOGLE_CALENDAR_URL=https://calendar.google.com/calendar/ical/[id]/public/basic.ics
 OPENAI_API_KEY=sk-...
 ```
 
@@ -55,7 +59,7 @@ OPENAI_API_KEY=sk-...
 - `Calendar.jsx` - School events (month/list view, fetches from Google Calendar ICS)
 - `Resources.jsx` - FAQ, contacts, documents, quick links
 - `Community.jsx` - Parent community connections (Facebook, GroupMe)
-- `AdminDashboard.jsx` - Notifications, announcements, AI settings, analytics
+- `AdminDashboard.tsx` - Simplified alerts-only panel (title, start time, end time)
 
 ### Key Components (in `/src/components/`)
 - `layout/` - ParentLayout, BottomNav, AppShell
@@ -67,7 +71,8 @@ OPENAI_API_KEY=sk-...
 - `src/data/initialData.js` - School info, schedules, FAQ, policies
 - `src/data/KNOWLEDGE_BASE.md` - Comprehensive AI knowledge base
 - `src/contexts/GradeContext.jsx` - Track selected grade level (K-6, 7-8, 9-12)
-- `convex/` - Database schema (announcements, notifications, aiSettings, analytics)
+- `convex/` - Database schema (announcements, notifications, aiSettings, analytics, linktreeLinks)
+- `convex/crons.ts` - Scheduled jobs (Linktree sync Mon/Thu 9am UTC)
 
 ### Hooks (in `/src/hooks/`)
 - `useChat.js` - Chat message management, API calls
@@ -80,7 +85,7 @@ OPENAI_API_KEY=sk-...
 
 - **Linktree**: https://linktr.ee/ARTIOSSH (all important links in one place)
 - **Artios+**: https://artiosplus.com (HIGH SCHOOL performances - Theater, Dance, Film, Choir, Art)
-- **Vimeo**: https://vimeo.com/user81677362 (Elementary & Jr High performances)
+- **Vimeo**: https://vimeo.com/artios (Elementary & Jr High performances)
 
 ## Parent Community Links
 
@@ -106,11 +111,21 @@ These are CRITICAL for parent communication - moms and teachers use these daily 
 - **Thursday**: Elementary (K-6) — Arts
 - **Friday**: High School (9-12) — Arts
 
+## Linktree Auto-Sync
+
+The app automatically syncs links from [Artios Linktree](https://linktr.ee/ARTIOSSH) twice a week (Monday & Thursday at 9am UTC).
+
+- **How it works**: Convex cron job fetches Linktree page, parses links, stores in database
+- **Deduplication**: Resources page filters out links already in QUICK_LINKS to avoid duplicates
+- **New links appear**: In "More Links" section on Resources page (only if there are new ones)
+- **Manual sync**: Can trigger via Convex dashboard or `npx convex run linktree:triggerSync`
+
 ## Preserved Files (Don't Modify Without Good Reason)
 
 - `convex/` - Database schema and functions
 - `server.js` - Express chat API
-- `api/chat.js` - Vercel serverless function
+- `api/chat.js` - Vercel serverless function (chat)
+- `api/calendar.js` - Vercel serverless function (calendar proxy)
 - `src/data/initialData.js` - Static school data
 - `src/data/KNOWLEDGE_BASE.md` - AI knowledge base
 

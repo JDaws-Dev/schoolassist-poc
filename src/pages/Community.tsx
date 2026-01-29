@@ -37,10 +37,11 @@ const WHY_JOIN_REASONS = [
 export default function Community() {
   return (
     <div className="space-y-6">
-      {/* Disclaimer */}
-      <div className="rounded-xl bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
-        <p>
-          These groups are created and run by Artios parents — not the school. They're welcoming spaces where moms and dads share info, coordinate, and support each other.
+      {/* Disclaimer - Extra clear this is NOT official */}
+      <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm">
+        <p className="font-medium text-amber-700 dark:text-amber-400">Not Official Artios Channels</p>
+        <p className="mt-1 text-muted-foreground">
+          These groups are created and managed by fellow parents — not by Artios Academies. They're unofficial but welcoming spaces where moms and dads share info, coordinate, and support each other.
         </p>
       </div>
 
@@ -48,7 +49,7 @@ export default function Community() {
       <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
         <p className="font-medium text-primary">New to Artios?</p>
         <p className="mt-1 text-muted-foreground">
-          Join your grade-level GroupMe first — that's where day-to-day communication happens.
+          Join your grade-level GroupMe first — that's where parents share day-to-day updates like lunch reminders, carpool changes, and field trip details.
         </p>
       </div>
 

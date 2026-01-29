@@ -445,7 +445,7 @@ For sensitive topics such as:
 | Resource | Link | Description |
 |----------|------|-------------|
 | Artios+ | [artiosplus.com](https://artiosplus.com) | **High School (9-12)** performances - Theater, Dance, Film, Choir, Art |
-| Vimeo | [vimeo.com/user81677362](https://vimeo.com/user81677362) | **Elementary & Jr High (K-8)** performances |
+| Vimeo | [vimeo.com/artios](https://vimeo.com/artios) | **Elementary & Jr High (K-8)** performances |
 | Linktree | [linktr.ee/ARTIOSSH](https://linktr.ee/ARTIOSSH) | All important links in one place |
 
 ### Newsletters & Handbooks

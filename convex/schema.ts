@@ -54,4 +54,22 @@ export default defineSchema({
     messageCount: v.number(),
     lastMessageAt: v.number(),
   }).index("by_session", ["sessionId"]),
+
+  // Auto-synced links from Linktree
+  linktreeLinks: defineTable({
+    title: v.string(),
+    url: v.string(),
+    addedAt: v.number(),
+    lastSeenAt: v.number(),
+    isActive: v.boolean(),
+  }).index("by_url", ["url"]),
+
+  // Sync log for debugging
+  linktreeSyncLog: defineTable({
+    syncedAt: v.number(),
+    linksFound: v.number(),
+    newLinksAdded: v.number(),
+    status: v.string(),
+    error: v.optional(v.string()),
+  }),
 });

@@ -11,6 +11,8 @@
 import type * as aiSettings from "../aiSettings.js";
 import type * as announcements from "../announcements.js";
 import type * as chatSessions from "../chatSessions.js";
+import type * as crons from "../crons.js";
+import type * as linktree from "../linktree.js";
 import type * as notificationMetrics from "../notificationMetrics.js";
 import type * as notifications from "../notifications.js";
 
@@ -24,6 +26,8 @@ declare const fullApi: ApiFromModules<{
   aiSettings: typeof aiSettings;
   announcements: typeof announcements;
   chatSessions: typeof chatSessions;
+  crons: typeof crons;
+  linktree: typeof linktree;
   notificationMetrics: typeof notificationMetrics;
   notifications: typeof notifications;
 }>;
