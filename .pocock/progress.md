@@ -10,6 +10,31 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 17: Fix Calendar Duplicate Key React Warnings (ArtiosConnect-lq5)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed React duplicate key warnings in CalendarMonthView and CalendarListView
+- Recurring events from Google Calendar share the same UID, causing key collisions
+- Changed keys from `event.id` to `${event.id}-${event.start?.getTime()}` in 4 locations
+
+**Files modified**:
+- src/components/calendar/CalendarMonthView.tsx (3 key fixes: mobile dots, desktop previews, dialog)
+- src/components/calendar/CalendarListView.tsx (1 key fix: event list)
+
+**Key decisions**:
+- Combined event ID + start timestamp for unique keys per occurrence
+- Used optional chaining `event.start?.getTime()` since start can be null
+- Fallback to index in mobile dots where start might be null: `event.start?.getTime() ?? i`
+
+**Learnings**:
+- Google Calendar recurring events share the same UID across all occurrences
+- Each occurrence has a different start date, making id+timestamp a reliable unique key
+- React key warnings don't break functionality but indicate potential list rendering issues
+
+---
+
 ### Iteration 16: Calendar List View Shows Only Upcoming Events (ArtiosConnect-2e1)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -62,39 +87,6 @@ This file maintains context between autonomous iterations.
 - buildKnowledgeBaseContent() in initialData.js does NOT include QUICK_LINKS - safe to remove sections
 - Having dedicated pages for focused content > duplicating links across pages
 - Bottom nav items are always 1 tap away - no need for duplication "for discoverability"
-
----
-
-### Iteration 14: Calendar Mobile View Fix (ArtiosConnect-q41)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Redesigned CalendarMonthView for mobile-first experience
-- Mobile (< sm): Compact cells with event dots, tap day to see events
-- Desktop (sm+): Full event previews inline in cells
-- Added day events dialog for mobile - shows all events when tapping a day with multiple events
-- Single event tap goes directly to event modal
-- Added mobile legend explaining dot = event and tap to view
-- Improved Calendar page header with tighter mobile spacing
-- Improved CalendarListView with min-h-[48px] tap targets
-
-**Files modified**:
-- src/components/calendar/CalendarMonthView.tsx (complete redesign for responsive layout)
-- src/components/calendar/CalendarListView.tsx (mobile tap target improvements)
-- src/pages/Calendar.tsx (mobile header spacing, aria-labels)
-
-**Key decisions**:
-- Dots-only on mobile vs full previews on desktop - keeps cells usable at 375px width
-- Day cells are 48px min height on mobile (44px+ WCAG compliant tap target)
-- Single-event days go directly to event modal, multi-event days show picker dialog
-- Used sm: breakpoint (640px) as cutoff between mobile/desktop layouts
-
-**Learnings**:
-- 7-column calendar grid at 375px = ~53px per cell - not enough for text previews
-- Event dots with count indicator work well for scanability on mobile
-- Making entire day cell tappable (vs individual event buttons) is better UX on mobile
-- Dialog component can be composed within a component for local state management
 
 ---
 
@@ -254,6 +246,39 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 14: Calendar Mobile View Fix (ArtiosConnect-q41)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Redesigned CalendarMonthView for mobile-first experience
+- Mobile (< sm): Compact cells with event dots, tap day to see events
+- Desktop (sm+): Full event previews inline in cells
+- Added day events dialog for mobile - shows all events when tapping a day with multiple events
+- Single event tap goes directly to event modal
+- Added mobile legend explaining dot = event and tap to view
+- Improved Calendar page header with tighter mobile spacing
+- Improved CalendarListView with min-h-[48px] tap targets
+
+**Files modified**:
+- src/components/calendar/CalendarMonthView.tsx (complete redesign for responsive layout)
+- src/components/calendar/CalendarListView.tsx (mobile tap target improvements)
+- src/pages/Calendar.tsx (mobile header spacing, aria-labels)
+
+**Key decisions**:
+- Dots-only on mobile vs full previews on desktop - keeps cells usable at 375px width
+- Day cells are 48px min height on mobile (44px+ WCAG compliant tap target)
+- Single-event days go directly to event modal, multi-event days show picker dialog
+- Used sm: breakpoint (640px) as cutoff between mobile/desktop layouts
+
+**Learnings**:
+- 7-column calendar grid at 375px = ~53px per cell - not enough for text previews
+- Event dots with count indicator work well for scanability on mobile
+- Making entire day cell tappable (vs individual event buttons) is better UX on mobile
+- Dialog component can be composed within a component for local state management
+
+---
 
 ### Iteration 13: Audit Linktree and Sync Knowledge Base (ArtiosConnect-4de)
 **Date**: 2026-01-29

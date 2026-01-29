@@ -103,7 +103,7 @@ export function CalendarMonthView({
                 <div className="mt-1 flex flex-wrap justify-center gap-0.5 sm:hidden">
                   {dayEvents.slice(0, 3).map((event, i) => (
                     <span
-                      key={event.id}
+                      key={`${event.id}-${event.start?.getTime() ?? i}`}
                       className={cn(
                         'h-1.5 w-1.5 rounded-full',
                         i === 0 && 'bg-primary',
@@ -122,7 +122,7 @@ export function CalendarMonthView({
               <div className="mt-1.5 hidden w-full space-y-1 sm:block">
                 {dayEvents.slice(0, 2).map((event) => (
                   <div
-                    key={event.id}
+                    key={`${event.id}-${event.start?.getTime()}`}
                     onClick={(e) => {
                       e.stopPropagation()
                       onSelectEvent(event)
@@ -172,7 +172,7 @@ export function CalendarMonthView({
           <div className="space-y-2">
             {selectedDay?.events.map((event) => (
               <button
-                key={event.id}
+                key={`${event.id}-${event.start?.getTime()}`}
                 type="button"
                 onClick={() => {
                   setSelectedDay(null)

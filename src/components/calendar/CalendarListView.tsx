@@ -34,7 +34,7 @@ export function CalendarListView({
             <div className="space-y-2">
               {dayEvents.map((event) => (
                 <button
-                  key={event.id}
+                  key={`${event.id}-${event.start?.getTime()}`}
                   type="button"
                   onClick={() => onSelectEvent(event)}
                   className="min-h-[48px] w-full rounded-xl border border-border/60 bg-background p-3 text-left shadow-sm transition hover:border-primary/40 hover:bg-primary/5 sm:rounded-2xl sm:p-4"
