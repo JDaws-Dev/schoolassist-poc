@@ -10,6 +10,43 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 28: Evaluate Admin Dashboard - Notifications vs Announcements (ArtiosConnect-1v7)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Evaluated whether notifications and announcements should be merged
+- Determined they serve legitimately different purposes - keeping both
+- Added descriptions to admin panels explaining when to use each
+- Renamed "Notifications" → "Urgent Alerts" in admin panel for clarity
+
+**Files modified**:
+- src/components/admin/NotificationsPanel.tsx (title → "Urgent Alerts", added description)
+- src/components/admin/AnnouncementsPanel.tsx (added description)
+
+**Key decisions**:
+- **Keep both systems separate** - they have distinct use cases:
+  - Notifications = urgent, dismissable, time-bound (weather closures, schedule changes)
+  - Announcements = persistent, informational, date-stamped (newsletters, spirit week)
+- Renamed to "Urgent Alerts" to make purpose clearer
+- Added explanatory text so admins know which to use
+
+**Analysis summary**:
+| Feature | Notifications (Alerts) | Announcements |
+|---------|------------------------|---------------|
+| Position | Top banner (urgent) | Bottom card (info) |
+| Dismissable | Yes | No |
+| Scheduling | Yes | No |
+| Styling | Color-coded by type | Neutral card |
+| Metrics | Tracked | Not tracked |
+
+**Learnings**:
+- Systems that LOOK similar may serve different UX purposes
+- Adding context/descriptions in admin UI reduces confusion
+- "Notification" is overloaded term - "Alert" is more specific
+
+---
+
 ### Iteration 27: Add Vimeo Page for K-8 Performances (ArtiosConnect-rzd)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -65,30 +102,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 25: Fix Content Cut Off by Bottom Nav (ArtiosConnect-7yn)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed content being cut off at bottom by fixed navigation bar
-- Increased bottom padding in AppShell from pb-4 (16px) to pb-20 (80px)
-- Affects all pages wrapped by AppShell, not just Community
-
-**Files modified**:
-- src/components/layout/AppShell.tsx (pb-4 → pb-20)
-
-**Key decisions**:
-- Fix applied at AppShell level - affects all pages uniformly
-- Used pb-20 (80px) to account for: nav height (~66px) + safe area + some breathing room
-- Fixed nav is ~66px: pt-2 (8px) + icon h-10 (40px) + gap-1 (4px) + label (~14px)
-
-**Learnings**:
-- Fixed bottom navigation requires content area to have matching bottom padding
-- AppShell is the right place for this fix since all parent routes use it
-- pb-20 gives comfortable clearance for the bottom nav bar
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -129,6 +142,30 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 25: Fix Content Cut Off by Bottom Nav (ArtiosConnect-7yn)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed content being cut off at bottom by fixed navigation bar
+- Increased bottom padding in AppShell from pb-4 (16px) to pb-20 (80px)
+- Affects all pages wrapped by AppShell, not just Community
+
+**Files modified**:
+- src/components/layout/AppShell.tsx (pb-4 → pb-20)
+
+**Key decisions**:
+- Fix applied at AppShell level - affects all pages uniformly
+- Used pb-20 (80px) to account for: nav height (~66px) + safe area + some breathing room
+- Fixed nav is ~66px: pt-2 (8px) + icon h-10 (40px) + gap-1 (4px) + label (~14px)
+
+**Learnings**:
+- Fixed bottom navigation requires content area to have matching bottom padding
+- AppShell is the right place for this fix since all parent routes use it
+- pb-20 gives comfortable clearance for the bottom nav bar
+
+---
 
 ### Iteration 24: Redesign Header (ArtiosConnect-tgy)
 **Date**: 2026-01-29
