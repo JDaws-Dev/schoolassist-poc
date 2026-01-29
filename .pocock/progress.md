@@ -10,6 +10,30 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 25: Fix Content Cut Off by Bottom Nav (ArtiosConnect-7yn)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed content being cut off at bottom by fixed navigation bar
+- Increased bottom padding in AppShell from pb-4 (16px) to pb-20 (80px)
+- Affects all pages wrapped by AppShell, not just Community
+
+**Files modified**:
+- src/components/layout/AppShell.tsx (pb-4 → pb-20)
+
+**Key decisions**:
+- Fix applied at AppShell level - affects all pages uniformly
+- Used pb-20 (80px) to account for: nav height (~66px) + safe area + some breathing room
+- Fixed nav is ~66px: pt-2 (8px) + icon h-10 (40px) + gap-1 (4px) + label (~14px)
+
+**Learnings**:
+- Fixed bottom navigation requires content area to have matching bottom padding
+- AppShell is the right place for this fix since all parent routes use it
+- pb-20 gives comfortable clearance for the bottom nav bar
+
+---
+
 ### Iteration 24: Redesign Header (ArtiosConnect-tgy)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -64,29 +88,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 22: Add Community Disclaimer (ArtiosConnect-n78)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Added friendly disclaimer at top of Community page
-- States groups are parent-created/run, not official school channels
-- Describes them as welcoming spaces for sharing, coordinating, and support
-
-**Files modified**:
-- src/pages/Community.tsx (added disclaimer div before cards)
-
-**Key decisions**:
-- Single disclaimer at top applies to both Facebook and GroupMe sections
-- Used muted styling (bg-muted/50) - informative but not alarming
-- Warm tone: "welcoming spaces where moms and dads..." - encouraging, not discouraging
-- Shortened the existing intro text since disclaimer handles context
-
-**Learnings**:
-- Disclaimer placement matters - top of page ensures visibility before any clicks
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -127,6 +128,28 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 22: Add Community Disclaimer (ArtiosConnect-n78)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added friendly disclaimer at top of Community page
+- States groups are parent-created/run, not official school channels
+- Describes them as welcoming spaces for sharing, coordinating, and support
+
+**Files modified**:
+- src/pages/Community.tsx (added disclaimer div before cards)
+
+**Key decisions**:
+- Single disclaimer at top applies to both Facebook and GroupMe sections
+- Used muted styling (bg-muted/50) - informative but not alarming
+- Warm tone: "welcoming spaces where moms and dads..." - encouraging, not discouraging
+
+**Learnings**:
+- Disclaimer placement matters - top of page ensures visibility before any clicks
+
+---
 
 ### Iteration 21: Add Chat Link on Calendar Page (ArtiosConnect-5p9)
 **Date**: 2026-01-29
