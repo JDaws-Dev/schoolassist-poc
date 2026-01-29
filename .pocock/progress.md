@@ -10,6 +10,36 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 18: Investigate Community Page Integration (ArtiosConnect-m99)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Researched GroupMe API - requires OAuth authentication for ALL requests, no public endpoints
+- Researched Facebook Graph API - Groups API shut down in Feb 2024, private groups cannot be embedded
+- Documented why API integration is NOT viable for this use case
+- Recommended enhanced UX approach instead (descriptions, onboarding guidance)
+
+**Files modified**:
+- None (research-only task)
+
+**Key decisions**:
+- **Do NOT pursue API integrations** - both require authentication that would need stored credentials
+- Privacy concern: parents likely don't want their group posts visible outside the group
+- Enhanced UX is the viable path: add descriptions, "Why Join?" section, onboarding tips
+
+**Learnings**:
+- GroupMe API uses OAuth Implicit Authentication - every request needs a user access token
+- Meta shut down Facebook Groups API in early 2024 - major breaking change for social tools
+- Facebook Page Plugin only works for Pages and PUBLIC groups (parent groups are almost always private)
+- Third-party embed tools (SociableKIT, Smash Balloon) exist but require admin credentials
+- Current Community.tsx design is already solid - just needs better copy/context
+
+**Follow-up work identified**:
+- Create new issue to implement the UX improvements (descriptions, onboarding tips)
+
+---
+
 ### Iteration 17: Fix Calendar Duplicate Key React Warnings (ArtiosConnect-lq5)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -55,38 +85,6 @@ This file maintains context between autonomous iterations.
 **Learnings**:
 - Calendar.tsx had `listEvents` as just sorted events, not filtered
 - Filtering should happen where the data is passed, not in the display component
-
----
-
-### Iteration 15: Consolidate Community Links (ArtiosConnect-nnc)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Evaluated duplication: Community links were in BOTH Resources page AND Community page
-- Decision: Community page is the SINGLE source for parent community links
-- Removed `community` section from QUICK_LINKS in initialData.js
-- Removed unused `community` from SECTION_TITLES in Resources.tsx
-- Community links remain in KNOWLEDGE_BASE.md (for AI) and Community.tsx (for users)
-
-**Files modified**:
-- src/data/initialData.js (removed community array from QUICK_LINKS)
-- src/pages/Resources.tsx (removed community from SECTION_TITLES)
-
-**Key decisions**:
-- Community page is dedicated to social/parent groups - it has better UX (icons, explanatory text)
-- Resources page now focuses on practical links (FACTS, lunch, calendar, newsletters)
-- Community links are CRITICAL and deserve their own dedicated nav item (Users icon)
-- No sync issues since Community.tsx owns its own data
-- AI knowledge base still has community links via KNOWLEDGE_BASE.md
-
-**User flow for GroupMe**:
-- Any page → Tap "Community" in bottom nav (1 tap) → See all GroupMe chats by grade level
-
-**Learnings**:
-- buildKnowledgeBaseContent() in initialData.js does NOT include QUICK_LINKS - safe to remove sections
-- Having dedicated pages for focused content > duplicating links across pages
-- Bottom nav items are always 1 tap away - no need for duplication "for discoverability"
 
 ---
 
@@ -246,6 +244,38 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 15: Consolidate Community Links (ArtiosConnect-nnc)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Evaluated duplication: Community links were in BOTH Resources page AND Community page
+- Decision: Community page is the SINGLE source for parent community links
+- Removed `community` section from QUICK_LINKS in initialData.js
+- Removed unused `community` from SECTION_TITLES in Resources.tsx
+- Community links remain in KNOWLEDGE_BASE.md (for AI) and Community.tsx (for users)
+
+**Files modified**:
+- src/data/initialData.js (removed community array from QUICK_LINKS)
+- src/pages/Resources.tsx (removed community from SECTION_TITLES)
+
+**Key decisions**:
+- Community page is dedicated to social/parent groups - it has better UX (icons, explanatory text)
+- Resources page now focuses on practical links (FACTS, lunch, calendar, newsletters)
+- Community links are CRITICAL and deserve their own dedicated nav item (Users icon)
+- No sync issues since Community.tsx owns its own data
+- AI knowledge base still has community links via KNOWLEDGE_BASE.md
+
+**User flow for GroupMe**:
+- Any page → Tap "Community" in bottom nav (1 tap) → See all GroupMe chats by grade level
+
+**Learnings**:
+- buildKnowledgeBaseContent() in initialData.js does NOT include QUICK_LINKS - safe to remove sections
+- Having dedicated pages for focused content > duplicating links across pages
+- Bottom nav items are always 1 tap away - no need for duplication "for discoverability"
+
+---
 
 ### Iteration 14: Calendar Mobile View Fix (ArtiosConnect-q41)
 **Date**: 2026-01-29
