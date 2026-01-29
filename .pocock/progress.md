@@ -10,6 +10,41 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 36: Evaluate Alert Banner Color Consistency (ArtiosConnect-1ru)
+**Date**: 2026-01-29
+**Status**: Completed (No changes needed)
+
+**What was done**:
+- Evaluated current alert banner color system
+- Determined colors are already semantically correct
+- No code changes required - issue was based on misunderstanding
+
+**Analysis**:
+| Type | Color | Icon | Use Case |
+|------|-------|------|----------|
+| `alert` | Rose/red | Megaphone | Urgent - closures, emergencies |
+| `warning` | Amber/yellow | AlertTriangle | Caution - less urgent |
+| `info` | Emerald/green | Info | General information |
+| `success` | Emerald/green | CheckCircle2 | Confirmations |
+
+**Current behavior**:
+- Admin panel only creates `alert` type (hardcoded on line 51)
+- This is intentional - "Urgent Alerts" panel should only create urgent (red) alerts
+- Warning/info types exist in code but are reserved for future use if needed
+
+**Key decisions**:
+- NO changes made - current behavior is correct
+- All admin-created alerts are rose/red = urgent styling
+- This matches the panel's purpose: "time-sensitive alerts for weather closures, schedule changes"
+- Adding a type dropdown would add complexity to an intentionally simplified UI
+
+**Learnings**:
+- Issue description was inverted from actual behavior
+- Simplified admin UI (Iteration 31) intentionally removed type selection
+- Rose/red is appropriate for ALL urgent alerts - no need for admin to choose
+
+---
+
 ### Iteration 35: Improve Quick Action Card Tap Affordance (ArtiosConnect-566)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -62,30 +97,6 @@ This file maintains context between autonomous iterations.
 **Learnings**:
 - Radix Collapsible provides `data-[state=open/closed]` attributes for animation targeting
 - CSS keyframe animation from height 0 to var(--radix-collapsible-content-height) works smoothly
-
----
-
-### Iteration 33: Make Event Cards Tappable (ArtiosConnect-9pk)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Made event cards in UpcomingEvents tappable with hover/active states
-- Tapping an event opens the existing EventModal with full details
-- Modal includes "Add to Google Calendar" button
-
-**Files modified**:
-- `src/components/home/UpcomingEvents.tsx` - Changed div to button, added state for selected event, integrated EventModal
-
-**Key decisions**:
-- Reused existing EventModal from calendar - no new components needed
-- Used `button` element (not div with onClick) for accessibility
-- Added visual feedback: hover state (primary/5 bg, primary/30 border), active state (primary/10 bg)
-- Used composite key `${event.id}-${event.start?.getTime()}` to handle recurring events
-
-**Learnings**:
-- EventModal already had "Add to Google Calendar" functionality - just needed to wire it up
-- Consistent with CalendarMonthView pattern for handling event selection
 
 ---
 
@@ -194,6 +205,30 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 33: Make Event Cards Tappable (ArtiosConnect-9pk)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Made event cards in UpcomingEvents tappable with hover/active states
+- Tapping an event opens the existing EventModal with full details
+- Modal includes "Add to Google Calendar" button
+
+**Files modified**:
+- `src/components/home/UpcomingEvents.tsx` - Changed div to button, added state for selected event, integrated EventModal
+
+**Key decisions**:
+- Reused existing EventModal from calendar - no new components needed
+- Used `button` element (not div with onClick) for accessibility
+- Added visual feedback: hover state (primary/5 bg, primary/30 border), active state (primary/10 bg)
+- Used composite key `${event.id}-${event.start?.getTime()}` to handle recurring events
+
+**Learnings**:
+- EventModal already had "Add to Google Calendar" functionality - just needed to wire it up
+- Consistent with CalendarMonthView pattern for handling event selection
+
+---
 
 ### Iteration 32: Fix Lunch Ordering Link (ArtiosConnect-9yg)
 **Date**: 2026-01-29
