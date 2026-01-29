@@ -12,7 +12,7 @@
 
 **Target Users**: Parents of students in the Artios hybrid program
 
-**Core Philosophy**: AI-first design. The AI assistant "Ollie" should be the primary way parents find information, with traditional navigation as a backup.
+**Core Philosophy**: AI-first design. The AI assistant "Arti" (short for Artios) should be the primary way parents find information, with traditional navigation as a backup.
 
 ---
 
@@ -134,7 +134,7 @@ Parents don't want to hunt through menus. They want to:
 
 ---
 
-### 2. AI Chat Assistant - "Ollie" (CRITICAL)
+### 2. AI Chat Assistant - "Arti" (CRITICAL)
 
 **Purpose**: Let parents ask questions in natural language and get accurate answers.
 
@@ -143,7 +143,7 @@ Parents don't want to hunt through menus. They want to:
 - Knowledge base-powered responses
 - Safety guardrails (redirects sensitive topics to director)
 - Keep current approach - no changes to AI behavior
-- Welcome message with mascot ("Ollie" the owl)
+- Welcome message with friendly greeting ("Arti" - short for Artios)
 - Quick suggestion chips
 - Session persistence in sessionStorage
 
@@ -464,7 +464,7 @@ npx convex dev       # Convex dev server (run in separate terminal)
 Build a beautiful, modern parent portal that:
 
 1. **Shows what matters TODAY** when parents open it
-2. **Makes AI easy to access** - Ollie should be 1 tap away
+2. **Makes AI easy to access** - Arti should be 1 tap away
 3. **Makes common tasks fast** - FACTS, lunch, calendar in 1-2 taps
 4. **Connects parents** - Community links are critical
 5. **Looks and feels premium** - Airbnb/Spotify level polish with warm, friendly green aesthetic

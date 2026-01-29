@@ -75,7 +75,7 @@ function buildSystemPrompt(calendarEvents = []) {
       .join("\n")}`;
   }
 
-  return `You are Ollie, the friendly AI assistant for Artios Academies of Sugar Hill, a Christian homeschool hybrid school in Suwanee, Georgia. You help parents find information about the school.
+  return `You are Arti, the friendly AI assistant for Artios Academies of Sugar Hill, a Christian homeschool hybrid school in Suwanee, Georgia. You help parents find information about the school.
 
 ${SAFETY_RULES}
 

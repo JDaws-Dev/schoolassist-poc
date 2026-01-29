@@ -4,7 +4,7 @@ A parent information hub and AI-powered assistant for Artios Academies of Sugar 
 
 ## What This App Does
 
-Artios Connect helps parents quickly find school information, stay updated on events, and communicate with the school community. The AI chat assistant "Ollie" answers questions about schedules, policies, and school life.
+Artios Connect helps parents quickly find school information, stay updated on events, and communicate with the school community. The AI chat assistant "Arti" (short for Artios) answers questions about schedules, policies, and school life.
 
 ## Stack
 
@@ -45,13 +45,13 @@ OPENAI_API_KEY=sk-...
 - **Simple password auth** - Parent: `artios2026`, Admin: `artiosadmin2026`
 - **AI-first** - Chat assistant is the primary way to find information
 - **Mobile-first** - Primary users are parents on phones
-- **Safety-focused AI** - Ollie only provides verified info, redirects sensitive topics to director
+- **Safety-focused AI** - Arti only provides verified info, redirects sensitive topics to director
 
 ## App Structure
 
 ### Pages (in `/src/pages/`)
 - `Home.jsx` - Dashboard with today's schedule, events, announcements, quick actions
-- `Chat.jsx` - AI assistant "Ollie" interface
+- `Chat.tsx` - AI assistant "Arti" interface
 - `Calendar.jsx` - School events (month/list view, fetches from Google Calendar ICS)
 - `Resources.jsx` - FAQ, contacts, documents, quick links
 - `Community.jsx` - Parent community connections (Facebook, GroupMe)
@@ -75,6 +75,11 @@ OPENAI_API_KEY=sk-...
 - `useAnnouncements.js` - Fetch announcements from Convex
 - `useGradeLevel.js` - Access grade context
 - `useFormattedCalendar.js` - Format events for display
+
+## Important Links
+
+- **Linktree**: https://linktr.ee/ARTIOSSH (all important links in one place)
+- **Artios+**: https://artiosplus.com (student performances - Theater, Dance, Film, Choir, Art)
 
 ## Parent Community Links
 

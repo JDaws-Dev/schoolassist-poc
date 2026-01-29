@@ -10,6 +10,42 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 19: Rename Chatbot from Ollie to Arti (ArtiosConnect-287)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Renamed AI chatbot from "Ollie" to "Arti" (short for Artios)
+- Updated all UI references: Chat page header, welcome state, input placeholder, typing indicator
+- Updated home page: AIHeroSection, QuickActions button
+- Updated admin panel placeholder text
+- Updated server.js system prompt
+- Updated CLAUDE.md and REBUILD_SPEC.md documentation
+
+**Files modified**:
+- src/pages/Chat.tsx (header name)
+- src/components/chat/WelcomeState.tsx ("Hi, I'm Arti")
+- src/components/chat/ChatInput.tsx (placeholder)
+- src/components/chat/TypingIndicator.tsx ("Arti is typing...")
+- src/components/home/AIHeroSection.tsx ("Ask Arti" button and prompt)
+- src/components/home/QuickActions.tsx ("Ask Arti a question")
+- src/components/admin/AISettingsPanel.tsx (placeholder)
+- server.js (system prompt identity)
+- CLAUDE.md (documentation)
+- REBUILD_SPEC.md (spec documentation)
+
+**Key decisions**:
+- Chose "Arti" because: direct connection to "Artios", short/memorable, friendly/approachable
+- api/chat.js already used "ArtiosConnect" as identity - changed server.js to match new "Arti" name
+- Kept all functionality identical, only changed name references
+
+**Learnings**:
+- "Artios" comes from Greek meaning "complete" or "equipped"
+- Production serverless function (api/chat.js) had different identity than dev server (server.js)
+- Name changes are straightforward but touch many files - grep is essential
+
+---
+
 ### Iteration 18: Investigate Community Page Integration (ArtiosConnect-m99)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -62,29 +98,6 @@ This file maintains context between autonomous iterations.
 - Google Calendar recurring events share the same UID across all occurrences
 - Each occurrence has a different start date, making id+timestamp a reliable unique key
 - React key warnings don't break functionality but indicate potential list rendering issues
-
----
-
-### Iteration 16: Calendar List View Shows Only Upcoming Events (ArtiosConnect-2e1)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed list view showing past events from 2024
-- Added filter in Calendar.tsx to show only events from today onwards
-- Month view still shows all events (needs them for full month grid)
-
-**Files modified**:
-- src/pages/Calendar.tsx (filtered listEvents useMemo)
-
-**Key decisions**:
-- Filter at the page level, not the component level - keeps CalendarListView reusable
-- Month view needs all events to display the grid, so filtering is only for list view
-- Compare dates at midnight (setHours 0,0,0,0) to include all-day events for today
-
-**Learnings**:
-- Calendar.tsx had `listEvents` as just sorted events, not filtered
-- Filtering should happen where the data is passed, not in the display component
 
 ---
 
@@ -244,6 +257,29 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 16: Calendar List View Shows Only Upcoming Events (ArtiosConnect-2e1)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed list view showing past events from 2024
+- Added filter in Calendar.tsx to show only events from today onwards
+- Month view still shows all events (needs them for full month grid)
+
+**Files modified**:
+- src/pages/Calendar.tsx (filtered listEvents useMemo)
+
+**Key decisions**:
+- Filter at the page level, not the component level - keeps CalendarListView reusable
+- Month view needs all events to display the grid, so filtering is only for list view
+- Compare dates at midnight (setHours 0,0,0,0) to include all-day events for today
+
+**Learnings**:
+- Calendar.tsx had `listEvents` as just sorted events, not filtered
+- Filtering should happen where the data is passed, not in the display component
+
+---
 
 ### Iteration 15: Consolidate Community Links (ArtiosConnect-nnc)
 **Date**: 2026-01-29
