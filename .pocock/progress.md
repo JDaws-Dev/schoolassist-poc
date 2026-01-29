@@ -10,6 +10,67 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 32: Fix Lunch Ordering Link (ArtiosConnect-9yg)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed Lunch Ordering quick action linking to wrong URL (factsmgt.com → artioscafe.com)
+- Fixed deadline text from incorrect "11:59 PM" to correct "10 AM on class days"
+
+**Files modified**:
+- `src/components/home/QuickActions.tsx` - Fixed URL and deadline text
+
+**Key decisions**:
+- Removed unnecessary date logic - static text "Order by 10 AM on class days" is clearer
+- Kept deadline label simple rather than calculating dynamic countdown
+
+**Learnings**:
+- QuickActions had copy/paste error from FACTS Portal
+- Knowledge base says 10 AM deadline, not 11:59 PM - always verify against authoritative source
+
+---
+
+### Iteration 31: Simplify Admin + Linktree Sync + Calendar Fix
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+1. **Simplified Admin Dashboard** - Removed AI settings, announcements, and analytics panels. Now just shows alerts with 3 fields: title, start time, end time.
+2. **Linktree Auto-Sync** - Added Convex cron jobs to fetch links from Linktree twice a week (Mon/Thu 9am UTC). New links appear in "More Links" section on Resources page with deduplication.
+3. **Fixed Calendar in Production** - Calendar was showing sample data because `/proxy/calendar` didn't exist in production. Added `/api/calendar` serverless function to proxy Google Calendar ICS feed.
+
+**Files created**:
+- `api/calendar.js` - Vercel serverless function to proxy Google Calendar
+- `convex/linktree.ts` - Linktree sync functions (list, saveLinks, syncFromLinktree, triggerSync)
+- `convex/crons.ts` - Scheduled cron jobs for Linktree sync
+
+**Files modified**:
+- `src/pages/AdminDashboard.tsx` - Simplified to just NotificationsPanel
+- `src/components/admin/NotificationsPanel.tsx` - Reduced to 3 fields (title, starts, ends)
+- `src/pages/Resources.tsx` - Added "More Links" section with Linktree deduplication
+- `src/hooks/useConvex.ts` - Added useLinktreeLinks hook
+- `src/hooks/useCalendarEvents.ts` - Changed to use `/api/calendar` proxy
+- `convex/schema.ts` - Added linktreeLinks and linktreeSyncLog tables
+
+**Environment variables added to Vercel**:
+- `VITE_GOOGLE_CALENDAR_ICS_URL` - Client-side calendar URL (build-time)
+- `GOOGLE_CALENDAR_URL` - Server-side calendar URL (runtime for API)
+
+**Key decisions**:
+- `VITE_` prefixed env vars only available at build time, not runtime in serverless functions
+- Calendar proxy uses `/api/calendar` instead of Vite's dev proxy `/proxy/calendar`
+- Linktree deduplication compares URLs case-insensitively
+- "More Links" section only shows if there are genuinely new links not in QUICK_LINKS
+
+**Learnings**:
+- Vite dev server proxy doesn't translate to production - need serverless function
+- Vercel serverless functions need non-VITE prefixed env vars for runtime access
+- Convex cron jobs use standard cron syntax, run server-side
+- Browser localStorage caching can cause confusion when env changes in production
+
+---
+
 ### Iteration 30: Add Preview to Admin Panels (ArtiosConnect-u7e)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -131,9 +192,10 @@ Patterns, gotchas, and decisions that affect future work:
 ### Preserved Backend Files
 
 Keep these intact:
-- `convex/` - Database schema and functions
-- `server.js` - Express chat API
-- `api/chat.js` - Vercel serverless function
+- `convex/` - Database schema, functions, and cron jobs
+- `server.js` - Express chat API (local dev)
+- `api/chat.js` - Vercel serverless function (chat)
+- `api/calendar.js` - Vercel serverless function (calendar proxy)
 - `src/data/initialData.js` - Static school data
 
 ---

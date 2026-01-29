@@ -15,7 +15,7 @@ const actions = [
     title: 'Lunch Ordering',
     description: 'Artios Cafe orders',
     icon: Sandwich,
-    href: 'https://factsmgt.com',
+    href: 'https://artioscafe.com',
     external: true,
   },
   {
@@ -28,11 +28,7 @@ const actions = [
 ]
 
 export function QuickActions() {
-  const now = new Date()
-  const deadline = new Date(now)
-  deadline.setHours(23, 59, 0, 0)
-  const deadlineLabel =
-    now <= deadline ? 'Order by 11:59 PM tonight' : 'Order by 11:59 PM tomorrow'
+  const deadlineLabel = 'Order by 10 AM on class days'
 
   return (
     <Card>
