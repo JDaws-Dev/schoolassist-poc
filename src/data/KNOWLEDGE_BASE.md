@@ -440,6 +440,21 @@ For sensitive topics such as:
 |------|------|
 | Winter Wear | [Due South Designs](https://duesouthdesigns.net/school-orders) |
 
+### Student Work & Media
+
+| Resource | Link | Description |
+|----------|------|-------------|
+| Artios+ | [artiosplus.com](https://artiosplus.com) | Student performances - Theater, Dance, Film, Choir, Art |
+| Linktree | [linktr.ee/ARTIOSSH](https://linktr.ee/ARTIOSSH) | All important links in one place |
+
+### Newsletters & Handbooks
+
+| Resource | Link |
+|----------|------|
+| Elementary Connection (December) | [View on Canva](https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view) |
+| Choir Wire (December/January) | [View PDF](https://drive.google.com/file/d/16tqKy7cFSoCOdPRDwcit1zt4_biGl4Sl/view?usp=sharing) |
+| Artios Choirs Digital Handbook | [2025-2026 Handbook](https://docs.google.com/document/d/1D-XhzhaWVd-WTLcIZ7dEdPnM9Gq8TwCh1YdQI_hMCGI/edit?usp=sharing) |
+
 ### Connect With Us
 
 **Sugar Hill Campus:**
@@ -565,15 +580,6 @@ Artios students have earned recognition at the Bob Jones University High School 
 ### Recent Graduate Success
 
 Recent Conservatory graduates have obtained arts-related college scholarships based on portfolios and auditions developed through the program.
-
----
-
-## Current Newsletters
-
-| Newsletter | Link |
-|------------|------|
-| The Elementary Connection (December) | [View on Canva](https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view?utm_content=DAG7VDbHm7U&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h88f5d4bf16) |
-| The Choir Wire (November) | [View PDF](https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view?usp=drive_link) |
 
 ---
 

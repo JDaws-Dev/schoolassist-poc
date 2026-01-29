@@ -10,6 +10,31 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 13: Audit Linktree and Sync Knowledge Base (ArtiosConnect-4de)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Audited all 14 links from Artios Linktree (https://linktr.ee/ARTIOSSH)
+- Compared against initialData.js and KNOWLEDGE_BASE.md
+- Found initialData.js was already complete (had all Linktree links)
+- Added missing items to KNOWLEDGE_BASE.md:
+  - Artios+ (artiosplus.com) - student performances portal
+  - Linktree URL
+  - Newsletters & Handbooks section (Elementary Connection, Choir Wire, Choir Digital Handbook)
+- Removed duplicate/outdated "Current Newsletters" section from KNOWLEDGE_BASE.md
+
+**Files modified**:
+- src/data/KNOWLEDGE_BASE.md (added Student Work & Media section, Newsletters & Handbooks section)
+
+**Learnings**:
+- initialData.js was well-maintained - already had all Linktree links
+- KNOWLEDGE_BASE.md had newsletter info in an outdated separate section at bottom
+- Consolidated newsletter links into Important Links section for consistency
+- Artios+ is a Squarespace portfolio site showcasing student arts work (Theater, Dance, Film, Choir, Art)
+
+---
+
 ### Iteration 12: Fix Queen Mothers Facebook URL (ArtiosConnect-516)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -67,35 +92,6 @@ This file maintains context between autonomous iterations.
 - office@ emails were fabricated - always verify against actual website
 - Multiple files had duplicated contact info - need single source of truth
 - Director is primary contact, specialized emails for specific issues
-
----
-
-### Iteration 10: Warmer Design System (ArtiosConnect-925)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Updated color palette to feel warmer and more mom-friendly:
-  - Shifted primary from cool teal (hue 155) to warm forest green (hue 145)
-  - Background now cream-white with subtle sage undertone (hue 90)
-  - Added peachy-coral accent color (hue 55) for warmth instead of yellow-green
-  - Borders and muted colors now warmer gray-sage (hue 100)
-- Updated body background gradients to be warmer (sage + peach touches)
-- Increased default radius from 1rem to 1.125rem for softer corners
-
-**Key decisions**:
-- Used OKLCH color space for perceptually uniform color changes
-- Kept primary green recognizable but warmer (forest vs teal)
-- Added subtle peachy warmth without changing brand identity
-- All components use design tokens, so changes apply site-wide automatically
-
-**Files modified**:
-- src/index.css (@theme design tokens, body gradient)
-
-**Learnings**:
-- OKLCH hue 140-145 is warm sage/forest, hue 155+ is cooler teal
-- Peachy accent (hue 55-65) adds warmth without clashing with green
-- Background subtle warmth (hue 90) makes cream feel inviting vs sterile
 
 ---
 
@@ -255,6 +251,35 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 10: Warmer Design System (ArtiosConnect-925)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Updated color palette to feel warmer and more mom-friendly:
+  - Shifted primary from cool teal (hue 155) to warm forest green (hue 145)
+  - Background now cream-white with subtle sage undertone (hue 90)
+  - Added peachy-coral accent color (hue 55) for warmth instead of yellow-green
+  - Borders and muted colors now warmer gray-sage (hue 100)
+- Updated body background gradients to be warmer (sage + peach touches)
+- Increased default radius from 1rem to 1.125rem for softer corners
+
+**Key decisions**:
+- Used OKLCH color space for perceptually uniform color changes
+- Kept primary green recognizable but warmer (forest vs teal)
+- Added subtle peachy warmth without changing brand identity
+- All components use design tokens, so changes apply site-wide automatically
+
+**Files modified**:
+- src/index.css (@theme design tokens, body gradient)
+
+**Learnings**:
+- OKLCH hue 140-145 is warm sage/forest, hue 155+ is cooler teal
+- Peachy accent (hue 55-65) adds warmth without clashing with green
+- Background subtle warmth (hue 90) makes cream feel inviting vs sterile
+
+---
 
 ### Iteration 9: Fix Remaining Schedule References (ArtiosConnect-yei)
 **Date**: 2026-01-29
