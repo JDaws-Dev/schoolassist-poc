@@ -1,7 +1,28 @@
+import { useMemo, useState } from 'react'
 import { CONTACTS, FAQ, QUICK_LINKS, SCHEDULE } from '@/data/initialData'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { ExternalLink, Play } from 'lucide-react'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { ChevronDown, ExternalLink, Link2, Play } from 'lucide-react'
+import { useLinktreeLinks } from '@/hooks/useConvex'
+
+function FAQItem({ question, answer, defaultOpen = false }: { question: string; answer: string; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen)
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <CollapsibleTrigger className="flex w-full items-center justify-between gap-2 rounded-xl px-3 py-2.5 text-left transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <span className="text-sm font-semibold">{question}</span>
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+        />
+      </CollapsibleTrigger>
+      <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
+        <p className="px-3 pb-2 pt-1 text-sm text-muted-foreground">{answer}</p>
+      </CollapsibleContent>
+    </Collapsible>
+  )
+}
 
 const SECTION_TITLES: Record<string, string> = {
   essential: 'Essential',
@@ -15,6 +36,26 @@ const SECTION_TITLES: Record<string, string> = {
 }
 
 export default function Resources() {
+  const linktreeLinks = useLinktreeLinks()
+
+  // Get all existing URLs from QUICK_LINKS to filter duplicates
+  const existingUrls = useMemo(() => {
+    const urls = new Set<string>()
+    // Add hardcoded URLs
+    urls.add('https://artiosplus.com')
+    urls.add('https://vimeo.com/artios')
+    // Add all QUICK_LINKS URLs
+    Object.values(QUICK_LINKS).flat().forEach((link) => {
+      urls.add(link.url.toLowerCase())
+    })
+    return urls
+  }, [])
+
+  // Filter out duplicates from Linktree
+  const newLinktreeLinks = useMemo(() => {
+    return linktreeLinks.filter((link) => !existingUrls.has(link.url.toLowerCase()))
+  }, [linktreeLinks, existingUrls])
+
   return (
     <div className="space-y-6">
       {/* Student Performances - Two options by grade level */}
@@ -43,7 +84,7 @@ export default function Resources() {
               <ExternalLink className="h-4 w-4 text-purple-500" />
             </a>
             <a
-              href="https://vimeo.com/user81677362"
+              href="https://vimeo.com/artios"
               target="_blank"
               rel="noreferrer"
               className="flex items-center justify-between rounded-2xl border border-sky-500/20 bg-sky-500/5 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-sky-500/10 hover:shadow-md"
@@ -85,6 +126,34 @@ export default function Resources() {
         </CardContent>
       </Card>
 
+      {/* Auto-synced Linktree links (new ones only) */}
+      {newLinktreeLinks.length > 0 ? (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Link2 className="h-5 w-5" />
+              More Links
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {newLinktreeLinks.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-2xl border border-border/60 bg-background p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <p className="text-sm font-semibold">{link.title}</p>
+                  <p className="truncate text-xs text-muted-foreground">{link.url}</p>
+                </a>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      ) : null}
+
       <Card>
         <CardHeader>
           <CardTitle>Weekly Schedule</CardTitle>
@@ -105,12 +174,9 @@ export default function Resources() {
         <CardHeader>
           <CardTitle>FAQ</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          {FAQ.map((item) => (
-            <div key={item.question} className="space-y-1">
-              <p className="text-sm font-semibold">{item.question}</p>
-              <p className="text-sm text-muted-foreground">{item.answer}</p>
-            </div>
+        <CardContent className="space-y-2">
+          {FAQ.map((item, index) => (
+            <FAQItem key={item.question} question={item.question} answer={item.answer} defaultOpen={index === 0} />
           ))}
         </CardContent>
       </Card>

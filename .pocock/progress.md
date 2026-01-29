@@ -10,6 +10,36 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 34: Expandable FAQ Items (ArtiosConnect-5fq)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Made FAQ items on Resources page expandable/collapsible
+- Questions are always visible, tap to reveal answer
+- First item opens by default for discoverability
+- Smooth expand/collapse animation with chevron rotation
+
+**Files created**:
+- `src/components/ui/collapsible.tsx` - Radix Collapsible wrapper component
+
+**Files modified**:
+- `src/pages/Resources.tsx` - Added FAQItem component using Collapsible
+- `src/index.css` - Added collapsible-up/down animation keyframes
+- `package.json` - Added @radix-ui/react-collapsible dependency
+
+**Key decisions**:
+- Used Radix Collapsible primitive (consistent with other UI components using Radix)
+- First FAQ item opens by default so users see how it works
+- Chevron rotates 180° on open for visual feedback
+- Animation uses `--radix-collapsible-content-height` CSS variable for smooth height transitions
+
+**Learnings**:
+- Radix Collapsible provides `data-[state=open/closed]` attributes for animation targeting
+- CSS keyframe animation from height 0 to var(--radix-collapsible-content-height) works smoothly
+
+---
+
 ### Iteration 33: Make Event Cards Tappable (ArtiosConnect-9pk)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -52,46 +82,6 @@ This file maintains context between autonomous iterations.
 **Learnings**:
 - QuickActions had copy/paste error from FACTS Portal
 - Knowledge base says 10 AM deadline, not 11:59 PM - always verify against authoritative source
-
----
-
-### Iteration 31: Simplify Admin + Linktree Sync + Calendar Fix
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-1. **Simplified Admin Dashboard** - Removed AI settings, announcements, and analytics panels. Now just shows alerts with 3 fields: title, start time, end time.
-2. **Linktree Auto-Sync** - Added Convex cron jobs to fetch links from Linktree twice a week (Mon/Thu 9am UTC). New links appear in "More Links" section on Resources page with deduplication.
-3. **Fixed Calendar in Production** - Calendar was showing sample data because `/proxy/calendar` didn't exist in production. Added `/api/calendar` serverless function to proxy Google Calendar ICS feed.
-
-**Files created**:
-- `api/calendar.js` - Vercel serverless function to proxy Google Calendar
-- `convex/linktree.ts` - Linktree sync functions (list, saveLinks, syncFromLinktree, triggerSync)
-- `convex/crons.ts` - Scheduled cron jobs for Linktree sync
-
-**Files modified**:
-- `src/pages/AdminDashboard.tsx` - Simplified to just NotificationsPanel
-- `src/components/admin/NotificationsPanel.tsx` - Reduced to 3 fields (title, starts, ends)
-- `src/pages/Resources.tsx` - Added "More Links" section with Linktree deduplication
-- `src/hooks/useConvex.ts` - Added useLinktreeLinks hook
-- `src/hooks/useCalendarEvents.ts` - Changed to use `/api/calendar` proxy
-- `convex/schema.ts` - Added linktreeLinks and linktreeSyncLog tables
-
-**Environment variables added to Vercel**:
-- `VITE_GOOGLE_CALENDAR_ICS_URL` - Client-side calendar URL (build-time)
-- `GOOGLE_CALENDAR_URL` - Server-side calendar URL (runtime for API)
-
-**Key decisions**:
-- `VITE_` prefixed env vars only available at build time, not runtime in serverless functions
-- Calendar proxy uses `/api/calendar` instead of Vite's dev proxy `/proxy/calendar`
-- Linktree deduplication compares URLs case-insensitively
-- "More Links" section only shows if there are genuinely new links not in QUICK_LINKS
-
-**Learnings**:
-- Vite dev server proxy doesn't translate to production - need serverless function
-- Vercel serverless functions need non-VITE prefixed env vars for runtime access
-- Convex cron jobs use standard cron syntax, run server-side
-- Browser localStorage caching can cause confusion when env changes in production
 
 ---
 
@@ -200,6 +190,46 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 31: Simplify Admin + Linktree Sync + Calendar Fix
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+1. **Simplified Admin Dashboard** - Removed AI settings, announcements, and analytics panels. Now just shows alerts with 3 fields: title, start time, end time.
+2. **Linktree Auto-Sync** - Added Convex cron jobs to fetch links from Linktree twice a week (Mon/Thu 9am UTC). New links appear in "More Links" section on Resources page with deduplication.
+3. **Fixed Calendar in Production** - Calendar was showing sample data because `/proxy/calendar` didn't exist in production. Added `/api/calendar` serverless function to proxy Google Calendar ICS feed.
+
+**Files created**:
+- `api/calendar.js` - Vercel serverless function to proxy Google Calendar
+- `convex/linktree.ts` - Linktree sync functions (list, saveLinks, syncFromLinktree, triggerSync)
+- `convex/crons.ts` - Scheduled cron jobs for Linktree sync
+
+**Files modified**:
+- `src/pages/AdminDashboard.tsx` - Simplified to just NotificationsPanel
+- `src/components/admin/NotificationsPanel.tsx` - Reduced to 3 fields (title, starts, ends)
+- `src/pages/Resources.tsx` - Added "More Links" section with Linktree deduplication
+- `src/hooks/useConvex.ts` - Added useLinktreeLinks hook
+- `src/hooks/useCalendarEvents.ts` - Changed to use `/api/calendar` proxy
+- `convex/schema.ts` - Added linktreeLinks and linktreeSyncLog tables
+
+**Environment variables added to Vercel**:
+- `VITE_GOOGLE_CALENDAR_ICS_URL` - Client-side calendar URL (build-time)
+- `GOOGLE_CALENDAR_URL` - Server-side calendar URL (runtime for API)
+
+**Key decisions**:
+- `VITE_` prefixed env vars only available at build time, not runtime in serverless functions
+- Calendar proxy uses `/api/calendar` instead of Vite's dev proxy `/proxy/calendar`
+- Linktree deduplication compares URLs case-insensitively
+- "More Links" section only shows if there are genuinely new links not in QUICK_LINKS
+
+**Learnings**:
+- Vite dev server proxy doesn't translate to production - need serverless function
+- Vercel serverless functions need non-VITE prefixed env vars for runtime access
+- Convex cron jobs use standard cron syntax, run server-side
+- Browser localStorage caching can cause confusion when env changes in production
+
+---
 
 ### Iteration 30: Add Preview to Admin Panels (ArtiosConnect-u7e)
 **Date**: 2026-01-29
