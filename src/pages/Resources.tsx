@@ -17,7 +17,7 @@ const SECTION_TITLES: Record<string, string> = {
 export default function Resources() {
   return (
     <div className="space-y-6">
-      {/* Artios+ - Student Work Showcase */}
+      {/* Student Performances - Two options by grade level */}
       <Card className="bg-gradient-to-br from-purple-500/10 via-background to-background">
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2">
@@ -25,19 +25,36 @@ export default function Resources() {
             Student Performances
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Watch your kids shine! Artios+ showcases student work from Theater, Dance, Film, Choir, and Art classes.
+            Watch your kids shine! Student performances from Theater, Dance, Film, Choir, and Art classes.
           </p>
-          <a
-            href="https://artiosplus.com"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-between rounded-2xl border border-purple-500/20 bg-purple-500/5 px-4 py-3 font-semibold text-purple-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-purple-500/10 hover:shadow-md dark:text-purple-400"
-          >
-            Visit Artios+
-            <ExternalLink className="h-4 w-4" />
-          </a>
+          <div className="space-y-3">
+            <a
+              href="https://artiosplus.com"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-between rounded-2xl border border-purple-500/20 bg-purple-500/5 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-purple-500/10 hover:shadow-md"
+            >
+              <div>
+                <p className="font-semibold text-purple-700 dark:text-purple-400">Artios+</p>
+                <p className="text-xs text-muted-foreground">High School (9-12)</p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-purple-500" />
+            </a>
+            <a
+              href="https://vimeo.com/user81677362"
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-between rounded-2xl border border-sky-500/20 bg-sky-500/5 px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:bg-sky-500/10 hover:shadow-md"
+            >
+              <div>
+                <p className="font-semibold text-sky-700 dark:text-sky-400">Vimeo</p>
+                <p className="text-xs text-muted-foreground">Elementary & Jr High (K-8)</p>
+              </div>
+              <ExternalLink className="h-4 w-4 text-sky-500" />
+            </a>
+          </div>
         </CardContent>
       </Card>
 

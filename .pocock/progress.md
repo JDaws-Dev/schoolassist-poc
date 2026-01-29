@@ -10,6 +10,35 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 27: Add Vimeo Page for K-8 Performances (ArtiosConnect-rzd)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added Vimeo link for Elementary & Jr High performances
+- Clarified Artios+ is for High School only
+- Updated Resources page Student Performances section to show both options
+- Artios+ (purple) for HS, Vimeo (sky blue) for K-8
+
+**Files modified**:
+- src/data/initialData.js (added Vimeo link, clarified Artios+ description)
+- CLAUDE.md (added Vimeo, clarified grade levels)
+- src/data/KNOWLEDGE_BASE.md (updated Student Work table)
+- src/pages/Resources.tsx (two links with grade-level labels)
+
+**Key decisions**:
+- Two separate links instead of one - clear grade-level separation
+- Vimeo uses sky blue color to differentiate from Artios+ purple
+- Each link shows platform name + grade range for clarity
+- Kept "Student Performances" as section title - applies to all grades
+
+**Learnings**:
+- Artios+ (artiosplus.com) is a Squarespace portfolio for HIGH SCHOOL only
+- Vimeo (vimeo.com/user81677362) hosts K-8 performances
+- Parents need clear grade labels to know which link to use
+
+---
+
 ### Iteration 26: Add Artios+ Section to Resources (ArtiosConnect-9c0)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -60,32 +89,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 24: Redesign Header (ArtiosConnect-tgy)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Removed time-based greeting - was filler that didn't help users
-- Removed white box/shadow wrapper around logo - cleaner on warm background
-- Added "Parent Hub" subtitle - clarifies what the app is
-- Streamlined to: logo + "Artios Connect" + "Parent Hub"
-
-**Files modified**:
-- src/components/layout/ParentLayout.tsx (header simplification)
-
-**Key decisions**:
-- Logo at 44x44 without wrapper (was 48x48 inside white bg/padding/shadow box)
-- "Parent Hub" subtitle replaces time greeting - more useful context
-- Minimal header: branding only, bottom nav handles navigation
-- Removed getTimeGreeting() function entirely
-
-**Learnings**:
-- Less is more in mobile headers - every element must earn its space
-- "Parent Hub" is more informative than time-based greeting
-- Logo without white box looks cleaner on warm cream background
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -126,6 +129,32 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 24: Redesign Header (ArtiosConnect-tgy)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Removed time-based greeting - was filler that didn't help users
+- Removed white box/shadow wrapper around logo - cleaner on warm background
+- Added "Parent Hub" subtitle - clarifies what the app is
+- Streamlined to: logo + "Artios Connect" + "Parent Hub"
+
+**Files modified**:
+- src/components/layout/ParentLayout.tsx (header simplification)
+
+**Key decisions**:
+- Logo at 44x44 without wrapper (was 48x48 inside white bg/padding/shadow box)
+- "Parent Hub" subtitle replaces time greeting - more useful context
+- Minimal header: branding only, bottom nav handles navigation
+- Removed getTimeGreeting() function entirely
+
+**Learnings**:
+- Less is more in mobile headers - every element must earn its space
+- "Parent Hub" is more informative than time-based greeting
+- Logo without white box looks cleaner on warm cream background
+
+---
 
 ### Iteration 23: Improve Community Page UX (ArtiosConnect-mf0)
 **Date**: 2026-01-29

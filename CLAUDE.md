@@ -79,7 +79,8 @@ OPENAI_API_KEY=sk-...
 ## Important Links
 
 - **Linktree**: https://linktr.ee/ARTIOSSH (all important links in one place)
-- **Artios+**: https://artiosplus.com (student performances - Theater, Dance, Film, Choir, Art)
+- **Artios+**: https://artiosplus.com (HIGH SCHOOL performances - Theater, Dance, Film, Choir, Art)
+- **Vimeo**: https://vimeo.com/user81677362 (Elementary & Jr High performances)
 
 ## Parent Community Links
 

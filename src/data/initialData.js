@@ -86,7 +86,8 @@ export const QUICK_LINKS = {
   ],
   social: [
     { name: "Linktree", url: "https://linktr.ee/ARTIOSSH", description: "All important links in one place" },
-    { name: "Artios+", url: "https://artiosplus.com", description: "Student performances - Theater, Dance, Film, Choir, Art" },
+    { name: "Artios+", url: "https://artiosplus.com", description: "High School performances - Theater, Dance, Film, Choir, Art" },
+    { name: "Vimeo (K-8)", url: "https://vimeo.com/user81677362", description: "Elementary & Jr High performances" },
     { name: "Instagram (Sugar Hill)", url: "https://www.instagram.com/artios_sugarhill/", description: "@artios_sugarhill" },
     { name: "Facebook (Sugar Hill)", url: "https://www.facebook.com/artiossugarhill", description: "Artios Sugar Hill" },
     { name: "YouTube", url: "https://www.youtube.com/channel/UCbjRPBKsSdHS0Gd0BvM88lQ", description: "Artios Academies" },
