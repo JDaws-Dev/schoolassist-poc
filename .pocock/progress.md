@@ -10,6 +10,30 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 20: Fix Deprecated Meta Tag (ArtiosConnect-rmc)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed deprecated `apple-mobile-web-app-capable` console warning
+- Added standard `mobile-web-app-capable` meta tag
+- Kept Apple-specific tag for backwards compatibility with older iOS
+
+**Files modified**:
+- index.html (added mobile-web-app-capable meta tag)
+
+**Key decisions**:
+- Include BOTH meta tags: standard `mobile-web-app-capable` + Apple's `apple-mobile-web-app-capable`
+- Standard tag first, Apple-specific second
+- Backwards compatibility approach rather than replacement
+
+**Learnings**:
+- `apple-mobile-web-app-capable` is Apple's proprietary PWA meta tag, now deprecated
+- `mobile-web-app-capable` is the standards-based replacement
+- Including both ensures PWA functionality on both modern and older iOS devices
+
+---
+
 ### Iteration 19: Rename Chatbot from Ollie to Arti (ArtiosConnect-287)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -73,31 +97,6 @@ This file maintains context between autonomous iterations.
 
 **Follow-up work identified**:
 - Create new issue to implement the UX improvements (descriptions, onboarding tips)
-
----
-
-### Iteration 17: Fix Calendar Duplicate Key React Warnings (ArtiosConnect-lq5)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed React duplicate key warnings in CalendarMonthView and CalendarListView
-- Recurring events from Google Calendar share the same UID, causing key collisions
-- Changed keys from `event.id` to `${event.id}-${event.start?.getTime()}` in 4 locations
-
-**Files modified**:
-- src/components/calendar/CalendarMonthView.tsx (3 key fixes: mobile dots, desktop previews, dialog)
-- src/components/calendar/CalendarListView.tsx (1 key fix: event list)
-
-**Key decisions**:
-- Combined event ID + start timestamp for unique keys per occurrence
-- Used optional chaining `event.start?.getTime()` since start can be null
-- Fallback to index in mobile dots where start might be null: `event.start?.getTime() ?? i`
-
-**Learnings**:
-- Google Calendar recurring events share the same UID across all occurrences
-- Each occurrence has a different start date, making id+timestamp a reliable unique key
-- React key warnings don't break functionality but indicate potential list rendering issues
 
 ---
 
@@ -257,6 +256,31 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 17: Fix Calendar Duplicate Key React Warnings (ArtiosConnect-lq5)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed React duplicate key warnings in CalendarMonthView and CalendarListView
+- Recurring events from Google Calendar share the same UID, causing key collisions
+- Changed keys from `event.id` to `${event.id}-${event.start?.getTime()}` in 4 locations
+
+**Files modified**:
+- src/components/calendar/CalendarMonthView.tsx (3 key fixes: mobile dots, desktop previews, dialog)
+- src/components/calendar/CalendarListView.tsx (1 key fix: event list)
+
+**Key decisions**:
+- Combined event ID + start timestamp for unique keys per occurrence
+- Used optional chaining `event.start?.getTime()` since start can be null
+- Fallback to index in mobile dots where start might be null: `event.start?.getTime() ?? i`
+
+**Learnings**:
+- Google Calendar recurring events share the same UID across all occurrences
+- Each occurrence has a different start date, making id+timestamp a reliable unique key
+- React key warnings don't break functionality but indicate potential list rendering issues
+
+---
 
 ### Iteration 16: Calendar List View Shows Only Upcoming Events (ArtiosConnect-2e1)
 **Date**: 2026-01-29
