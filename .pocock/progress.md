@@ -10,6 +10,33 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 29: Simplify Announcements Form (ArtiosConnect-0hl)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Removed unused priority and type text fields from Announcements admin form
+- Form now has 4 fields: Title, Date, Content, Optional URL
+- Made priority/type optional in Convex schema (for backwards compatibility)
+- Removed from TypeScript type definition
+
+**Files modified**:
+- src/components/admin/AnnouncementsPanel.tsx (removed 2 form fields)
+- src/types/index.ts (removed priority/type from Announcement type)
+- convex/schema.ts (made priority/type optional, marked as legacy)
+- convex/announcements.ts (removed priority/type from create/update args)
+
+**Key decisions**:
+- **Remove from UI, keep optional in schema** - existing data may have these fields
+- Priority and type were never displayed to parents - only stored in DB
+- Cleaner admin UX with fewer confusing fields
+
+**Learnings**:
+- Unused form fields create cognitive overhead for admins
+- Schema changes should consider backwards compatibility with existing data
+
+---
+
 ### Iteration 28: Evaluate Admin Dashboard - Notifications vs Announcements (ArtiosConnect-1v7)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -76,32 +103,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 26: Add Artios+ Section to Resources (ArtiosConnect-9c0)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Added dedicated Artios+ section at top of Resources page
-- Describes student performances (Theater, Dance, Film, Choir, Art)
-- Uses purple gradient for visual distinction from other sections
-- Play icon indicates media/performance content
-- Prominent link button to artiosplus.com
-
-**Files modified**:
-- src/pages/Resources.tsx (added Artios+ card section)
-
-**Key decisions**:
-- Placed at top of page - parents want to see their kids' work
-- Title is "Student Performances" (clearer than brand name "Artios+")
-- Purple color scheme differentiates from school branding colors
-- Link styled as full-width card with hover effect for easy tapping
-
-**Learnings**:
-- Purple (#9333ea / purple-500) provides good contrast for a "media" section
-- Card with gradient background draws attention without being garish
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -142,6 +143,32 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 26: Add Artios+ Section to Resources (ArtiosConnect-9c0)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added dedicated Artios+ section at top of Resources page
+- Describes student performances (Theater, Dance, Film, Choir, Art)
+- Uses purple gradient for visual distinction from other sections
+- Play icon indicates media/performance content
+- Prominent link button to artiosplus.com
+
+**Files modified**:
+- src/pages/Resources.tsx (added Artios+ card section)
+
+**Key decisions**:
+- Placed at top of page - parents want to see their kids' work
+- Title is "Student Performances" (clearer than brand name "Artios+")
+- Purple color scheme differentiates from school branding colors
+- Link styled as full-width card with hover effect for easy tapping
+
+**Learnings**:
+- Purple (#9333ea / purple-500) provides good contrast for a "media" section
+- Card with gradient background draws attention without being garish
+
+---
 
 ### Iteration 25: Fix Content Cut Off by Bottom Nav (ArtiosConnect-7yn)
 **Date**: 2026-01-29

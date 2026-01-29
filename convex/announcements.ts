@@ -38,8 +38,6 @@ export const create = mutation({
     title: v.string(),
     content: v.string(),
     date: v.string(),
-    priority: v.string(),
-    type: v.optional(v.string()),
     url: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -54,8 +52,6 @@ export const update = mutation({
     title: v.optional(v.string()),
     content: v.optional(v.string()),
     date: v.optional(v.string()),
-    priority: v.optional(v.string()),
-    type: v.optional(v.string()),
     url: v.optional(v.string()),
   },
   handler: async (ctx, args) => {

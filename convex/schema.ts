@@ -7,9 +7,10 @@ export default defineSchema({
     title: v.string(),
     content: v.string(),
     date: v.string(),
-    priority: v.string(),
-    type: v.optional(v.string()),
     url: v.optional(v.string()),
+    // Legacy fields (optional, no longer used in UI)
+    priority: v.optional(v.string()),
+    type: v.optional(v.string()),
   }),
 
   // Notifications/alerts that can be scheduled and expired

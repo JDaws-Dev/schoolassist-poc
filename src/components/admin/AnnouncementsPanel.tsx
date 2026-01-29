@@ -12,8 +12,6 @@ const emptyForm: Announcement = {
   title: '',
   content: '',
   date: '',
-  priority: 'normal',
-  type: 'info',
   url: '',
 }
 
@@ -32,8 +30,6 @@ export function AnnouncementsPanel() {
         title: form.title,
         content: form.content,
         date: form.date,
-        priority: form.priority ?? 'normal',
-        type: form.type ?? 'info',
         url: form.url || undefined,
       })
       setEditingId(null)
@@ -45,8 +41,6 @@ export function AnnouncementsPanel() {
       title: form.title,
       content: form.content,
       date: form.date,
-      priority: form.priority ?? 'normal',
-      type: form.type ?? 'info',
       url: form.url || undefined,
     })
     setForm(emptyForm)
@@ -95,26 +89,6 @@ export function AnnouncementsPanel() {
               onChange={(event) => setForm((prev) => ({ ...prev, content: event.target.value }))}
               placeholder="Share the key details parents should know"
             />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="announcement-priority">Priority</Label>
-              <Input
-                id="announcement-priority"
-                value={form.priority ?? ''}
-                onChange={(event) => setForm((prev) => ({ ...prev, priority: event.target.value }))}
-                placeholder="normal"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="announcement-type">Type</Label>
-              <Input
-                id="announcement-type"
-                value={form.type ?? ''}
-                onChange={(event) => setForm((prev) => ({ ...prev, type: event.target.value }))}
-                placeholder="info"
-              />
-            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="announcement-url">Optional URL</Label>
@@ -168,8 +142,6 @@ export function AnnouncementsPanel() {
                           title: announcement.title,
                           content: announcement.content,
                           date: announcement.date,
-                          priority: announcement.priority ?? 'normal',
-                          type: announcement.type ?? 'info',
                           url: announcement.url ?? '',
                         })
                       }}
