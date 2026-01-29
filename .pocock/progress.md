@@ -10,6 +10,38 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 15: Consolidate Community Links (ArtiosConnect-nnc)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Evaluated duplication: Community links were in BOTH Resources page AND Community page
+- Decision: Community page is the SINGLE source for parent community links
+- Removed `community` section from QUICK_LINKS in initialData.js
+- Removed unused `community` from SECTION_TITLES in Resources.tsx
+- Community links remain in KNOWLEDGE_BASE.md (for AI) and Community.tsx (for users)
+
+**Files modified**:
+- src/data/initialData.js (removed community array from QUICK_LINKS)
+- src/pages/Resources.tsx (removed community from SECTION_TITLES)
+
+**Key decisions**:
+- Community page is dedicated to social/parent groups - it has better UX (icons, explanatory text)
+- Resources page now focuses on practical links (FACTS, lunch, calendar, newsletters)
+- Community links are CRITICAL and deserve their own dedicated nav item (Users icon)
+- No sync issues since Community.tsx owns its own data
+- AI knowledge base still has community links via KNOWLEDGE_BASE.md
+
+**User flow for GroupMe**:
+- Any page → Tap "Community" in bottom nav (1 tap) → See all GroupMe chats by grade level
+
+**Learnings**:
+- buildKnowledgeBaseContent() in initialData.js does NOT include QUICK_LINKS - safe to remove sections
+- Having dedicated pages for focused content > duplicating links across pages
+- Bottom nav items are always 1 tap away - no need for duplication "for discoverability"
+
+---
+
 ### Iteration 14: Calendar Mobile View Fix (ArtiosConnect-q41)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -66,29 +98,6 @@ This file maintains context between autonomous iterations.
 - KNOWLEDGE_BASE.md had newsletter info in an outdated separate section at bottom
 - Consolidated newsletter links into Important Links section for consistency
 - Artios+ is a Squarespace portfolio site showcasing student arts work (Theater, Dance, Film, Choir, Art)
-
----
-
-### Iteration 12: Fix Queen Mothers Facebook URL (ArtiosConnect-516)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed incorrect Queen Mothers Facebook group URL in 5 files
-- Wrong: `https://www.facebook.com/groups/thequeenmothersofartios`
-- Correct: `https://www.facebook.com/groups/179521002691613/`
-
-**Files modified**:
-- CLAUDE.md
-- src/data/initialData.js
-- src/data/KNOWLEDGE_BASE.md
-- src/pages/Community.tsx
-- REBUILD_SPEC.md
-
-**Learnings**:
-- Facebook group URLs can have vanity names OR numeric IDs - the numeric ID is the permanent one
-- The vanity name `thequeenmothersofartios` apparently doesn't exist or was changed
-- Community links should be verified by clicking them
 
 ---
 
@@ -248,6 +257,29 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 12: Fix Queen Mothers Facebook URL (ArtiosConnect-516)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed incorrect Queen Mothers Facebook group URL in 5 files
+- Wrong: `https://www.facebook.com/groups/thequeenmothersofartios`
+- Correct: `https://www.facebook.com/groups/179521002691613/`
+
+**Files modified**:
+- CLAUDE.md
+- src/data/initialData.js
+- src/data/KNOWLEDGE_BASE.md
+- src/pages/Community.tsx
+- REBUILD_SPEC.md
+
+**Learnings**:
+- Facebook group URLs can have vanity names OR numeric IDs - the numeric ID is the permanent one
+- The vanity name `thequeenmothersofartios` apparently doesn't exist or was changed
+- Community links should be verified by clicking them
+
+---
 
 ### Iteration 10: Warmer Design System (ArtiosConnect-925)
 **Date**: 2026-01-29

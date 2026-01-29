@@ -66,7 +66,8 @@ export const QUICK_LINKS = {
   ],
   newsletters: [
     { name: "The Elementary Connection", url: "https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view", description: "Elementary newsletter (December)" },
-    { name: "The Choir Wire", url: "https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view", description: "Choir updates and announcements (November)" },
+    { name: "The Choir Wire", url: "https://drive.google.com/file/d/16tqKy7cFSoCOdPRDwcit1zt4_biGl4Sl/view?usp=sharing", description: "Choir updates (December/January)" },
+    { name: "Artios Choirs Digital Handbook", url: "https://docs.google.com/document/d/1D-XhzhaWVd-WTLcIZ7dEdPnM9Gq8TwCh1YdQI_hMCGI/edit?usp=sharing", description: "2025-2026 Choir handbook" },
   ],
   parentMeetings: [
     { name: "John Lane (Director)", url: "https://calendar.app.google/1xHHZDQVMThZCspaA", description: "Schedule meeting with Director" },
@@ -84,15 +85,11 @@ export const QUICK_LINKS = {
     { name: "Artios At Home (Spotify)", url: "https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW", description: "Spotify" },
   ],
   social: [
+    { name: "Linktree", url: "https://linktr.ee/ARTIOSSH", description: "All important links in one place" },
+    { name: "Artios+", url: "https://artiosplus.com", description: "Student performances - Theater, Dance, Film, Choir, Art" },
     { name: "Instagram (Sugar Hill)", url: "https://www.instagram.com/artios_sugarhill/", description: "@artios_sugarhill" },
     { name: "Facebook (Sugar Hill)", url: "https://www.facebook.com/artiossugarhill", description: "Artios Sugar Hill" },
     { name: "YouTube", url: "https://www.youtube.com/channel/UCbjRPBKsSdHS0Gd0BvM88lQ", description: "Artios Academies" },
-  ],
-  community: [
-    { name: "Queen Mothers of Artios", url: "https://www.facebook.com/groups/179521002691613/", description: "Facebook group for moms" },
-    { name: "Elementary Parents (K-6)", url: "https://groupme.com/join_group/103000376/K14Mdomu", description: "GroupMe chat" },
-    { name: "Junior High Parents (7-8)", url: "https://groupme.com/join_group/103000520/kNrkPm3r", description: "GroupMe chat" },
-    { name: "High School Parents (9-12)", url: "https://groupme.com/join_group/61225305/sekxr3mG", description: "GroupMe chat" },
   ],
 };
 
