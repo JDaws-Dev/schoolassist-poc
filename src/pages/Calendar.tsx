@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
-import { ChevronLeft, ChevronRight, RefreshCcw } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ChevronLeft, ChevronRight, RefreshCcw, Sparkles } from 'lucide-react'
 import { CalendarListView } from '@/components/calendar/CalendarListView'
 import { CalendarMonthView } from '@/components/calendar/CalendarMonthView'
 import { EventModal } from '@/components/calendar/EventModal'
@@ -105,6 +106,13 @@ export default function Calendar() {
           ) : null}
         </CardContent>
       </Card>
+      <Link
+        to="/chat"
+        className="flex items-center justify-center gap-2 rounded-lg bg-primary/10 px-4 py-3 text-sm text-primary transition-colors hover:bg-primary/20"
+      >
+        <Sparkles className="h-4 w-4" />
+        <span>Looking for something specific? Ask Arti</span>
+      </Link>
       <EventModal
         event={selectedEvent}
         open={!!selectedEvent}

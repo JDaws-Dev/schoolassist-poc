@@ -10,6 +10,30 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 21: Add Chat Link on Calendar Page (ArtiosConnect-5p9)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added link to Chat page below the calendar card
+- Uses Sparkles icon for AI branding consistency
+- Copy: "Looking for something specific? Ask Arti"
+- Styled as subtle primary-tinted banner that's visible but not distracting
+
+**Files modified**:
+- src/pages/Calendar.tsx (added Link with Sparkles icon)
+
+**Key decisions**:
+- Placed below calendar card (not inside) - doesn't clutter calendar UI
+- Used bg-primary/10 + hover:bg-primary/20 - matches AIHeroSection styling pattern
+- Simple Link component, not a full form like home page hero - calendar context is clear
+
+**Learnings**:
+- Sparkles icon is used throughout app for Arti/AI features
+- Consistent with AIHeroSection, QuickActions patterns
+
+---
+
 ### Iteration 20: Fix Deprecated Meta Tag (ArtiosConnect-rmc)
 **Date**: 2026-01-29
 **Status**: Completed
