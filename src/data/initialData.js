@@ -45,9 +45,13 @@ export const CONTACTS = {
       meetingUrl: "https://calendly.com/artiosacademies/parent-partnership-meetings-2025",
     },
   ],
-  office: {
-    email: "office@artiosacademies.com",
-    hours: "School days during operating hours",
+  support: {
+    email: "support@artiosacademies.com",
+    description: "Technical issues and general support",
+  },
+  billing: {
+    email: "billing@artiosacademies.com",
+    description: "Billing and payment questions",
   },
 };
 
@@ -83,6 +87,12 @@ export const QUICK_LINKS = {
     { name: "Instagram (Sugar Hill)", url: "https://www.instagram.com/artios_sugarhill/", description: "@artios_sugarhill" },
     { name: "Facebook (Sugar Hill)", url: "https://www.facebook.com/artiossugarhill", description: "Artios Sugar Hill" },
     { name: "YouTube", url: "https://www.youtube.com/channel/UCbjRPBKsSdHS0Gd0BvM88lQ", description: "Artios Academies" },
+  ],
+  community: [
+    { name: "Queen Mothers of Artios", url: "https://www.facebook.com/groups/thequeenmothersofartios", description: "Facebook group for moms" },
+    { name: "Elementary Parents (K-6)", url: "https://groupme.com/join_group/103000376/K14Mdomu", description: "GroupMe chat" },
+    { name: "Junior High Parents (7-8)", url: "https://groupme.com/join_group/103000520/kNrkPm3r", description: "GroupMe chat" },
+    { name: "High School Parents (9-12)", url: "https://groupme.com/join_group/61225305/sekxr3mG", description: "GroupMe chat" },
   ],
 };
 
@@ -135,7 +145,7 @@ export const FAQ = [
   {
     question: "How do I contact the school?",
     answer:
-      "Email the office at office@artiosacademies.com. For sensitive topics (bullying, mental health, family situations), contact Director John Lane at jmlane@artiosacademies.com.",
+      "Contact Director John Lane at jmlane@artiosacademies.com for general questions. For technical issues, email support@artiosacademies.com. For billing questions, email billing@artiosacademies.com. For sensitive topics (bullying, mental health, family situations), contact Director John Lane directly.",
   },
 ];
 

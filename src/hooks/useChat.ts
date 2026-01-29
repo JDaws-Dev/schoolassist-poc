@@ -11,7 +11,7 @@ const SUGGESTED_RESPONSES: Record<string, string> = {
   lunch:
     'Lunch is ordered through ArtiosCafe.com by 10 AM on class days, or bring lunch from home. Note: No heating or refrigeration available. Please avoid nut products due to student allergies.',
   contact:
-    'Artios Academies of Sugar Hill is located at 415 Brogdon Road, Suwanee, GA 30024. You can email office@artiosacademies.com. For sensitive matters, contact Director John Lane at jmlane@artiosacademies.com.',
+    'Artios Academies of Sugar Hill is located at 415 Brogdon Road, Suwanee, GA 30024. For general questions, contact Director John Lane at jmlane@artiosacademies.com. For technical issues: support@artiosacademies.com. For billing: billing@artiosacademies.com.',
   dress:
     'Artios t-shirt required with twill or denim pants/shorts. Shorts must be within 3 inches of the knee. No holes, rips, sweatpants, leggings, or jeggings. Hats not permitted indoors.',
   default:

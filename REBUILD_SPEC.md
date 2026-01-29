@@ -229,8 +229,12 @@ Artios Academies of Sugar Hill
 Suwanee, GA 30024
 
 Directors:
-- John Lane (john@artiossugarhill.org)
-- Jackie Thompson
+- John Lane (jmlane@artiosacademies.com) - Primary contact
+- Jackie Thompson (jthompson@artiosacademies.com)
+
+Other Contacts:
+- Technical Support: support@artiosacademies.com
+- Billing: billing@artiosacademies.com
 ```
 
 ---

@@ -378,7 +378,8 @@ Following **Matthew 18:15-22** biblical guidance:
 |------|------|-------|--------------|
 | **Director** | John Lane | jmlane@artiosacademies.com | [Schedule Meeting](https://calendar.app.google/1xHHZDQVMThZCspaA) |
 | **Assistant Director** | Jackie Thompson | jthompson@artiosacademies.com | [Schedule Meeting](https://calendly.com/artiosacademies/parent-partnership-meetings-2025) |
-| **Front Office** | Office Staff | office@artiosacademies.com | - |
+| **Technical Support** | - | support@artiosacademies.com | - |
+| **Billing** | - | billing@artiosacademies.com | - |
 
 ### Parent Partnership Meetings
 
@@ -391,9 +392,10 @@ For academic support and parent conferences:
 
 | Question Type | Contact |
 |--------------|---------|
-| General questions, attendance, forms | Front Office (office@artiosacademies.com) |
-| Policies, concerns, meetings | Director - John Lane |
-| Academic support, conferences | Assistant Director - Jackie Thompson |
+| General questions, policies, concerns | Director - John Lane (jmlane@artiosacademies.com) |
+| Academic support, conferences | Assistant Director - Jackie Thompson (jthompson@artiosacademies.com) |
+| Technical issues, website problems | support@artiosacademies.com |
+| Billing, payments, tuition | billing@artiosacademies.com |
 | Sensitive topics (see below) | Director - John Lane |
 
 ### Sensitive Topics
@@ -454,6 +456,22 @@ For sensitive topics such as:
 | Instagram | [@artiosacademies](https://www.instagram.com/artiosacademies/) |
 | Facebook | [Artios Community](https://www.facebook.com/artioscommunity/) |
 | YouTube | [Artios Academies](https://www.youtube.com/channel/UCbjRPBKsSdHS0Gd0BvM88lQ) |
+
+### Parent Community Groups (CRITICAL - Used Daily)
+
+These groups are essential for parent communication - used for lost & found, volunteer coordination, selling/giving away books and uniforms, and quick school updates.
+
+**Facebook:**
+| Group | Link |
+|-------|------|
+| The Queen Mothers of Artios | [Join Group](https://www.facebook.com/groups/thequeenmothersofartios) |
+
+**GroupMe Chats by Division:**
+| Division | Link |
+|----------|------|
+| Elementary Parents (K-6) | [Join GroupMe](https://groupme.com/join_group/103000376/K14Mdomu) |
+| Junior High Parents (7-8) | [Join GroupMe](https://groupme.com/join_group/103000520/kNrkPm3r) |
+| High School Parents (9-12) | [Join GroupMe](https://groupme.com/join_group/61225305/sekxr3mG) |
 
 ---
 

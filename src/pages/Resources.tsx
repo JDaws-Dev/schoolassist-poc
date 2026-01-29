@@ -79,7 +79,6 @@ export default function Resources() {
         </CardHeader>
         <CardContent className="space-y-3 text-sm">
           <p className="font-semibold">Artios Academies of Sugar Hill</p>
-          <p className="text-muted-foreground">{CONTACTS.office?.email ?? 'office@artiossugarhill.org'}</p>
           <p className="text-muted-foreground">415 Brogdon Road, Suwanee, GA 30024</p>
           <Separator className="my-2" />
           <p className="font-semibold">Directors</p>
@@ -90,6 +89,12 @@ export default function Resources() {
                 {director.email ? ` (${director.email})` : ''}
               </p>
             ))}
+          </div>
+          <Separator className="my-2" />
+          <p className="font-semibold">Other Contacts</p>
+          <div className="space-y-1 text-muted-foreground">
+            <p>Technical Support: {CONTACTS.support?.email ?? 'support@artiosacademies.com'}</p>
+            <p>Billing: {CONTACTS.billing?.email ?? 'billing@artiosacademies.com'}</p>
           </div>
         </CardContent>
       </Card>
