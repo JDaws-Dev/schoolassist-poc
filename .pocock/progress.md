@@ -86,33 +86,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 23: Improve Community Page UX (ArtiosConnect-mf0)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Added descriptions for each group explaining what it's used for
-- Added "Why Join?" section with 6 common use cases as chips
-- Added onboarding tip for new parents directing them to grade-level GroupMe
-- Added brand colors: Facebook blue (#1877F2), GroupMe teal (#00AFF0)
-- Changed icons: MessageCircle for GroupMe, Users for Facebook
-
-**Files modified**:
-- src/pages/Community.tsx (major UX improvements)
-
-**Key decisions**:
-- Descriptions embedded in each link card (not separate text)
-- "Why Join?" uses chip/tag layout for scannability
-- Onboarding tip uses primary tint to draw attention
-- Brand colors applied to card gradient backgrounds and icons
-- Kept existing disclaimer at top untouched
-
-**Learnings**:
-- TailwindCSS supports arbitrary colors like `text-[#1877F2]` for brand colors
-- Chip/tag layout is effective for list items that don't need action
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -153,6 +126,33 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 23: Improve Community Page UX (ArtiosConnect-mf0)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added descriptions for each group explaining what it's used for
+- Added "Why Join?" section with 6 common use cases as chips
+- Added onboarding tip for new parents directing them to grade-level GroupMe
+- Added brand colors: Facebook blue (#1877F2), GroupMe teal (#00AFF0)
+- Changed icons: MessageCircle for GroupMe, Users for Facebook
+
+**Files modified**:
+- src/pages/Community.tsx (major UX improvements)
+
+**Key decisions**:
+- Descriptions embedded in each link card (not separate text)
+- "Why Join?" uses chip/tag layout for scannability
+- Onboarding tip uses primary tint to draw attention
+- Brand colors applied to card gradient backgrounds and icons
+- Kept existing disclaimer at top untouched
+
+**Learnings**:
+- TailwindCSS supports arbitrary colors like `text-[#1877F2]` for brand colors
+- Chip/tag layout is effective for list items that don't need action
+
+---
 
 ### Iteration 22: Add Community Disclaimer (ArtiosConnect-n78)
 **Date**: 2026-01-29
