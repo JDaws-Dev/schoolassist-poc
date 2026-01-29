@@ -10,6 +10,33 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 23: Improve Community Page UX (ArtiosConnect-mf0)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added descriptions for each group explaining what it's used for
+- Added "Why Join?" section with 6 common use cases as chips
+- Added onboarding tip for new parents directing them to grade-level GroupMe
+- Added brand colors: Facebook blue (#1877F2), GroupMe teal (#00AFF0)
+- Changed icons: MessageCircle for GroupMe, Users for Facebook
+
+**Files modified**:
+- src/pages/Community.tsx (major UX improvements)
+
+**Key decisions**:
+- Descriptions embedded in each link card (not separate text)
+- "Why Join?" uses chip/tag layout for scannability
+- Onboarding tip uses primary tint to draw attention
+- Brand colors applied to card gradient backgrounds and icons
+- Kept existing disclaimer at top untouched
+
+**Learnings**:
+- TailwindCSS supports arbitrary colors like `text-[#1877F2]` for brand colors
+- Chip/tag layout is effective for list items that don't need action
+
+---
+
 ### Iteration 22: Add Community Disclaimer (ArtiosConnect-n78)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -57,6 +84,47 @@ This file maintains context between autonomous iterations.
 
 ---
 
+## Active Roadblocks
+
+<!-- No current roadblocks -->
+
+---
+
+## Project Learnings
+
+Patterns, gotchas, and decisions that affect future work:
+
+### Stack
+
+- React 19 + Vite 7
+- TailwindCSS for styling
+- Lucide React for icons
+- Express.js API for chat backend
+- OpenAI GPT-4o-mini for AI
+- Convex for real-time database
+- Google Calendar ICS feed for calendar integration
+
+### Key Design Decisions
+
+- **No grade filtering** - Simple app for all parents regardless of child's grade
+- **Simple password auth** - Parent: artios2026, Admin: artiosadmin2026
+- **AI-first design** - Chat is the primary way to find info
+- **Mobile-first** - Primary use case is parents on phones
+
+### Preserved Backend Files
+
+Keep these intact:
+- `convex/` - Database schema and functions
+- `server.js` - Express chat API
+- `api/chat.js` - Vercel serverless function
+- `src/data/initialData.js` - Static school data
+
+---
+
+## Archive (Older Iterations)
+
+<!-- Move entries here when they roll out of "Recent Context" -->
+
 ### Iteration 20: Fix Deprecated Meta Tag (ArtiosConnect-rmc)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -81,69 +149,66 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 11: Fix Contact Emails (ArtiosConnect-6up)
-**Date**: 2026-01-26
+### Iteration 19: Rename Chatbot from Ollie to Arti (ArtiosConnect-287)
+**Date**: 2026-01-29
 **Status**: Completed
 
 **What was done**:
-- Created `server.js` - Express.js chat API server for local development
-  - POST /api/chat endpoint with OpenAI GPT-4o-mini integration
-  - GET /api/health endpoint for health checks
-  - CORS middleware for cross-origin requests
-  - Temperature set to 0.2 (low to reduce hallucination)
-  - Max tokens: 1000, presence/frequency penalty: 0.1
-- Created `api/chat.js` - Vercel serverless function for production deployment
-  - Same API contract as server.js
-  - Inline knowledge base (no file system access in serverless)
-  - Proper CORS headers and OPTIONS handling
-- Created `src/data/initialData.js` - Comprehensive school knowledge base
-  - SCHOOL_INFO: name, address, type, description, philosophy
-  - SCHEDULE: weekly schedule by division, daily timing
-  - CONTACTS: directors, office
-  - QUICK_LINKS: categorized external links
-  - FAQ: 10 common questions with answers
-  - POLICIES: tardiness, early pickup, visitors, medications, emergencies
-  - `buildKnowledgeBaseContent()` function for AI context
-- Updated `package.json` with new dependencies:
-  - express: ^4.21.2
-  - cors: ^2.8.5
-  - openai: ^4.77.0
-  - concurrently: ^9.1.2 (dev)
-  - New scripts: `npm run server`, `npm run dev:all`
+- Renamed AI chatbot from "Ollie" to "Arti" (short for Artios)
+- Updated all UI references: Chat page header, welcome state, input placeholder, typing indicator
+- Updated home page: AIHeroSection, QuickActions button
+- Updated admin panel placeholder text
+- Updated server.js system prompt
+- Updated CLAUDE.md and REBUILD_SPEC.md documentation
 
-**AI Safety Rules implemented in system prompt**:
-1. ONLY provide information from knowledge base or calendar events
-2. NEVER make up, invent, guess, or assume information
-3. If unknown: "I don't have that specific information. Please contact the school office..."
-4. For sensitive topics: redirect to Director John Lane
-5. Be helpful, friendly, and concise
-6. Clarify which division (Elementary K-6 or Jr High/High School 7-12) applies
-7. Do not provide legal, medical, or financial advice
-8. Acknowledge limitations honestly
+**Files modified**:
+- src/pages/Chat.tsx (header name)
+- src/components/chat/WelcomeState.tsx ("Hi, I'm Arti")
+- src/components/chat/ChatInput.tsx (placeholder)
+- src/components/chat/TypingIndicator.tsx ("Arti is typing...")
+- src/components/home/AIHeroSection.tsx ("Ask Arti" button and prompt)
+- src/components/home/QuickActions.tsx ("Ask Arti a question")
+- src/components/admin/AISettingsPanel.tsx (placeholder)
+- server.js (system prompt identity)
+- CLAUDE.md (documentation)
+- REBUILD_SPEC.md (spec documentation)
 
-**API Contract**:
-```
-POST /api/chat
-Request: { message: string, history: Message[], sessionId: string, calendarEvents?: Event[] }
-Response: { response: string }
-
-Message: { role: 'user' | 'assistant', content: string }
-Event: { title: string, date: string, time?: string, location?: string }
-```
-
-**Key files created**:
-- `server.js` - Express.js chat API server (local dev)
-- `api/chat.js` - Vercel serverless function (production)
-- `src/data/initialData.js` - School knowledge base
+**Key decisions**:
+- Chose "Arti" because: direct connection to "Artios", short/memorable, friendly/approachable
+- api/chat.js already used "ArtiosConnect" as identity - changed server.js to match new "Arti" name
+- Kept all functionality identical, only changed name references
 
 **Learnings**:
-- OpenAI client initialized with `new OpenAI({ apiKey: process.env.OPENAI_API_KEY })`
-- Vercel serverless functions have no file system access - data must be inline
-- CORS headers required for Vercel serverless: Access-Control-Allow-Origin, Methods, Headers
-- History limited to last 20 messages to stay within context window
-- Error handling for rate_limit_exceeded, insufficient_quota OpenAI errors
-- Temperature 0.2 significantly reduces hallucination while maintaining natural responses
-- System prompt should be comprehensive but not overwhelming - focus on boundaries
+- "Artios" comes from Greek meaning "complete" or "equipped"
+- Production serverless function (api/chat.js) had different identity than dev server (server.js)
+- Name changes are straightforward but touch many files - grep is essential
+
+---
+
+### Iteration 18: Investigate Community Page Integration (ArtiosConnect-m99)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Researched GroupMe API - requires OAuth authentication for ALL requests, no public endpoints
+- Researched Facebook Graph API - Groups API shut down in Feb 2024, private groups cannot be embedded
+- Documented why API integration is NOT viable for this use case
+- Recommended enhanced UX approach instead (descriptions, onboarding guidance)
+
+**Files modified**:
+- None (research-only task)
+
+**Key decisions**:
+- **Do NOT pursue API integrations** - both require authentication that would need stored credentials
+- Privacy concern: parents likely don't want their group posts visible outside the group
+- Enhanced UX is the viable path: add descriptions, "Why Join?" section, onboarding tips
+
+**Learnings**:
+- GroupMe API uses OAuth Implicit Authentication - every request needs a user access token
+- Meta shut down Facebook Groups API in early 2024 - major breaking change for social tools
+- Facebook Page Plugin only works for Pages and PUBLIC groups (parent groups are almost always private)
+- Third-party embed tools (SociableKIT, Smash Balloon) exist but require admin credentials
+- Current Community.tsx design is already solid - just needs better copy/context
 
 ---
 
