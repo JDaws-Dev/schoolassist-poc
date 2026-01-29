@@ -10,6 +10,39 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 14: Calendar Mobile View Fix (ArtiosConnect-q41)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Redesigned CalendarMonthView for mobile-first experience
+- Mobile (< sm): Compact cells with event dots, tap day to see events
+- Desktop (sm+): Full event previews inline in cells
+- Added day events dialog for mobile - shows all events when tapping a day with multiple events
+- Single event tap goes directly to event modal
+- Added mobile legend explaining dot = event and tap to view
+- Improved Calendar page header with tighter mobile spacing
+- Improved CalendarListView with min-h-[48px] tap targets
+
+**Files modified**:
+- src/components/calendar/CalendarMonthView.tsx (complete redesign for responsive layout)
+- src/components/calendar/CalendarListView.tsx (mobile tap target improvements)
+- src/pages/Calendar.tsx (mobile header spacing, aria-labels)
+
+**Key decisions**:
+- Dots-only on mobile vs full previews on desktop - keeps cells usable at 375px width
+- Day cells are 48px min height on mobile (44px+ WCAG compliant tap target)
+- Single-event days go directly to event modal, multi-event days show picker dialog
+- Used sm: breakpoint (640px) as cutoff between mobile/desktop layouts
+
+**Learnings**:
+- 7-column calendar grid at 375px = ~53px per cell - not enough for text previews
+- Event dots with count indicator work well for scanability on mobile
+- Making entire day cell tappable (vs individual event buttons) is better UX on mobile
+- Dialog component can be composed within a component for local state management
+
+---
+
 ### Iteration 13: Audit Linktree and Sync Knowledge Base (ArtiosConnect-4de)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -60,43 +93,6 @@ This file maintains context between autonomous iterations.
 ---
 
 ### Iteration 11: Fix Contact Emails (ArtiosConnect-6up)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Removed all fake office@ email addresses (office@artiosacademies.com, office@artiossugarhill.org)
-- Updated all files to use verified emails from artiosacademies.com website:
-  - jmlane@artiosacademies.com (John Lane - primary contact)
-  - jthompson@artiosacademies.com (Jackie Thompson)
-  - support@artiosacademies.com (technical issues)
-  - billing@artiosacademies.com (billing questions)
-- Added community links to initialData.js and KNOWLEDGE_BASE.md:
-  - Queen Mothers Facebook group
-  - 3 GroupMe chats (Elementary, Junior High, High School)
-- Updated AI chat system prompts to direct to John Lane for general questions
-
-**Key decisions**:
-- John Lane as primary contact for general questions (not a generic office email)
-- Added support@ and billing@ for specific types of issues
-- Community links are CRITICAL - parents use daily for lost & found, volunteer coordination
-
-**Files modified**:
-- src/data/initialData.js (CONTACTS, QUICK_LINKS.community, FAQ)
-- src/data/KNOWLEDGE_BASE.md (Contact tables, community section)
-- server.js (SAFETY_RULES)
-- api/chat.js (system prompt, fallback)
-- src/hooks/useChat.ts (SUGGESTED_RESPONSES)
-- src/pages/Resources.tsx (contact display)
-- REBUILD_SPEC.md (contact info)
-
-**Learnings**:
-- office@ emails were fabricated - always verify against actual website
-- Multiple files had duplicated contact info - need single source of truth
-- Director is primary contact, specialized emails for specific issues
-
----
-
-### Iteration 5: AI Chat Assistant - Backend (ArtiosConnect-zn0)
 **Date**: 2026-01-26
 **Status**: Completed
 
