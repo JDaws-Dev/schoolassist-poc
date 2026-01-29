@@ -10,6 +10,34 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 9: Fix Remaining Schedule References (ArtiosConnect-yei)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed schedule in REBUILD_SPEC.md - had old incorrect schedule in two places:
+  - Section "B. Schedule Information" - updated to correct Academics/Arts days
+  - Section "Schedule Reference (for Today display)" - updated to match KNOWLEDGE_BASE.md
+- Fixed useChat.ts fallback responses - had 4 errors:
+  - Schedule: Old "M/W Elementary, T/Th Jr+HS" → Correct Academics/Arts by day
+  - Lunch deadline: "11:59 PM the day before" → "10 AM on class days"
+  - Contact email: "office@artiossugarhill.org" → "office@artiosacademies.com"
+  - Dress code: "solid colors" → "Artios t-shirt required"
+
+**Key decisions**:
+- KNOWLEDGE_BASE.md remains authoritative source
+- Fallback responses now match initialData.js exactly
+
+**Files modified**:
+- REBUILD_SPEC.md (2 schedule sections)
+- src/hooks/useChat.ts (SUGGESTED_RESPONSES)
+
+**Learnings**:
+- useChat.ts had hardcoded fallback responses that bypassed the knowledge base - these must stay in sync
+- REBUILD_SPEC.md is a spec doc that also had outdated schedule info
+
+---
+
 ### Iteration 8: Content Accuracy Audit (ArtiosConnect-5gm)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -85,50 +113,6 @@ This file maintains context between autonomous iterations.
 - React Router v6 NavLink supports render prop children: `{({ isActive }) => <content />}`
 - Both className and children can receive the isActive state
 - Previous code only used isActive for className, not for icon styling
-
----
-
-### Iteration 6: UI/Design Polish (ArtiosConnect-7x0, s9u, r5m, eps, alr, 56h, 6xp, 7ef, g6l)
-**Date**: 2026-01-27
-**Status**: Completed
-
-**What was done**:
-- Fixed chat markdown rendering - AI responses now render bold and bullet lists properly (lightweight parser, no new deps)
-- Corrected Resources page data to match initialData.js knowledge base:
-  - Doors open: 8:45→8:50 AM, lunch deadline: 9AM→11:59PM, dress code: generic→specific
-  - Contact email: info@artiosacademies.com→office@artiossugarhill.org
-  - Office hours: fabricated→"School days during operating hours"
-  - Address: incomplete→full address
-- Tightened Home hero spacing (smaller heading, compact padding, better rhythm)
-- Made Chat tab visually prominent in bottom nav (AI-first design)
-- Polished event cards with gradient date badges and hover states
-- Simplified chat welcome state (2x2 grid with icons, concise copy)
-- Added fade-in animation on all page mounts (CSS only, 200ms)
-- Improved calendar event pill sizing and simplified legend
-- Converted document links from list to responsive card grid
-
-**Key decisions**:
-- Used lightweight inline markdown parser instead of react-markdown dependency
-- Kept all changes CSS/component-level only - no structural changes
-- Data corrections sourced exclusively from initialData.js
-
-**Files modified**:
-- src/components/chat/MessageBubble.jsx (markdown rendering)
-- src/pages/Resources.jsx (data corrections + document cards)
-- src/components/home/AIHeroSection.jsx (spacing)
-- src/components/home/QuickActions.jsx (spacing)
-- src/pages/Home.jsx (spacing + fade-in)
-- src/components/BottomNav.jsx (chat prominence)
-- src/components/home/UpcomingEvents.jsx (card polish)
-- src/components/chat/WelcomeState.jsx (redesign)
-- src/pages/Chat.jsx (header + fade-in)
-- src/pages/Calendar.jsx (legend + fade-in)
-- src/components/CalendarMonthView.jsx (event pills)
-
-**Learnings**:
-- Resources page had hardcoded data that diverged from initialData.js - always source from there
-- TailwindCSS v4 animate-fade-in already exists in index.css - reuse design system utilities
-- grid-rows-[1fr]/grid-rows-[0fr] pattern works great for accordion animation in CSS
 
 ---
 
@@ -288,6 +272,50 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 6: UI/Design Polish (ArtiosConnect-7x0, s9u, r5m, eps, alr, 56h, 6xp, 7ef, g6l)
+**Date**: 2026-01-27
+**Status**: Completed
+
+**What was done**:
+- Fixed chat markdown rendering - AI responses now render bold and bullet lists properly (lightweight parser, no new deps)
+- Corrected Resources page data to match initialData.js knowledge base:
+  - Doors open: 8:45→8:50 AM, lunch deadline: 9AM→11:59PM, dress code: generic→specific
+  - Contact email: info@artiosacademies.com→office@artiossugarhill.org
+  - Office hours: fabricated→"School days during operating hours"
+  - Address: incomplete→full address
+- Tightened Home hero spacing (smaller heading, compact padding, better rhythm)
+- Made Chat tab visually prominent in bottom nav (AI-first design)
+- Polished event cards with gradient date badges and hover states
+- Simplified chat welcome state (2x2 grid with icons, concise copy)
+- Added fade-in animation on all page mounts (CSS only, 200ms)
+- Improved calendar event pill sizing and simplified legend
+- Converted document links from list to responsive card grid
+
+**Key decisions**:
+- Used lightweight inline markdown parser instead of react-markdown dependency
+- Kept all changes CSS/component-level only - no structural changes
+- Data corrections sourced exclusively from initialData.js
+
+**Files modified**:
+- src/components/chat/MessageBubble.jsx (markdown rendering)
+- src/pages/Resources.jsx (data corrections + document cards)
+- src/components/home/AIHeroSection.jsx (spacing)
+- src/components/home/QuickActions.jsx (spacing)
+- src/pages/Home.jsx (spacing + fade-in)
+- src/components/BottomNav.jsx (chat prominence)
+- src/components/home/UpcomingEvents.jsx (card polish)
+- src/components/chat/WelcomeState.jsx (redesign)
+- src/pages/Chat.jsx (header + fade-in)
+- src/pages/Calendar.jsx (legend + fade-in)
+- src/components/CalendarMonthView.jsx (event pills)
+
+**Learnings**:
+- Resources page had hardcoded data that diverged from initialData.js - always source from there
+- TailwindCSS v4 animate-fade-in already exists in index.css - reuse design system utilities
+- grid-rows-[1fr]/grid-rows-[0fr] pattern works great for accordion animation in CSS
+
+---
 
 ### Iteration 3: Design System & Styling (ArtiosConnect-rj0)
 **Date**: 2026-01-26
