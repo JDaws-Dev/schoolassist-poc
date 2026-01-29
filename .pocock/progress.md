@@ -39,25 +39,24 @@ This file maintains context between autonomous iterations.
 **Status**: Completed
 
 **What was done**:
-- Removed misleading "Welcome back" text (no user recognition in app)
-- Made logo more prominent: 12x12 with larger rounded corners, moved to left
-- Changed to logo-forward layout: Logo | Brand name + greeting
-- Added time-based greeting (Good morning/afternoon/evening)
-- Cleaned up semantic HTML (header element)
+- Removed time-based greeting - was filler that didn't help users
+- Removed white box/shadow wrapper around logo - cleaner on warm background
+- Added "Parent Hub" subtitle - clarifies what the app is
+- Streamlined to: logo + "Artios Connect" + "Parent Hub"
 
 **Files modified**:
-- src/components/layout/ParentLayout.tsx (complete header redesign)
+- src/components/layout/ParentLayout.tsx (header simplification)
 
 **Key decisions**:
-- Logo on left (prominent, 48px) + wordmark "Artios Connect" (h1)
-- Time-based greeting below wordmark as subtle context (not fake personalization)
-- Removed justify-between - everything flows left-aligned for stronger brand block
-- Used semantic `<header>` element for accessibility
+- Logo at 44x44 without wrapper (was 48x48 inside white bg/padding/shadow box)
+- "Parent Hub" subtitle replaces time greeting - more useful context
+- Minimal header: branding only, bottom nav handles navigation
+- Removed getTimeGreeting() function entirely
 
 **Learnings**:
-- Time-based greeting is accurate and warm without pretending to know the user
-- Logo-first layout creates stronger brand presence than text-first
-- h1 should be the brand, not a generic greeting
+- Less is more in mobile headers - every element must earn its space
+- "Parent Hub" is more informative than time-based greeting
+- Logo without white box looks cleaner on warm cream background
 
 ---
 
