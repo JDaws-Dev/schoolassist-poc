@@ -11,6 +11,7 @@ const SECTION_TITLES: Record<string, string> = {
   shopping: 'Shopping',
   podcasts: 'Podcasts',
   social: 'Connect With Us',
+  community: 'Parent Community',
 }
 
 export default function Resources() {

@@ -26,6 +26,7 @@ This file maintains context between autonomous iterations.
 
 **Files modified**:
 - src/data/KNOWLEDGE_BASE.md (added Student Work & Media section, Newsletters & Handbooks section)
+- src/pages/Resources.tsx (added 'community' to SECTION_TITLES for proper display)
 
 **Learnings**:
 - initialData.js was well-maintained - already had all Linktree links
