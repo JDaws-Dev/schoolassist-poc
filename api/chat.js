@@ -7,8 +7,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-// Google Calendar ICS URL (public calendar)
-const CALENDAR_URL = 'https://calendar.google.com/calendar/ical/c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com/public/basic.ics';
+// Google Calendar ICS URL (from environment variable)
+const CALENDAR_URL = process.env.GOOGLE_CALENDAR_URL || 'https://calendar.google.com/calendar/ical/c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com/public/basic.ics';
 
 // Cache for calendar data
 let calendarCache = { events: [], lastFetch: 0 };
@@ -39,7 +39,11 @@ async function fetchCalendarEvents() {
   }
 
   try {
-    const response = await fetch(CALENDAR_URL);
+    const response = await fetch(CALENDAR_URL, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; ArtiosConnect/1.0)',
+      },
+    });
     const icsText = await response.text();
     const events = [];
     const eventBlocks = icsText.split('BEGIN:VEVENT');
