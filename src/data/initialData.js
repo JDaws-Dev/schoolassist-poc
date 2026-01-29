@@ -89,7 +89,7 @@ export const QUICK_LINKS = {
     { name: "YouTube", url: "https://www.youtube.com/channel/UCbjRPBKsSdHS0Gd0BvM88lQ", description: "Artios Academies" },
   ],
   community: [
-    { name: "Queen Mothers of Artios", url: "https://www.facebook.com/groups/thequeenmothersofartios", description: "Facebook group for moms" },
+    { name: "Queen Mothers of Artios", url: "https://www.facebook.com/groups/179521002691613/", description: "Facebook group for moms" },
     { name: "Elementary Parents (K-6)", url: "https://groupme.com/join_group/103000376/K14Mdomu", description: "GroupMe chat" },
     { name: "Junior High Parents (7-8)", url: "https://groupme.com/join_group/103000520/kNrkPm3r", description: "GroupMe chat" },
     { name: "High School Parents (9-12)", url: "https://groupme.com/join_group/61225305/sekxr3mG", description: "GroupMe chat" },

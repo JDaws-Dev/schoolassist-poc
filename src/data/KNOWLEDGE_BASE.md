@@ -464,7 +464,7 @@ These groups are essential for parent communication - used for lost & found, vol
 **Facebook:**
 | Group | Link |
 |-------|------|
-| The Queen Mothers of Artios | [Join Group](https://www.facebook.com/groups/thequeenmothersofartios) |
+| The Queen Mothers of Artios | [Join Group](https://www.facebook.com/groups/179521002691613/) |
 
 **GroupMe Chats by Division:**
 | Division | Link |

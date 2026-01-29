@@ -85,7 +85,7 @@ These are CRITICAL for parent communication - moms and teachers use these daily 
 - General community support
 
 ### Facebook Group
-- **The Queen Mothers of Artios**: https://www.facebook.com/groups/thequeenmothersofartios
+- **The Queen Mothers of Artios**: https://www.facebook.com/groups/179521002691613/
 
 ### GroupMe Chats
 - **Elementary Parents (K-6)**: https://groupme.com/join_group/103000376/K14Mdomu

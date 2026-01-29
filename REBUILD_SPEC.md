@@ -244,7 +244,7 @@ Other Contacts:
 **Purpose**: Parents use these links daily for communication.
 
 #### Facebook Group
-- **The Queen Mothers of Artios**: https://www.facebook.com/groups/thequeenmothersofartios
+- **The Queen Mothers of Artios**: https://www.facebook.com/groups/179521002691613/
 
 #### GroupMe Chats
 - **Elementary Parents (K-6)**: https://groupme.com/join_group/103000376/K14Mdomu

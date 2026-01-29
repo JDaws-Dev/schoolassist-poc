@@ -10,6 +10,29 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 12: Fix Queen Mothers Facebook URL (ArtiosConnect-516)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed incorrect Queen Mothers Facebook group URL in 5 files
+- Wrong: `https://www.facebook.com/groups/thequeenmothersofartios`
+- Correct: `https://www.facebook.com/groups/179521002691613/`
+
+**Files modified**:
+- CLAUDE.md
+- src/data/initialData.js
+- src/data/KNOWLEDGE_BASE.md
+- src/pages/Community.tsx
+- REBUILD_SPEC.md
+
+**Learnings**:
+- Facebook group URLs can have vanity names OR numeric IDs - the numeric ID is the permanent one
+- The vanity name `thequeenmothersofartios` apparently doesn't exist or was changed
+- Community links should be verified by clicking them
+
+---
+
 ### Iteration 11: Fix Contact Emails (ArtiosConnect-6up)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -73,34 +96,6 @@ This file maintains context between autonomous iterations.
 - OKLCH hue 140-145 is warm sage/forest, hue 155+ is cooler teal
 - Peachy accent (hue 55-65) adds warmth without clashing with green
 - Background subtle warmth (hue 90) makes cream feel inviting vs sterile
-
----
-
-### Iteration 9: Fix Remaining Schedule References (ArtiosConnect-yei)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Fixed schedule in REBUILD_SPEC.md - had old incorrect schedule in two places:
-  - Section "B. Schedule Information" - updated to correct Academics/Arts days
-  - Section "Schedule Reference (for Today display)" - updated to match KNOWLEDGE_BASE.md
-- Fixed useChat.ts fallback responses - had 4 errors:
-  - Schedule: Old "M/W Elementary, T/Th Jr+HS" → Correct Academics/Arts by day
-  - Lunch deadline: "11:59 PM the day before" → "10 AM on class days"
-  - Contact email: "office@artiossugarhill.org" → "office@artiosacademies.com"
-  - Dress code: "solid colors" → "Artios t-shirt required"
-
-**Key decisions**:
-- KNOWLEDGE_BASE.md remains authoritative source
-- Fallback responses now match initialData.js exactly
-
-**Files modified**:
-- REBUILD_SPEC.md (2 schedule sections)
-- src/hooks/useChat.ts (SUGGESTED_RESPONSES)
-
-**Learnings**:
-- useChat.ts had hardcoded fallback responses that bypassed the knowledge base - these must stay in sync
-- REBUILD_SPEC.md is a spec doc that also had outdated schedule info
 
 ---
 
@@ -260,6 +255,34 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 9: Fix Remaining Schedule References (ArtiosConnect-yei)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed schedule in REBUILD_SPEC.md - had old incorrect schedule in two places:
+  - Section "B. Schedule Information" - updated to correct Academics/Arts days
+  - Section "Schedule Reference (for Today display)" - updated to match KNOWLEDGE_BASE.md
+- Fixed useChat.ts fallback responses - had 4 errors:
+  - Schedule: Old "M/W Elementary, T/Th Jr+HS" → Correct Academics/Arts by day
+  - Lunch deadline: "11:59 PM the day before" → "10 AM on class days"
+  - Contact email: "office@artiossugarhill.org" → "office@artiosacademies.com"
+  - Dress code: "solid colors" → "Artios t-shirt required"
+
+**Key decisions**:
+- KNOWLEDGE_BASE.md remains authoritative source
+- Fallback responses now match initialData.js exactly
+
+**Files modified**:
+- REBUILD_SPEC.md (2 schedule sections)
+- src/hooks/useChat.ts (SUGGESTED_RESPONSES)
+
+**Learnings**:
+- useChat.ts had hardcoded fallback responses that bypassed the knowledge base - these must stay in sync
+- REBUILD_SPEC.md is a spec doc that also had outdated schedule info
+
+---
 
 ### Iteration 8: Content Accuracy Audit (ArtiosConnect-5gm)
 **Date**: 2026-01-29
