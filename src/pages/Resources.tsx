@@ -1,6 +1,7 @@
 import { CONTACTS, FAQ, QUICK_LINKS, SCHEDULE } from '@/data/initialData'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { ExternalLink, Play } from 'lucide-react'
 
 const SECTION_TITLES: Record<string, string> = {
   essential: 'Essential',
@@ -16,6 +17,30 @@ const SECTION_TITLES: Record<string, string> = {
 export default function Resources() {
   return (
     <div className="space-y-6">
+      {/* Artios+ - Student Work Showcase */}
+      <Card className="bg-gradient-to-br from-purple-500/10 via-background to-background">
+        <CardHeader className="pb-3">
+          <CardTitle className="flex items-center gap-2">
+            <Play className="h-5 w-5 text-purple-500" />
+            Student Performances
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Watch your kids shine! Artios+ showcases student work from Theater, Dance, Film, Choir, and Art classes.
+          </p>
+          <a
+            href="https://artiosplus.com"
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-between rounded-2xl border border-purple-500/20 bg-purple-500/5 px-4 py-3 font-semibold text-purple-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-purple-500/10 hover:shadow-md dark:text-purple-400"
+          >
+            Visit Artios+
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Quick Links</CardTitle>

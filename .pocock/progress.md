@@ -10,6 +10,32 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 26: Add Artios+ Section to Resources (ArtiosConnect-9c0)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added dedicated Artios+ section at top of Resources page
+- Describes student performances (Theater, Dance, Film, Choir, Art)
+- Uses purple gradient for visual distinction from other sections
+- Play icon indicates media/performance content
+- Prominent link button to artiosplus.com
+
+**Files modified**:
+- src/pages/Resources.tsx (added Artios+ card section)
+
+**Key decisions**:
+- Placed at top of page - parents want to see their kids' work
+- Title is "Student Performances" (clearer than brand name "Artios+")
+- Purple color scheme differentiates from school branding colors
+- Link styled as full-width card with hover effect for easy tapping
+
+**Learnings**:
+- Purple (#9333ea / purple-500) provides good contrast for a "media" section
+- Card with gradient background draws attention without being garish
+
+---
+
 ### Iteration 25: Fix Content Cut Off by Bottom Nav (ArtiosConnect-7yn)
 **Date**: 2026-01-29
 **Status**: Completed
