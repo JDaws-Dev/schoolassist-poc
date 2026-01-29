@@ -12,7 +12,7 @@ function getTodayStatus(date: Date) {
       label: 'On Campus',
       detail: 'Elementary (K-6) & Junior High (7-8) — Academics',
       badge: 'Academics',
-      variant: 'success' as const,
+      badgeClass: 'bg-emerald-500 text-white',
     }
   }
   if (day === 'Tuesday') {
@@ -20,7 +20,7 @@ function getTodayStatus(date: Date) {
       label: 'On Campus',
       detail: 'High School (9-12) — Academics',
       badge: 'Academics',
-      variant: 'success' as const,
+      badgeClass: 'bg-emerald-500 text-white',
     }
   }
   if (day === 'Wednesday') {
@@ -28,7 +28,7 @@ function getTodayStatus(date: Date) {
       label: 'On Campus',
       detail: 'Junior High (7-8) — Arts',
       badge: 'Arts',
-      variant: 'success' as const,
+      badgeClass: 'bg-violet-500 text-white',
     }
   }
   if (day === 'Thursday') {
@@ -36,7 +36,7 @@ function getTodayStatus(date: Date) {
       label: 'On Campus',
       detail: 'Elementary (K-6) — Arts',
       badge: 'Arts',
-      variant: 'success' as const,
+      badgeClass: 'bg-violet-500 text-white',
     }
   }
   if (day === 'Friday') {
@@ -44,14 +44,14 @@ function getTodayStatus(date: Date) {
       label: 'On Campus',
       detail: 'High School (9-12) — Arts',
       badge: 'Arts',
-      variant: 'success' as const,
+      badgeClass: 'bg-violet-500 text-white',
     }
   }
   return {
     label: 'Weekend',
     detail: 'No classes today. Enjoy your weekend!',
     badge: 'Weekend',
-    variant: 'secondary' as const,
+    badgeClass: 'bg-white/20 text-white',
   }
 }
 
@@ -67,7 +67,7 @@ export function TodayCard() {
             <p className="text-xs uppercase tracking-[0.2em] text-primary-foreground/70">Today</p>
             <h2 className="text-2xl font-semibold">{status.label}</h2>
           </div>
-          <Badge variant={status.variant} className="bg-white/15 text-white">
+          <Badge className={status.badgeClass}>
             {status.badge}
           </Badge>
         </div>

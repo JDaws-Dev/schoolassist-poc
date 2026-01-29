@@ -10,6 +10,38 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 37: Improve TodayCard Badge Visibility (ArtiosConnect-mk2)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Improved Arts/Academics badge visibility on TodayCard
+- Added color differentiation: Academics = emerald, Arts = violet
+- Icons already present (Clock, MapPin, CalendarCheck) - no changes needed there
+
+**Files modified**:
+- `src/components/home/TodayCard.tsx` - Changed badge from variant-based to class-based styling
+
+**Key decisions**:
+- **Emerald for Academics** (bg-emerald-500) - associated with learning, growth, structure
+- **Violet for Arts** (bg-violet-500) - associated with creativity, expression, artistry
+- **Keep weekend subtle** (bg-white/20) - not an active school day
+- Removed variant prop, use direct className for full control over badge appearance
+- Solid colors stand out against primary gradient better than transparent white
+
+**Analysis of original feedback**:
+| Issue | Status | Action |
+|-------|--------|--------|
+| Arts badge prominence | Valid | Fixed with solid violet background |
+| Add icons to time/location | Already done | Clock, MapPin, CalendarCheck present |
+
+**Learnings**:
+- Original `bg-white/15` was too subtle against primary gradient
+- Color coding day types (Arts vs Academics) provides instant visual feedback
+- Icons were already implemented - feedback may have been outdated
+
+---
+
 ### Iteration 36: Evaluate Alert Banner Color Consistency (ArtiosConnect-1ru)
 **Date**: 2026-01-29
 **Status**: Completed (No changes needed)
@@ -69,6 +101,48 @@ This file maintains context between autonomous iterations.
 - ChevronRight is standard for "go to another page", ExternalLink for "opens in new tab"
 
 ---
+
+## Active Roadblocks
+
+<!-- No current roadblocks -->
+
+---
+
+## Project Learnings
+
+Patterns, gotchas, and decisions that affect future work:
+
+### Stack
+
+- React 19 + Vite 7
+- TailwindCSS for styling
+- Lucide React for icons
+- Express.js API for chat backend
+- OpenAI GPT-4o-mini for AI
+- Convex for real-time database
+- Google Calendar ICS feed for calendar integration
+
+### Key Design Decisions
+
+- **No grade filtering** - Simple app for all parents regardless of child's grade
+- **Simple password auth** - Parent: artios2026, Admin: artiosadmin2026
+- **AI-first design** - Chat is the primary way to find info
+- **Mobile-first** - Primary use case is parents on phones
+
+### Preserved Backend Files
+
+Keep these intact:
+- `convex/` - Database schema, functions, and cron jobs
+- `server.js` - Express chat API (local dev)
+- `api/chat.js` - Vercel serverless function (chat)
+- `api/calendar.js` - Vercel serverless function (calendar proxy)
+- `src/data/initialData.js` - Static school data
+
+---
+
+## Archive (Older Iterations)
+
+<!-- Move entries here when they roll out of "Recent Context" -->
 
 ### Iteration 34: Expandable FAQ Items (ArtiosConnect-5fq)
 **Date**: 2026-01-29
@@ -163,48 +237,6 @@ This file maintains context between autonomous iterations.
 - "Notification" is overloaded term - "Alert" is more specific
 
 ---
-
-## Active Roadblocks
-
-<!-- No current roadblocks -->
-
----
-
-## Project Learnings
-
-Patterns, gotchas, and decisions that affect future work:
-
-### Stack
-
-- React 19 + Vite 7
-- TailwindCSS for styling
-- Lucide React for icons
-- Express.js API for chat backend
-- OpenAI GPT-4o-mini for AI
-- Convex for real-time database
-- Google Calendar ICS feed for calendar integration
-
-### Key Design Decisions
-
-- **No grade filtering** - Simple app for all parents regardless of child's grade
-- **Simple password auth** - Parent: artios2026, Admin: artiosadmin2026
-- **AI-first design** - Chat is the primary way to find info
-- **Mobile-first** - Primary use case is parents on phones
-
-### Preserved Backend Files
-
-Keep these intact:
-- `convex/` - Database schema, functions, and cron jobs
-- `server.js` - Express chat API (local dev)
-- `api/chat.js` - Vercel serverless function (chat)
-- `api/calendar.js` - Vercel serverless function (calendar proxy)
-- `src/data/initialData.js` - Static school data
-
----
-
-## Archive (Older Iterations)
-
-<!-- Move entries here when they roll out of "Recent Context" -->
 
 ### Iteration 33: Make Event Cards Tappable (ArtiosConnect-9pk)
 **Date**: 2026-01-29
