@@ -16,11 +16,11 @@ export const SCHOOL_INFO = {
 
 export const SCHEDULE = {
   weekly: {
-    monday: { division: "Elementary", grades: ["K", "1", "2", "3", "4", "5", "6"] },
-    tuesday: { division: "Jr High & High School", grades: ["7", "8", "9", "10", "11", "12"] },
-    wednesday: { division: "Elementary", grades: ["K", "1", "2", "3", "4", "5", "6"] },
-    thursday: { division: "Jr High & High School", grades: ["7", "8", "9", "10", "11", "12"] },
-    friday: { division: "Home Learning", grades: "all", note: "Optional enrichment activities may be scheduled" },
+    monday: { division: "Elementary & Junior High", type: "Academics", grades: ["K", "1", "2", "3", "4", "5", "6", "7", "8"] },
+    tuesday: { division: "High School", type: "Academics", grades: ["9", "10", "11", "12"] },
+    wednesday: { division: "Junior High", type: "Arts", grades: ["7", "8"] },
+    thursday: { division: "Elementary", type: "Arts", grades: ["K", "1", "2", "3", "4", "5", "6"] },
+    friday: { division: "High School", type: "Arts", grades: ["9", "10", "11", "12"] },
   },
   timing: {
     doorsOpen: "8:50 AM",
@@ -33,49 +33,56 @@ export const CONTACTS = {
   directors: [
     {
       name: "John Lane",
-      email: "john@artiossugarhill.org",
+      email: "jmlane@artiosacademies.com",
       role: "Director",
       note: "Contact for sensitive matters, policy questions, or escalations",
+      meetingUrl: "https://calendar.app.google/1xHHZDQVMThZCspaA",
     },
     {
       name: "Jackie Thompson",
-      role: "Director",
+      email: "jthompson@artiosacademies.com",
+      role: "Assistant Director",
+      meetingUrl: "https://calendly.com/artiosacademies/parent-partnership-meetings-2025",
     },
   ],
   office: {
-    email: "office@artiossugarhill.org",
+    email: "office@artiosacademies.com",
     hours: "School days during operating hours",
   },
 };
 
 export const QUICK_LINKS = {
   essential: [
-    { name: "FACTS Portal", url: "https://factsmgt.com", description: "Grades, enrollment, student info, attendance" },
-    { name: "Artios Cafe", url: "#", description: "Lunch ordering - check deadline (usually 11:59 PM day before)" },
-    { name: "School Calendar", url: "#", description: "Full calendar of school events" },
+    { name: "FACTS Portal", url: "https://accounts.renweb.com/Account/Login", description: "Grades, enrollment, student info, attendance" },
+    { name: "Artios Cafe", url: "https://artioscafe.com", description: "Lunch ordering (by 10 AM on class days)" },
+    { name: "School Calendar", url: "https://calendar.google.com/calendar/embed?src=c_f1e327887d2f9739ac02c84e80fe02dceec209d06b4755d72eb5358c6ce9016b%40group.calendar.google.com&ctz=America%2FNew_York", description: "Full calendar of school events" },
   ],
   events: [
-    { name: "Eventbrite", url: "#", description: "Event tickets and registration" },
+    { name: "Eventbrite", url: "https://www.eventbrite.com/o/artios-academies-of-sugar-hill-8358455471", description: "Event tickets and registration" },
   ],
   newsletters: [
-    { name: "The Elementary Connection", url: "#", description: "Elementary newsletter" },
-    { name: "Choir Wire", url: "#", description: "Choir updates and announcements" },
+    { name: "The Elementary Connection", url: "https://www.canva.com/design/DAG7VDbHm7U/YhxiSMtoI-4m4CoxQR9ljA/view", description: "Elementary newsletter (December)" },
+    { name: "The Choir Wire", url: "https://drive.google.com/file/d/1eC5Dd2ZQRRUX-nX1P6CXcNDxtZePUlCh/view", description: "Choir updates and announcements (November)" },
   ],
   parentMeetings: [
-    { name: "Director Meeting", url: "#", description: "Schedule meeting via Calendly" },
+    { name: "John Lane (Director)", url: "https://calendar.app.google/1xHHZDQVMThZCspaA", description: "Schedule meeting with Director" },
+    { name: "Jackie Thompson", url: "https://calendly.com/artiosacademies/parent-partnership-meetings-2025", description: "Parent partnership meetings" },
+    { name: "Becky Buckwalter", url: "https://calendar.app.google/WdVubvYxeKdJihpXA", description: "Academic support meetings" },
   ],
   volunteer: [
-    { name: "TA Sub Signup", url: "#", description: "SignUpGenius for volunteer coordination" },
+    { name: "TA Sub Signup", url: "https://www.signupgenius.com/go/10C0549AAA82CA4F49-58166214-parent#", description: "SignUpGenius for volunteer coordination" },
   ],
   shopping: [
-    { name: "Spirit Wear", url: "#", description: "School apparel and merchandise" },
+    { name: "Winter Wear", url: "https://duesouthdesigns.net/school-orders", description: "Due South Designs - school apparel" },
   ],
   podcasts: [
-    { name: "Artios At Home (Apple)", url: "#", description: "Apple Podcasts" },
-    { name: "Artios At Home (Spotify)", url: "#", description: "Spotify" },
+    { name: "Artios At Home (Apple)", url: "https://podcasts.apple.com/us/podcast/artios-at-home-artios-of-sugar-hill/id1840924354", description: "Apple Podcasts" },
+    { name: "Artios At Home (Spotify)", url: "https://open.spotify.com/show/2GBsiEESrmOgtUaY8r2TQW", description: "Spotify" },
   ],
-  media: [
-    { name: "Artios+ Productions", url: "#", description: "School media and productions" },
+  social: [
+    { name: "Instagram (Sugar Hill)", url: "https://www.instagram.com/artios_sugarhill/", description: "@artios_sugarhill" },
+    { name: "Facebook (Sugar Hill)", url: "https://www.facebook.com/artiossugarhill", description: "Artios Sugar Hill" },
+    { name: "YouTube", url: "https://www.youtube.com/channel/UCbjRPBKsSdHS0Gd0BvM88lQ", description: "Artios Academies" },
   ],
 };
 
@@ -83,52 +90,52 @@ export const FAQ = [
   {
     question: "What time does school start?",
     answer:
-      "School starts at 9:00 AM. Doors open at 8:50 AM. Please do not drop off students before doors open.",
+      "School starts at 9:00 AM. Doors open at 8:50 AM. Dismissal times vary by grade/schedule — check your student's schedule in FACTS for exact pickup times.",
   },
   {
     question: "What is a University-Model school?",
     answer:
-      "A University-Model school is a hybrid approach where students attend campus 2 days per week and complete their learning at home the other 3 days under parent supervision. Elementary (K-6) attends Monday/Wednesday, while Jr High and High School (7-12) attend Tuesday/Thursday.",
+      "Artios is a homeschool hybrid where students attend on-campus classes certain days and complete assignments at home on other days. Parents partner with teachers but do not need to teach academic content.",
   },
   {
     question: "What is the dress code?",
     answer:
-      "Students should wear solid navy, black, white, or gray tops, and khaki or navy bottoms. No jeans, athletic wear, or clothing with large logos. Closed-toe shoes required. Check the handbook for complete details.",
+      "Artios t-shirt required with twill or denim pants/shorts. Shorts must be within 3 inches of the knee. No holes, rips, sweatpants, leggings, or jeggings. Hats not permitted indoors. T-shirts cannot be altered.",
   },
   {
     question: "How do I order lunch?",
     answer:
-      "Lunch is ordered through Artios Cafe. Orders must be placed by the deadline, which is usually 11:59 PM the day before. Students may also bring lunch from home.",
+      "Order through ArtiosCafe.com by 10 AM on class days, or bring lunch from home. Note: No heating or refrigeration available. Please avoid nut products due to student allergies.",
   },
   {
     question: "What about weather closures?",
     answer:
-      "Artios generally follows Gwinnett County Schools for weather-related closures. Check your email and the school's communication channels for official announcements.",
+      "If Gwinnett County OR Forsyth County public schools close due to weather, Artios closes. Check email/text alerts and social media for announcements.",
   },
   {
     question: "What is the cell phone policy?",
     answer:
-      "Cell phones must be turned off and stored away during school hours. Students may not use phones on campus except in emergencies with staff permission.",
+      "High School: Phones off and in backpacks during campus time (lobby use OK). K-8th: Phones turned into front desk upon arrival, picked up at dismissal.",
   },
   {
     question: "How do I report an absence?",
     answer:
-      "Report absences via email to the office and complete the absence form in FACTS. Please notify the school as early as possible.",
+      "No make-up classes due to limited program time. Students must coordinate with teachers for missed work. Please give one week advance notice for planned absences.",
   },
   {
     question: "When should I keep my child home?",
     answer:
-      "Keep your child home if they have a fever (must be fever-free for 24 hours without medication), have vomited in the past 24 hours, have a contagious illness, or are too ill to participate in school activities.",
+      "Keep home if: fever, vomiting, diarrhea, persistent cough, pinkeye, head lice, or widespread rash. Head lice: No-nit policy — must be completely clear before returning.",
   },
   {
     question: "What days does my child attend?",
     answer:
-      "Elementary students (K-6) attend Monday and Wednesday. Jr High (7-8) and High School (9-12) students attend Tuesday and Thursday. Friday is a home learning day for all grades.",
+      "Monday: Elementary & Jr High (Academics). Tuesday: High School (Academics). Wednesday: Jr High (Arts). Thursday: Elementary (Arts). Friday: High School (Arts).",
   },
   {
     question: "How do I contact the school?",
     answer:
-      "Email the office at office@artiossugarhill.org during school hours. For director-level concerns, contact John Lane at john@artiossugarhill.org.",
+      "Email the office at office@artiosacademies.com. For sensitive topics (bullying, mental health, family situations), contact Director John Lane at jmlane@artiosacademies.com.",
   },
 ];
 
@@ -159,11 +166,11 @@ Philosophy: ${SCHOOL_INFO.philosophy}`);
 
   // Schedule
   sections.push(`## Weekly Schedule
-- Monday: ${SCHEDULE.weekly.monday.division} on campus (${SCHEDULE.weekly.monday.grades.join(", ")})
-- Tuesday: ${SCHEDULE.weekly.tuesday.division} on campus (${SCHEDULE.weekly.tuesday.grades.join(", ")})
-- Wednesday: ${SCHEDULE.weekly.wednesday.division} on campus (${SCHEDULE.weekly.wednesday.grades.join(", ")})
-- Thursday: ${SCHEDULE.weekly.thursday.division} on campus (${SCHEDULE.weekly.thursday.grades.join(", ")})
-- Friday: Home learning for all grades
+- Monday: ${SCHEDULE.weekly.monday.division} (${SCHEDULE.weekly.monday.type})
+- Tuesday: ${SCHEDULE.weekly.tuesday.division} (${SCHEDULE.weekly.tuesday.type})
+- Wednesday: ${SCHEDULE.weekly.wednesday.division} (${SCHEDULE.weekly.wednesday.type})
+- Thursday: ${SCHEDULE.weekly.thursday.division} (${SCHEDULE.weekly.thursday.type})
+- Friday: ${SCHEDULE.weekly.friday.division} (${SCHEDULE.weekly.friday.type})
 
 ## Daily Timing
 - Doors open: ${SCHEDULE.timing.doorsOpen}

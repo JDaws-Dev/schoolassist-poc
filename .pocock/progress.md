@@ -10,6 +10,58 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 8: Content Accuracy Audit (ArtiosConnect-5gm)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Audited ALL site content against KNOWLEDGE_BASE.md (authoritative source from 2025-2026 handbook)
+- **MAJOR FIX**: Corrected weekly schedule - it was completely wrong:
+  - Old: Elementary M/W, Jr High & HS T/Th, Friday home learning
+  - New: Mon (Elem+JrHigh Academics), Tue (HS Academics), Wed (JrHigh Arts), Thu (Elem Arts), Fri (HS Arts)
+- Updated FAQ answers to match KNOWLEDGE_BASE.md:
+  - Lunch deadline: 11:59 PM → 10 AM
+  - Dress code: "solid colors" → "Artios t-shirt required"
+  - Cell phone policy: more nuanced K-8 vs HS rules
+  - Absence policy: focus on no make-ups, coordinate with teachers
+- Fixed contact emails (artiossugarhill.org → artiosacademies.com domain):
+  - John Lane: jmlane@artiosacademies.com
+  - Jackie Thompson: jthompson@artiosacademies.com (added)
+  - Office: office@artiosacademies.com
+- Replaced ALL placeholder quick links (#) with real URLs from KNOWLEDGE_BASE.md:
+  - FACTS Portal: actual RenWeb login
+  - Artios Cafe: artioscafe.com
+  - Eventbrite: real event page
+  - Newsletters: Canva/Google Drive links
+  - Parent meetings: Calendly/Google Calendar links
+  - Podcasts: Apple/Spotify links
+  - Added social media section (Instagram, Facebook, YouTube)
+- Updated TodayCard.tsx to show correct daily schedule
+- Updated Resources.tsx to pull schedule from initialData.js instead of hardcoding
+- Updated CLAUDE.md schedule reference
+- Fixed ESLint config to ignore Node.js backend files (server.js, api/)
+
+**Key decisions**:
+- KNOWLEDGE_BASE.md is the authoritative source (sourced from 2025-2026 handbook)
+- Schedule now shows both division AND type (Academics vs Arts)
+- Removed "media" quick link section (had placeholder URL, not in KNOWLEDGE_BASE)
+- Added "social" section with real Instagram/Facebook/YouTube links
+
+**Files modified**:
+- src/data/initialData.js (SCHEDULE, FAQ, CONTACTS, QUICK_LINKS)
+- src/components/home/TodayCard.tsx (getTodayStatus function)
+- src/pages/Resources.tsx (schedule display, section titles)
+- CLAUDE.md (schedule reference)
+- eslint.config.js (ignore backend files)
+
+**Learnings**:
+- KNOWLEDGE_BASE.md and initialData.js had divergent data - always use KNOWLEDGE_BASE.md as source of truth
+- The simple "Elementary M/W, Jr High & HS T/Th" schedule was a simplification that lost critical info about Academics vs Arts days
+- Email domains: artiosacademies.com is correct, not artiossugarhill.org
+- Weather closure policy includes Forsyth County, not just Gwinnett
+
+---
+
 ### Iteration 7: Bottom Nav Active State Fix (ArtiosConnect-ql7)
 **Date**: 2026-01-29
 **Status**: Completed
