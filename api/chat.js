@@ -753,6 +753,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Check if API key is configured
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY is not set');
+    return res.status(500).json({ error: 'Chat service not configured' });
+  }
+
   try {
     const { message, sessionId } = req.body;
 
@@ -787,7 +793,18 @@ export default async function handler(req, res) {
     res.json({ message: assistantMessage });
 
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: error.message });
+    console.error('Chat API Error:', error);
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
+    console.error('Error stack:', error.stack);
+
+    // Check for specific OpenAI errors
+    if (error.code === 'invalid_api_key') {
+      res.status(500).json({ error: 'Invalid API key configuration' });
+    } else if (error.code === 'insufficient_quota') {
+      res.status(500).json({ error: 'API quota exceeded' });
+    } else {
+      res.status(500).json({ error: error.message || 'Unknown error occurred' });
+    }
   }
 }
