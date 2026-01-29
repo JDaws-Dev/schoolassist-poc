@@ -98,7 +98,11 @@ export function useChat() {
           body: JSON.stringify({ message: trimmed, history, sessionId }),
         })
 
-        if (!response.ok) throw new Error('API request failed')
+        if (!response.ok) {
+          const errorText = await response.text()
+          console.error('Chat API error:', response.status, errorText)
+          throw new Error(`API request failed: ${response.status}`)
+        }
 
         const data = (await response.json()) as { message: string }
 
@@ -110,7 +114,8 @@ export function useChat() {
         }
 
         setMessages((prev) => [...prev, assistantMessage])
-      } catch {
+      } catch (error) {
+        console.error('Chat error:', error)
         const fallback = getFallbackResponse(trimmed)
         const assistantMessage: ChatMessage = {
           id: crypto.randomUUID(),
