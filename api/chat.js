@@ -626,17 +626,34 @@ function parseICSDate(dateStr) {
 
 async function fetchCalendarEvents() {
   const now = Date.now();
-  if (calendarCache.events.length > 0 && (now - calendarCache.lastFetch) < CACHE_TTL) {
+  // Use cached data if fresh (15 min cache to reduce Google requests)
+  if (calendarCache.events.length > 0 && (now - calendarCache.lastFetch) < 15 * 60 * 1000) {
+    console.log('Using cached calendar data');
     return calendarCache.events;
   }
 
   try {
+    console.log('Fetching calendar from:', CALENDAR_URL);
     const response = await fetch(CALENDAR_URL, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; ArtiosConnect/1.0)',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/calendar, */*',
       },
     });
+
+    if (!response.ok) {
+      console.error('Calendar fetch failed with status:', response.status);
+      return calendarCache.events;
+    }
+
     const icsText = await response.text();
+
+    // Validate it's actually ICS data, not an error page
+    if (!icsText.includes('BEGIN:VCALENDAR')) {
+      console.error('Calendar response is not valid ICS data. First 200 chars:', icsText.substring(0, 200));
+      return calendarCache.events;
+    }
+
     const events = [];
     const eventBlocks = icsText.split('BEGIN:VEVENT');
 
@@ -658,6 +675,7 @@ async function fetchCalendarEvents() {
       if (event.title && event.startDate) events.push(event);
     }
 
+    console.log('Parsed', events.length, 'calendar events');
     events.sort((a, b) => a.startDate - b.startDate);
     calendarCache = { events, lastFetch: now };
     return events;
