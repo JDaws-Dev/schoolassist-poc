@@ -10,6 +10,30 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 33: Make Event Cards Tappable (ArtiosConnect-9pk)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Made event cards in UpcomingEvents tappable with hover/active states
+- Tapping an event opens the existing EventModal with full details
+- Modal includes "Add to Google Calendar" button
+
+**Files modified**:
+- `src/components/home/UpcomingEvents.tsx` - Changed div to button, added state for selected event, integrated EventModal
+
+**Key decisions**:
+- Reused existing EventModal from calendar - no new components needed
+- Used `button` element (not div with onClick) for accessibility
+- Added visual feedback: hover state (primary/5 bg, primary/30 border), active state (primary/10 bg)
+- Used composite key `${event.id}-${event.start?.getTime()}` to handle recurring events
+
+**Learnings**:
+- EventModal already had "Add to Google Calendar" functionality - just needed to wire it up
+- Consistent with CalendarMonthView pattern for handling event selection
+
+---
+
 ### Iteration 32: Fix Lunch Ordering Link (ArtiosConnect-9yg)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -68,33 +92,6 @@ This file maintains context between autonomous iterations.
 - Vercel serverless functions need non-VITE prefixed env vars for runtime access
 - Convex cron jobs use standard cron syntax, run server-side
 - Browser localStorage caching can cause confusion when env changes in production
-
----
-
-### Iteration 30: Add Preview to Admin Panels (ArtiosConnect-u7e)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Added live preview section to NotificationsPanel showing how alerts appear to parents
-- Added live preview section to AnnouncementsPanel showing how announcements appear to parents
-- Preview updates in real-time as admin types in form fields
-- Preview uses exact same styling as parent-facing components (NotificationBanner, RecentAnnouncements)
-
-**Files modified**:
-- src/components/admin/NotificationsPanel.tsx (added preview with type-specific styling)
-- src/components/admin/AnnouncementsPanel.tsx (added preview card)
-
-**Key decisions**:
-- **Live preview vs "View as parent" link** - live preview is better UX, no context switching
-- Preview appears below form when title is filled in
-- Uses same color variants and icon mappings as NotificationBanner for accuracy
-- Disabled dismiss button in preview (visual only, not functional)
-
-**Learnings**:
-- Duplicating styling constants (PREVIEW_ICONS, PREVIEW_VARIANTS) is acceptable for admin panel isolation
-- Eye icon + "Preview (as parents will see it)" label makes purpose clear
-- Conditionally showing preview when title exists prevents empty preview clutter
 
 ---
 
@@ -203,6 +200,33 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 30: Add Preview to Admin Panels (ArtiosConnect-u7e)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added live preview section to NotificationsPanel showing how alerts appear to parents
+- Added live preview section to AnnouncementsPanel showing how announcements appear to parents
+- Preview updates in real-time as admin types in form fields
+- Preview uses exact same styling as parent-facing components (NotificationBanner, RecentAnnouncements)
+
+**Files modified**:
+- src/components/admin/NotificationsPanel.tsx (added preview with type-specific styling)
+- src/components/admin/AnnouncementsPanel.tsx (added preview card)
+
+**Key decisions**:
+- **Live preview vs "View as parent" link** - live preview is better UX, no context switching
+- Preview appears below form when title is filled in
+- Uses same color variants and icon mappings as NotificationBanner for accuracy
+- Disabled dismiss button in preview (visual only, not functional)
+
+**Learnings**:
+- Duplicating styling constants (PREVIEW_ICONS, PREVIEW_VARIANTS) is acceptable for admin panel isolation
+- Eye icon + "Preview (as parents will see it)" label makes purpose clear
+- Conditionally showing preview when title exists prevents empty preview clutter
+
+---
 
 ### Iteration 27: Add Vimeo Page for K-8 Performances (ArtiosConnect-rzd)
 **Date**: 2026-01-29
