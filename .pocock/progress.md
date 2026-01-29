@@ -10,6 +10,32 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 7: Bottom Nav Active State Fix (ArtiosConnect-ql7)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed bottom nav to clearly indicate active tab
+- Active tabs now have filled primary background on icon (bg-primary text-primary-foreground shadow-md)
+- Inactive tabs have muted text (text-muted-foreground)
+- Chat tab (highlight) gets subtle primary tint when inactive (bg-primary/15 text-primary)
+- Used NavLink render prop pattern to access isActive state for both className and children
+
+**Key decisions**:
+- Used render prop children for NavLink (not just className) to conditionally style icon container
+- Chat highlight styling only applies when inactive - active state overrides it
+- Kept styling minimal - bg + shadow is enough visual distinction
+
+**Files modified**:
+- src/components/layout/BottomNav.tsx (active state logic)
+
+**Learnings**:
+- React Router v6 NavLink supports render prop children: `{({ isActive }) => <content />}`
+- Both className and children can receive the isActive state
+- Previous code only used isActive for className, not for icon styling
+
+---
+
 ### Iteration 6: UI/Design Polish (ArtiosConnect-7x0, s9u, r5m, eps, alr, 56h, 6xp, 7ef, g6l)
 **Date**: 2026-01-27
 **Status**: Completed
@@ -170,6 +196,47 @@ Event: { title: string, date: string, time?: string, location?: string }
 
 ---
 
+## Active Roadblocks
+
+<!-- No current roadblocks -->
+
+---
+
+## Project Learnings
+
+Patterns, gotchas, and decisions that affect future work:
+
+### Stack
+
+- React 19 + Vite 7
+- TailwindCSS for styling
+- Lucide React for icons
+- Express.js API for chat backend
+- OpenAI GPT-4o-mini for AI
+- Convex for real-time database
+- Google Calendar ICS feed for calendar integration
+
+### Key Design Decisions
+
+- **No grade filtering** - Simple app for all parents regardless of child's grade
+- **Simple password auth** - Parent: artios2026, Admin: artiosadmin2026
+- **AI-first design** - Chat is the primary way to find info
+- **Mobile-first** - Primary use case is parents on phones
+
+### Preserved Backend Files
+
+Keep these intact:
+- `convex/` - Database schema and functions
+- `server.js` - Express chat API
+- `api/chat.js` - Vercel serverless function
+- `src/data/initialData.js` - Static school data
+
+---
+
+## Archive (Older Iterations)
+
+<!-- Move entries here when they roll out of "Recent Context" -->
+
 ### Iteration 3: Design System & Styling (ArtiosConnect-rj0)
 **Date**: 2026-01-26
 **Status**: Completed
@@ -216,47 +283,6 @@ Event: { title: string, date: string, time?: string, location?: string }
 - Safe area insets (env()) needed for notched devices
 
 ---
-
-## Active Roadblocks
-
-<!-- No current roadblocks -->
-
----
-
-## Project Learnings
-
-Patterns, gotchas, and decisions that affect future work:
-
-### Stack
-
-- React 19 + Vite 7
-- TailwindCSS for styling
-- Lucide React for icons
-- Express.js API for chat backend
-- OpenAI GPT-4o-mini for AI
-- Convex for real-time database
-- Google Calendar ICS feed for calendar integration
-
-### Key Design Decisions
-
-- **No grade filtering** - Simple app for all parents regardless of child's grade
-- **Simple password auth** - Parent: artios2026, Admin: artiosadmin2026
-- **AI-first design** - Chat is the primary way to find info
-- **Mobile-first** - Primary use case is parents on phones
-
-### Preserved Backend Files
-
-Keep these intact:
-- `convex/` - Database schema and functions
-- `server.js` - Express chat API
-- `api/chat.js` - Vercel serverless function
-- `src/data/initialData.js` - Static school data
-
----
-
-## Archive (Older Iterations)
-
-<!-- Move entries here when they roll out of "Recent Context" -->
 
 ### Iteration 2: Admin Dashboard (ArtiosConnect-ztz)
 **Date**: 2026-01-26
