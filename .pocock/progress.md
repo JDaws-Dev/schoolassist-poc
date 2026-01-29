@@ -10,6 +10,40 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 38: Fix Chat API in Production (ArtiosConnect-8ul)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed chat API not working on production - knowledge base wasn't loading
+- Embedded knowledge base directly in api/chat.js instead of reading from file
+- Removed fs/path imports that weren't working in Vercel serverless
+- Cleaned up vercel.json by removing unneeded includeFiles config
+
+**Files modified**:
+- `api/chat.js` - Embedded KNOWLEDGE_BASE as constant string, removed file reading
+- `vercel.json` - Removed functions.includeFiles that wasn't working
+
+**Root cause**:
+- Vercel serverless functions have different file structure than source code
+- `path.join(__dirname, '../src/data/KNOWLEDGE_BASE.md')` didn't resolve correctly
+- `includeFiles` in vercel.json wasn't bundling files as expected
+- Knowledge base was falling back to minimal default, breaking AI responses
+
+**Key decisions**:
+- **Embed knowledge base directly** - eliminates all file path issues
+- String constant is reliable, works identically in dev and production
+- Trade-off: knowledge base now duplicated (src/data/KNOWLEDGE_BASE.md + api/chat.js)
+- Acceptable because: knowledge base rarely changes, and chat.js needs to be authoritative
+
+**Learnings**:
+- Vercel serverless functions can't reliably read files outside api/ directory
+- `includeFiles` in vercel.json doesn't work as expected for relative paths
+- Embedding content as string constants is most reliable for serverless
+- When debugging serverless, test locally with `vercel dev` to simulate production
+
+---
+
 ### Iteration 37: Improve TodayCard Badge Visibility (ArtiosConnect-mk2)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -77,31 +111,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 35: Improve Quick Action Card Tap Affordance (ArtiosConnect-566)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Repositioned external link icon from top-right to bottom-right next to text content
-- Added ChevronRight icon for internal links (Calendar) to indicate navigation
-- All cards now have clear tap affordance indicator at bottom-right
-
-**Files modified**:
-- `src/components/home/QuickActions.tsx` - Restructured card layout, added ChevronRight import
-
-**Key decisions**:
-- External link icon moved to be near the action area (text) where user attention lands
-- Internal links get chevron-right (navigation convention), external get external-link icon
-- Icons positioned at `items-end` to align with bottom of text content
-- Used `shrink-0` on icons to prevent shrinking on narrow screens
-
-**Learnings**:
-- Icons positioned far from content create disconnection between indicator and action
-- Consistent icon placement (bottom-right) for all cards creates predictable pattern
-- ChevronRight is standard for "go to another page", ExternalLink for "opens in new tab"
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -143,6 +152,31 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 35: Improve Quick Action Card Tap Affordance (ArtiosConnect-566)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Repositioned external link icon from top-right to bottom-right next to text content
+- Added ChevronRight icon for internal links (Calendar) to indicate navigation
+- All cards now have clear tap affordance indicator at bottom-right
+
+**Files modified**:
+- `src/components/home/QuickActions.tsx` - Restructured card layout, added ChevronRight import
+
+**Key decisions**:
+- External link icon moved to be near the action area (text) where user attention lands
+- Internal links get chevron-right (navigation convention), external get external-link icon
+- Icons positioned at `items-end` to align with bottom of text content
+- Used `shrink-0` on icons to prevent shrinking on narrow screens
+
+**Learnings**:
+- Icons positioned far from content create disconnection between indicator and action
+- Consistent icon placement (bottom-right) for all cards creates predictable pattern
+- ChevronRight is standard for "go to another page", ExternalLink for "opens in new tab"
+
+---
 
 ### Iteration 34: Expandable FAQ Items (ArtiosConnect-5fq)
 **Date**: 2026-01-29
