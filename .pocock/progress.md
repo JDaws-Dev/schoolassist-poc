@@ -10,6 +10,33 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 24: Redesign Header (ArtiosConnect-tgy)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Removed misleading "Welcome back" text (no user recognition in app)
+- Made logo more prominent: 12x12 with larger rounded corners, moved to left
+- Changed to logo-forward layout: Logo | Brand name + greeting
+- Added time-based greeting (Good morning/afternoon/evening)
+- Cleaned up semantic HTML (header element)
+
+**Files modified**:
+- src/components/layout/ParentLayout.tsx (complete header redesign)
+
+**Key decisions**:
+- Logo on left (prominent, 48px) + wordmark "Artios Connect" (h1)
+- Time-based greeting below wordmark as subtle context (not fake personalization)
+- Removed justify-between - everything flows left-aligned for stronger brand block
+- Used semantic `<header>` element for accessibility
+
+**Learnings**:
+- Time-based greeting is accurate and warm without pretending to know the user
+- Logo-first layout creates stronger brand presence than text-first
+- h1 should be the brand, not a generic greeting
+
+---
+
 ### Iteration 23: Improve Community Page UX (ArtiosConnect-mf0)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -60,30 +87,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 21: Add Chat Link on Calendar Page (ArtiosConnect-5p9)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Added link to Chat page below the calendar card
-- Uses Sparkles icon for AI branding consistency
-- Copy: "Looking for something specific? Ask Arti"
-- Styled as subtle primary-tinted banner that's visible but not distracting
-
-**Files modified**:
-- src/pages/Calendar.tsx (added Link with Sparkles icon)
-
-**Key decisions**:
-- Placed below calendar card (not inside) - doesn't clutter calendar UI
-- Used bg-primary/10 + hover:bg-primary/20 - matches AIHeroSection styling pattern
-- Simple Link component, not a full form like home page hero - calendar context is clear
-
-**Learnings**:
-- Sparkles icon is used throughout app for Arti/AI features
-- Consistent with AIHeroSection, QuickActions patterns
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -124,6 +127,30 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 21: Add Chat Link on Calendar Page (ArtiosConnect-5p9)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added link to Chat page below the calendar card
+- Uses Sparkles icon for AI branding consistency
+- Copy: "Looking for something specific? Ask Arti"
+- Styled as subtle primary-tinted banner that's visible but not distracting
+
+**Files modified**:
+- src/pages/Calendar.tsx (added Link with Sparkles icon)
+
+**Key decisions**:
+- Placed below calendar card (not inside) - doesn't clutter calendar UI
+- Used bg-primary/10 + hover:bg-primary/20 - matches AIHeroSection styling pattern
+- Simple Link component, not a full form like home page hero - calendar context is clear
+
+**Learnings**:
+- Sparkles icon is used throughout app for Arti/AI features
+- Consistent with AIHeroSection, QuickActions patterns
+
+---
 
 ### Iteration 20: Fix Deprecated Meta Tag (ArtiosConnect-rmc)
 **Date**: 2026-01-29
@@ -259,113 +286,6 @@ Keep these intact:
 - Notifications need filtering by isLive, scheduledFor, and expiresAt for active display
 - Real-time updates work automatically when mutations modify data
 - LocalStorage used for dismissal tracking, metrics stored in Convex
-
----
-
-## Active Roadblocks
-
-<!-- No current roadblocks -->
-
----
-
-## Project Learnings
-
-Patterns, gotchas, and decisions that affect future work:
-
-### Stack
-
-- React 19 + Vite 7
-- TailwindCSS for styling
-- Lucide React for icons
-- Express.js API for chat backend
-- OpenAI GPT-4o-mini for AI
-- Convex for real-time database
-- Google Calendar ICS feed for calendar integration
-
-### Key Design Decisions
-
-- **No grade filtering** - Simple app for all parents regardless of child's grade
-- **Simple password auth** - Parent: artios2026, Admin: artiosadmin2026
-- **AI-first design** - Chat is the primary way to find info
-- **Mobile-first** - Primary use case is parents on phones
-
-### Preserved Backend Files
-
-Keep these intact:
-- `convex/` - Database schema and functions
-- `server.js` - Express chat API
-- `api/chat.js` - Vercel serverless function
-- `src/data/initialData.js` - Static school data
-
----
-
-## Archive (Older Iterations)
-
-<!-- Move entries here when they roll out of "Recent Context" -->
-
-### Iteration 19: Rename Chatbot from Ollie to Arti (ArtiosConnect-287)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Renamed AI chatbot from "Ollie" to "Arti" (short for Artios)
-- Updated all UI references: Chat page header, welcome state, input placeholder, typing indicator
-- Updated home page: AIHeroSection, QuickActions button
-- Updated admin panel placeholder text
-- Updated server.js system prompt
-- Updated CLAUDE.md and REBUILD_SPEC.md documentation
-
-**Files modified**:
-- src/pages/Chat.tsx (header name)
-- src/components/chat/WelcomeState.tsx ("Hi, I'm Arti")
-- src/components/chat/ChatInput.tsx (placeholder)
-- src/components/chat/TypingIndicator.tsx ("Arti is typing...")
-- src/components/home/AIHeroSection.tsx ("Ask Arti" button and prompt)
-- src/components/home/QuickActions.tsx ("Ask Arti a question")
-- src/components/admin/AISettingsPanel.tsx (placeholder)
-- server.js (system prompt identity)
-- CLAUDE.md (documentation)
-- REBUILD_SPEC.md (spec documentation)
-
-**Key decisions**:
-- Chose "Arti" because: direct connection to "Artios", short/memorable, friendly/approachable
-- api/chat.js already used "ArtiosConnect" as identity - changed server.js to match new "Arti" name
-- Kept all functionality identical, only changed name references
-
-**Learnings**:
-- "Artios" comes from Greek meaning "complete" or "equipped"
-- Production serverless function (api/chat.js) had different identity than dev server (server.js)
-- Name changes are straightforward but touch many files - grep is essential
-
----
-
-### Iteration 18: Investigate Community Page Integration (ArtiosConnect-m99)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Researched GroupMe API - requires OAuth authentication for ALL requests, no public endpoints
-- Researched Facebook Graph API - Groups API shut down in Feb 2024, private groups cannot be embedded
-- Documented why API integration is NOT viable for this use case
-- Recommended enhanced UX approach instead (descriptions, onboarding guidance)
-
-**Files modified**:
-- None (research-only task)
-
-**Key decisions**:
-- **Do NOT pursue API integrations** - both require authentication that would need stored credentials
-- Privacy concern: parents likely don't want their group posts visible outside the group
-- Enhanced UX is the viable path: add descriptions, "Why Join?" section, onboarding tips
-
-**Learnings**:
-- GroupMe API uses OAuth Implicit Authentication - every request needs a user access token
-- Meta shut down Facebook Groups API in early 2024 - major breaking change for social tools
-- Facebook Page Plugin only works for Pages and PUBLIC groups (parent groups are almost always private)
-- Third-party embed tools (SociableKIT, Smash Balloon) exist but require admin credentials
-- Current Community.tsx design is already solid - just needs better copy/context
-
-**Follow-up work identified**:
-- Create new issue to implement the UX improvements (descriptions, onboarding tips)
 
 ---
 
