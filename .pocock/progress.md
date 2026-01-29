@@ -10,6 +10,29 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 16: Calendar List View Shows Only Upcoming Events (ArtiosConnect-2e1)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Fixed list view showing past events from 2024
+- Added filter in Calendar.tsx to show only events from today onwards
+- Month view still shows all events (needs them for full month grid)
+
+**Files modified**:
+- src/pages/Calendar.tsx (filtered listEvents useMemo)
+
+**Key decisions**:
+- Filter at the page level, not the component level - keeps CalendarListView reusable
+- Month view needs all events to display the grid, so filtering is only for list view
+- Compare dates at midnight (setHours 0,0,0,0) to include all-day events for today
+
+**Learnings**:
+- Calendar.tsx had `listEvents` as just sorted events, not filtered
+- Filtering should happen where the data is passed, not in the display component
+
+---
+
 ### Iteration 15: Consolidate Community Links (ArtiosConnect-nnc)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -72,32 +95,6 @@ This file maintains context between autonomous iterations.
 - Event dots with count indicator work well for scanability on mobile
 - Making entire day cell tappable (vs individual event buttons) is better UX on mobile
 - Dialog component can be composed within a component for local state management
-
----
-
-### Iteration 13: Audit Linktree and Sync Knowledge Base (ArtiosConnect-4de)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Audited all 14 links from Artios Linktree (https://linktr.ee/ARTIOSSH)
-- Compared against initialData.js and KNOWLEDGE_BASE.md
-- Found initialData.js was already complete (had all Linktree links)
-- Added missing items to KNOWLEDGE_BASE.md:
-  - Artios+ (artiosplus.com) - student performances portal
-  - Linktree URL
-  - Newsletters & Handbooks section (Elementary Connection, Choir Wire, Choir Digital Handbook)
-- Removed duplicate/outdated "Current Newsletters" section from KNOWLEDGE_BASE.md
-
-**Files modified**:
-- src/data/KNOWLEDGE_BASE.md (added Student Work & Media section, Newsletters & Handbooks section)
-- src/pages/Resources.tsx (added 'community' to SECTION_TITLES for proper display)
-
-**Learnings**:
-- initialData.js was well-maintained - already had all Linktree links
-- KNOWLEDGE_BASE.md had newsletter info in an outdated separate section at bottom
-- Consolidated newsletter links into Important Links section for consistency
-- Artios+ is a Squarespace portfolio site showcasing student arts work (Theater, Dance, Film, Choir, Art)
 
 ---
 
@@ -257,6 +254,32 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 13: Audit Linktree and Sync Knowledge Base (ArtiosConnect-4de)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Audited all 14 links from Artios Linktree (https://linktr.ee/ARTIOSSH)
+- Compared against initialData.js and KNOWLEDGE_BASE.md
+- Found initialData.js was already complete (had all Linktree links)
+- Added missing items to KNOWLEDGE_BASE.md:
+  - Artios+ (artiosplus.com) - student performances portal
+  - Linktree URL
+  - Newsletters & Handbooks section (Elementary Connection, Choir Wire, Choir Digital Handbook)
+- Removed duplicate/outdated "Current Newsletters" section from KNOWLEDGE_BASE.md
+
+**Files modified**:
+- src/data/KNOWLEDGE_BASE.md (added Student Work & Media section, Newsletters & Handbooks section)
+- src/pages/Resources.tsx (added 'community' to SECTION_TITLES for proper display)
+
+**Learnings**:
+- initialData.js was well-maintained - already had all Linktree links
+- KNOWLEDGE_BASE.md had newsletter info in an outdated separate section at bottom
+- Consolidated newsletter links into Important Links section for consistency
+- Artios+ is a Squarespace portfolio site showcasing student arts work (Theater, Dance, Film, Choir, Art)
+
+---
 
 ### Iteration 12: Fix Queen Mothers Facebook URL (ArtiosConnect-516)
 **Date**: 2026-01-29

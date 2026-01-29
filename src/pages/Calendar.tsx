@@ -21,7 +21,16 @@ export default function Calendar() {
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const { events, loading, error, refresh, lastUpdated, isDemoMode } = useCalendarEvents()
 
-  const listEvents = useMemo(() => sortEventsByDate(events), [events])
+  const listEvents = useMemo(() => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const upcomingEvents = events.filter((event) => {
+      const eventDate = new Date(event.start)
+      eventDate.setHours(0, 0, 0, 0)
+      return eventDate >= today
+    })
+    return sortEventsByDate(upcomingEvents)
+  }, [events])
 
   const handlePrevMonth = () => {
     setActiveDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))
