@@ -2,6 +2,67 @@ import { Bot, User } from 'lucide-react'
 import type { ChatMessage } from '@/types'
 import { cn } from '@/lib/utils'
 
+// Parse markdown-style links and plain URLs into clickable links
+function parseContent(content: string, isUser: boolean): React.ReactNode {
+  // Match markdown links [text](url) and plain URLs
+  const parts: React.ReactNode[] = []
+  let lastIndex = 0
+
+  // Combined regex for markdown links and plain URLs
+  const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s)<]+)/g
+  let match
+
+  while ((match = linkRegex.exec(content)) !== null) {
+    // Add text before the match
+    if (match.index > lastIndex) {
+      parts.push(content.slice(lastIndex, match.index))
+    }
+
+    if (match[1] && match[2]) {
+      // Markdown link [text](url)
+      parts.push(
+        <a
+          key={match.index}
+          href={match[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            'underline hover:opacity-80',
+            isUser ? 'text-primary-foreground' : 'text-primary'
+          )}
+        >
+          {match[1]}
+        </a>
+      )
+    } else if (match[3]) {
+      // Plain URL
+      parts.push(
+        <a
+          key={match.index}
+          href={match[3]}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cn(
+            'underline hover:opacity-80',
+            isUser ? 'text-primary-foreground' : 'text-primary'
+          )}
+        >
+          {match[3]}
+        </a>
+      )
+    }
+
+    lastIndex = match.index + match[0].length
+  }
+
+  // Add remaining text
+  if (lastIndex < content.length) {
+    parts.push(content.slice(lastIndex))
+  }
+
+  return parts.length > 0 ? parts : content
+}
+
 export function MessageBubble({ message }: { message: ChatMessage }) {
   const isUser = message.role === 'user'
   return (
@@ -20,7 +81,7 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
           isUser ? 'bg-primary text-primary-foreground' : 'bg-card text-foreground'
         )}
       >
-        {message.content}
+        {parseContent(message.content, isUser)}
       </div>
     </div>
   )
