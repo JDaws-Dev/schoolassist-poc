@@ -10,6 +10,29 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 22: Add Community Disclaimer (ArtiosConnect-n78)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added friendly disclaimer at top of Community page
+- States groups are parent-created/run, not official school channels
+- Describes them as welcoming spaces for sharing, coordinating, and support
+
+**Files modified**:
+- src/pages/Community.tsx (added disclaimer div before cards)
+
+**Key decisions**:
+- Single disclaimer at top applies to both Facebook and GroupMe sections
+- Used muted styling (bg-muted/50) - informative but not alarming
+- Warm tone: "welcoming spaces where moms and dads..." - encouraging, not discouraging
+- Shortened the existing intro text since disclaimer handles context
+
+**Learnings**:
+- Disclaimer placement matters - top of page ensures visibility before any clicks
+
+---
+
 ### Iteration 21: Add Chat Link on Calendar Page (ArtiosConnect-5p9)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -55,72 +78,6 @@ This file maintains context between autonomous iterations.
 - `apple-mobile-web-app-capable` is Apple's proprietary PWA meta tag, now deprecated
 - `mobile-web-app-capable` is the standards-based replacement
 - Including both ensures PWA functionality on both modern and older iOS devices
-
----
-
-### Iteration 19: Rename Chatbot from Ollie to Arti (ArtiosConnect-287)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Renamed AI chatbot from "Ollie" to "Arti" (short for Artios)
-- Updated all UI references: Chat page header, welcome state, input placeholder, typing indicator
-- Updated home page: AIHeroSection, QuickActions button
-- Updated admin panel placeholder text
-- Updated server.js system prompt
-- Updated CLAUDE.md and REBUILD_SPEC.md documentation
-
-**Files modified**:
-- src/pages/Chat.tsx (header name)
-- src/components/chat/WelcomeState.tsx ("Hi, I'm Arti")
-- src/components/chat/ChatInput.tsx (placeholder)
-- src/components/chat/TypingIndicator.tsx ("Arti is typing...")
-- src/components/home/AIHeroSection.tsx ("Ask Arti" button and prompt)
-- src/components/home/QuickActions.tsx ("Ask Arti a question")
-- src/components/admin/AISettingsPanel.tsx (placeholder)
-- server.js (system prompt identity)
-- CLAUDE.md (documentation)
-- REBUILD_SPEC.md (spec documentation)
-
-**Key decisions**:
-- Chose "Arti" because: direct connection to "Artios", short/memorable, friendly/approachable
-- api/chat.js already used "ArtiosConnect" as identity - changed server.js to match new "Arti" name
-- Kept all functionality identical, only changed name references
-
-**Learnings**:
-- "Artios" comes from Greek meaning "complete" or "equipped"
-- Production serverless function (api/chat.js) had different identity than dev server (server.js)
-- Name changes are straightforward but touch many files - grep is essential
-
----
-
-### Iteration 18: Investigate Community Page Integration (ArtiosConnect-m99)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Researched GroupMe API - requires OAuth authentication for ALL requests, no public endpoints
-- Researched Facebook Graph API - Groups API shut down in Feb 2024, private groups cannot be embedded
-- Documented why API integration is NOT viable for this use case
-- Recommended enhanced UX approach instead (descriptions, onboarding guidance)
-
-**Files modified**:
-- None (research-only task)
-
-**Key decisions**:
-- **Do NOT pursue API integrations** - both require authentication that would need stored credentials
-- Privacy concern: parents likely don't want their group posts visible outside the group
-- Enhanced UX is the viable path: add descriptions, "Why Join?" section, onboarding tips
-
-**Learnings**:
-- GroupMe API uses OAuth Implicit Authentication - every request needs a user access token
-- Meta shut down Facebook Groups API in early 2024 - major breaking change for social tools
-- Facebook Page Plugin only works for Pages and PUBLIC groups (parent groups are almost always private)
-- Third-party embed tools (SociableKIT, Smash Balloon) exist but require admin credentials
-- Current Community.tsx design is already solid - just needs better copy/context
-
-**Follow-up work identified**:
-- Create new issue to implement the UX improvements (descriptions, onboarding tips)
 
 ---
 
@@ -280,6 +237,72 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 19: Rename Chatbot from Ollie to Arti (ArtiosConnect-287)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Renamed AI chatbot from "Ollie" to "Arti" (short for Artios)
+- Updated all UI references: Chat page header, welcome state, input placeholder, typing indicator
+- Updated home page: AIHeroSection, QuickActions button
+- Updated admin panel placeholder text
+- Updated server.js system prompt
+- Updated CLAUDE.md and REBUILD_SPEC.md documentation
+
+**Files modified**:
+- src/pages/Chat.tsx (header name)
+- src/components/chat/WelcomeState.tsx ("Hi, I'm Arti")
+- src/components/chat/ChatInput.tsx (placeholder)
+- src/components/chat/TypingIndicator.tsx ("Arti is typing...")
+- src/components/home/AIHeroSection.tsx ("Ask Arti" button and prompt)
+- src/components/home/QuickActions.tsx ("Ask Arti a question")
+- src/components/admin/AISettingsPanel.tsx (placeholder)
+- server.js (system prompt identity)
+- CLAUDE.md (documentation)
+- REBUILD_SPEC.md (spec documentation)
+
+**Key decisions**:
+- Chose "Arti" because: direct connection to "Artios", short/memorable, friendly/approachable
+- api/chat.js already used "ArtiosConnect" as identity - changed server.js to match new "Arti" name
+- Kept all functionality identical, only changed name references
+
+**Learnings**:
+- "Artios" comes from Greek meaning "complete" or "equipped"
+- Production serverless function (api/chat.js) had different identity than dev server (server.js)
+- Name changes are straightforward but touch many files - grep is essential
+
+---
+
+### Iteration 18: Investigate Community Page Integration (ArtiosConnect-m99)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Researched GroupMe API - requires OAuth authentication for ALL requests, no public endpoints
+- Researched Facebook Graph API - Groups API shut down in Feb 2024, private groups cannot be embedded
+- Documented why API integration is NOT viable for this use case
+- Recommended enhanced UX approach instead (descriptions, onboarding guidance)
+
+**Files modified**:
+- None (research-only task)
+
+**Key decisions**:
+- **Do NOT pursue API integrations** - both require authentication that would need stored credentials
+- Privacy concern: parents likely don't want their group posts visible outside the group
+- Enhanced UX is the viable path: add descriptions, "Why Join?" section, onboarding tips
+
+**Learnings**:
+- GroupMe API uses OAuth Implicit Authentication - every request needs a user access token
+- Meta shut down Facebook Groups API in early 2024 - major breaking change for social tools
+- Facebook Page Plugin only works for Pages and PUBLIC groups (parent groups are almost always private)
+- Third-party embed tools (SociableKIT, Smash Balloon) exist but require admin credentials
+- Current Community.tsx design is already solid - just needs better copy/context
+
+**Follow-up work identified**:
+- Create new issue to implement the UX improvements (descriptions, onboarding tips)
+
+---
 
 ### Iteration 17: Fix Calendar Duplicate Key React Warnings (ArtiosConnect-lq5)
 **Date**: 2026-01-29

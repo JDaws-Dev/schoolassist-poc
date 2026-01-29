@@ -20,13 +20,19 @@ const GROUPS = [
 export default function Community() {
   return (
     <div className="space-y-6">
+      <div className="rounded-xl bg-muted/50 px-4 py-3 text-sm text-muted-foreground">
+        <p>
+          These groups are created and run by Artios parents — not the school. They're welcoming spaces where moms and dads share info, coordinate, and support each other.
+        </p>
+      </div>
+
       <Card className="bg-gradient-to-br from-primary/10 via-background to-background">
         <CardHeader>
           <CardTitle>Parent Community</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm text-muted-foreground">
           <p>
-            These community groups are used daily for announcements, volunteer coordination, and parent support.
+            Used daily for announcements, volunteer coordination, and parent support.
           </p>
           <a
             href={FACEBOOK_URL}
