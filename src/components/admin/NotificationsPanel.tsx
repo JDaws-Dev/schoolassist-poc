@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Bell, Pencil, Trash2, X } from 'lucide-react'
+import { AlertTriangle, Bell, CheckCircle2, Eye, Info, Megaphone, Pencil, Trash2, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -8,9 +8,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useNotificationMutations, useNotifications } from '@/hooks/useConvex'
+import { cn } from '@/lib/utils'
 import type { Notification } from '@/types'
 
 const TYPES = ['alert', 'info', 'warning', 'success'] as const
+
+const PREVIEW_ICONS = {
+  alert: Megaphone,
+  info: Info,
+  warning: AlertTriangle,
+  success: CheckCircle2,
+}
+
+const PREVIEW_VARIANTS = {
+  alert: 'border-rose-200 bg-rose-50 text-rose-900',
+  info: 'border-emerald-200 bg-emerald-50 text-emerald-900',
+  warning: 'border-amber-200 bg-amber-50 text-amber-900',
+  success: 'border-emerald-200 bg-emerald-50 text-emerald-900',
+}
 
 type FormState = {
   title: string
@@ -170,6 +185,40 @@ export function NotificationsPanel() {
             </div>
           </div>
         </form>
+
+        {/* Live Preview */}
+        {form.title ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <Eye className="h-4 w-4" />
+              Preview (as parents will see it)
+            </div>
+            <div
+              className={cn(
+                'flex items-start justify-between gap-3 rounded-2xl border px-4 py-3 text-sm shadow-sm',
+                PREVIEW_VARIANTS[form.type]
+              )}
+            >
+              <div className="flex items-start gap-3">
+                {(() => {
+                  const Icon = PREVIEW_ICONS[form.type]
+                  return <Icon className="mt-0.5 h-5 w-5" />
+                })()}
+                <div>
+                  <p className="font-semibold">{form.title}</p>
+                  {form.content ? <p className="text-xs opacity-80">{form.content}</p> : null}
+                </div>
+              </div>
+              <button
+                type="button"
+                className="rounded-full p-1 text-xs opacity-70"
+                disabled
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        ) : null}
 
         <div className="space-y-3">
           {sorted.length === 0 ? (

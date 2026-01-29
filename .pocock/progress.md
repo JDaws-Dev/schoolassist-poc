@@ -10,6 +10,33 @@ This file maintains context between autonomous iterations.
 <!-- This section is a rolling window - keep only the last 3 entries -->
 <!-- Move older entries to the Archive section below -->
 
+### Iteration 30: Add Preview to Admin Panels (ArtiosConnect-u7e)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added live preview section to NotificationsPanel showing how alerts appear to parents
+- Added live preview section to AnnouncementsPanel showing how announcements appear to parents
+- Preview updates in real-time as admin types in form fields
+- Preview uses exact same styling as parent-facing components (NotificationBanner, RecentAnnouncements)
+
+**Files modified**:
+- src/components/admin/NotificationsPanel.tsx (added preview with type-specific styling)
+- src/components/admin/AnnouncementsPanel.tsx (added preview card)
+
+**Key decisions**:
+- **Live preview vs "View as parent" link** - live preview is better UX, no context switching
+- Preview appears below form when title is filled in
+- Uses same color variants and icon mappings as NotificationBanner for accuracy
+- Disabled dismiss button in preview (visual only, not functional)
+
+**Learnings**:
+- Duplicating styling constants (PREVIEW_ICONS, PREVIEW_VARIANTS) is acceptable for admin panel isolation
+- Eye icon + "Preview (as parents will see it)" label makes purpose clear
+- Conditionally showing preview when title exists prevents empty preview clutter
+
+---
+
 ### Iteration 29: Simplify Announcements Form (ArtiosConnect-0hl)
 **Date**: 2026-01-29
 **Status**: Completed
@@ -74,35 +101,6 @@ This file maintains context between autonomous iterations.
 
 ---
 
-### Iteration 27: Add Vimeo Page for K-8 Performances (ArtiosConnect-rzd)
-**Date**: 2026-01-29
-**Status**: Completed
-
-**What was done**:
-- Added Vimeo link for Elementary & Jr High performances
-- Clarified Artios+ is for High School only
-- Updated Resources page Student Performances section to show both options
-- Artios+ (purple) for HS, Vimeo (sky blue) for K-8
-
-**Files modified**:
-- src/data/initialData.js (added Vimeo link, clarified Artios+ description)
-- CLAUDE.md (added Vimeo, clarified grade levels)
-- src/data/KNOWLEDGE_BASE.md (updated Student Work table)
-- src/pages/Resources.tsx (two links with grade-level labels)
-
-**Key decisions**:
-- Two separate links instead of one - clear grade-level separation
-- Vimeo uses sky blue color to differentiate from Artios+ purple
-- Each link shows platform name + grade range for clarity
-- Kept "Student Performances" as section title - applies to all grades
-
-**Learnings**:
-- Artios+ (artiosplus.com) is a Squarespace portfolio for HIGH SCHOOL only
-- Vimeo (vimeo.com/user81677362) hosts K-8 performances
-- Parents need clear grade labels to know which link to use
-
----
-
 ## Active Roadblocks
 
 <!-- No current roadblocks -->
@@ -143,6 +141,35 @@ Keep these intact:
 ## Archive (Older Iterations)
 
 <!-- Move entries here when they roll out of "Recent Context" -->
+
+### Iteration 27: Add Vimeo Page for K-8 Performances (ArtiosConnect-rzd)
+**Date**: 2026-01-29
+**Status**: Completed
+
+**What was done**:
+- Added Vimeo link for Elementary & Jr High performances
+- Clarified Artios+ is for High School only
+- Updated Resources page Student Performances section to show both options
+- Artios+ (purple) for HS, Vimeo (sky blue) for K-8
+
+**Files modified**:
+- src/data/initialData.js (added Vimeo link, clarified Artios+ description)
+- CLAUDE.md (added Vimeo, clarified grade levels)
+- src/data/KNOWLEDGE_BASE.md (updated Student Work table)
+- src/pages/Resources.tsx (two links with grade-level labels)
+
+**Key decisions**:
+- Two separate links instead of one - clear grade-level separation
+- Vimeo uses sky blue color to differentiate from Artios+ purple
+- Each link shows platform name + grade range for clarity
+- Kept "Student Performances" as section title - applies to all grades
+
+**Learnings**:
+- Artios+ (artiosplus.com) is a Squarespace portfolio for HIGH SCHOOL only
+- Vimeo (vimeo.com/user81677362) hosts K-8 performances
+- Parents need clear grade labels to know which link to use
+
+---
 
 ### Iteration 26: Add Artios+ Section to Resources (ArtiosConnect-9c0)
 **Date**: 2026-01-29

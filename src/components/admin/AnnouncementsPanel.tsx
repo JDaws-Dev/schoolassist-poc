@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Megaphone, Pencil, Trash2, X } from 'lucide-react'
+import { Eye, Megaphone, Pencil, Trash2, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -116,6 +116,27 @@ export function AnnouncementsPanel() {
             <Button type="submit">{editingId ? 'Update' : 'Publish'} Announcement</Button>
           </div>
         </form>
+
+        {/* Live Preview */}
+        {form.title ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <Eye className="h-4 w-4" />
+              Preview (as parents will see it)
+            </div>
+            <Card>
+              <CardContent className="py-4">
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-semibold">{form.title}</p>
+                    <span className="text-xs text-muted-foreground">{form.date || 'No date'}</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">{form.content || 'No content'}</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ) : null}
 
         <div className="space-y-3">
           {sorted.length === 0 ? (
