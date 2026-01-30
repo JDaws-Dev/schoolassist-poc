@@ -6,7 +6,7 @@ export function ParentLayout() {
     <AppShell>
       <header className="flex shrink-0 items-center gap-3 pb-5">
         <img
-          src="/Artios Logo(Black).svg"
+          src="/artios-logo.svg"
           alt="Artios Academies"
           className="h-11 w-11"
         />
