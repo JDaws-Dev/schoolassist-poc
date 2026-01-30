@@ -12,7 +12,9 @@ const links = [
 
 export function BottomNav() {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border/80 bg-background/95 backdrop-blur">
+    // No longer needs position:fixed since parent AppShell is fixed
+    // shrink-0 prevents flexbox from compressing the nav
+    <nav className="shrink-0 border-t border-border/80 bg-background/95 backdrop-blur">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-3 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-2">
         {links.map(({ to, label, icon: Icon, highlight }) => (
           <NavLink
