@@ -8,7 +8,7 @@ export function ParentLayout() {
         <img
           src="/artios-logo.png"
           alt="Artios Academies"
-          className="h-11 w-11"
+          className="h-12 w-auto"
         />
         <div className="flex flex-col gap-0.5">
           <h1 className="text-[1.35rem] font-semibold leading-tight tracking-tight">
